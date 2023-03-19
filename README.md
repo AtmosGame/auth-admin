@@ -1,6 +1,10 @@
 # auth-admin
 
-# team
+# Team A5
+1. 2106750282 - Kenneth Ferdinand
+2. 2106750484 - Eugenius Mario Situmorang
+3. 2106650310 - Rifqi Farel Muhammad
+4. 2106634540 - Rafinal Haryokusumo Taloputra
 
 ## Getting started
 
