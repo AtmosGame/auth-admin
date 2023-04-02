@@ -11,6 +11,8 @@ variables:
   CONTAINER_NAME: $CONTAINER_NAME
   GCP_USERNAME: $GCP_USERNAME
   GCP_STATIC_IP: $GCP_STATIC_IP
+  SONAR_LOGIN: 89dfb5d6e6ee5753fa2d73ca1c3b41364dd1e53f
+  SONAR_PROJECT_KEY: AdvProg_reguler-2023_mahasiswa_kelas-a_2106653602-Eduardus-Tjitrahardja-_atmos_auth-admin_AYdBw_X39YbzwjBXjLYh
 
 
 stages:
