@@ -1,6 +1,6 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.controller;
 
-import id.ac.ui.cs.advprog.tutorial3.auth.service.AuthService;
+import id.ac.ui.cs.advprog.authenticationandadministration.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping(path = "/auth")
-public class AuthContoller {
+public class AuthController {
 
     @Autowired
     private AuthService authService;

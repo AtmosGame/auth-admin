@@ -1,9 +1,11 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.repository;
 
+import id.ac.ui.cs.advprog.authenticationandadministration.core.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.Map;
+
 
 @Repository
 public class UserRepositoryImpl implements UserRepository {
