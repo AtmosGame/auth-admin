@@ -1,5 +1,6 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.controller;
 
+import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.UsernameAlreadyExistsException;
 import id.ac.ui.cs.advprog.authenticationandadministration.service.AuthService;
 import id.ac.ui.cs.advprog.authenticationandadministration.core.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,11 @@ public class AuthController {
                            @RequestParam(value = "username") String username,
                            @RequestParam(value = "password") String password,
                            @RequestParam(value = "role") String role) {
+        if (authService.getAllUsersUnameKey().containsKey(username)) {
+            Map<String, String> message = new HashMap<>();
+            message.put("message", "Username already exists");
+            return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+        }
         authService.register(username, password, role);
         Map<String, User> data = new HashMap<>();
         data.put("data", authService.getAllUsersUnameKey().get(username));
