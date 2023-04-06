@@ -1,7 +1,7 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.service;
 
 import id.ac.ui.cs.advprog.authenticationandadministration.core.encryptor.Encryptor;
-import id.ac.ui.cs.advprog.authenticationandadministration.models.User;
+import id.ac.ui.cs.advprog.authenticationandadministration.models.User_NonDB;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public boolean login(String username, String password) {
-        User supposedUser = userRepository.getUser(username);
+        User_NonDB supposedUser = userRepository.getUser(username);
         return supposedUser != null &&
                 toCipher(password).equals(supposedUser.getPassword());
     }
@@ -34,15 +34,15 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public Map<String, User> getAllUsersUnameKey() {
+    public Map<String, User_NonDB> getAllUsersUnameKey() {
         return userRepository.getAllUsers();
     }
 
     @Override
-    public Map<Integer, User> getAllUsersUidKey() {
-        Map<String, User> users = userRepository.getAllUsers();
-        Map<Integer, User> usersUidKey = new HashMap<>();
-        for (Map.Entry<String, User> entry : users.entrySet()) {
+    public Map<Integer, User_NonDB> getAllUsersUidKey() {
+        Map<String, User_NonDB> users = userRepository.getAllUsers();
+        Map<Integer, User_NonDB> usersUidKey = new HashMap<>();
+        for (Map.Entry<String, User_NonDB> entry : users.entrySet()) {
             usersUidKey.put(entry.getValue().getId(), entry.getValue());
         }
         return usersUidKey;

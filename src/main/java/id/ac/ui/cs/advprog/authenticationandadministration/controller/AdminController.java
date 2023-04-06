@@ -1,7 +1,7 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.controller;
 
 import id.ac.ui.cs.advprog.authenticationandadministration.service.AuthService;
-import id.ac.ui.cs.advprog.authenticationandadministration.models.User;
+import id.ac.ui.cs.advprog.authenticationandadministration.models.User_NonDB;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,13 +19,13 @@ public class AdminController {
 
     @GetMapping("/users-uname-key")
     public ResponseEntity<Object> getAllUsers() {
-        Map<String, User> users = authService.getAllUsersUnameKey();
+        Map<String, User_NonDB> users = authService.getAllUsersUnameKey();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @GetMapping("/users-uid-key")
     public ResponseEntity<Object> getAllUsersUidKey() {
-        Map<Integer, User> users = authService.getAllUsersUidKey();
+        Map<Integer, User_NonDB> users = authService.getAllUsersUidKey();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 }

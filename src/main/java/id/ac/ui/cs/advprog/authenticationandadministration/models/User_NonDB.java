@@ -3,13 +3,13 @@ package id.ac.ui.cs.advprog.authenticationandadministration.models;
 import java.util.ArrayList;
 import java.util.List;
 
-public class User {
+public class User_NonDB {
     private static int total = 0;
     private int id, totalReport = 0;
     private String username, password, role, photoProfile = "", bio = "";
     private List<Application> applications = new ArrayList<Application>();
 
-    public User(String username, String password, String role) {
+    public User_NonDB(String username, String password, String role) {
         this.id = generateId();
         this.username = username;
         this.password = password;
