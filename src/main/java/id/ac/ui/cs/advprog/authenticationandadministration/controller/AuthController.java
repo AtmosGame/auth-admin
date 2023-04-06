@@ -1,8 +1,7 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.controller;
 
-import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.UsernameAlreadyExistsException;
 import id.ac.ui.cs.advprog.authenticationandadministration.service.AuthService;
-import id.ac.ui.cs.advprog.authenticationandadministration.core.User;
+import id.ac.ui.cs.advprog.authenticationandadministration.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

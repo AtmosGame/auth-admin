@@ -1,4 +1,4 @@
-package id.ac.ui.cs.advprog.authenticationandadministration.core;
+package id.ac.ui.cs.advprog.authenticationandadministration.models;
 
 public class User {
     private static int total = 0;

@@ -1,6 +1,6 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.service;
 
-import id.ac.ui.cs.advprog.authenticationandadministration.core.User;
+import id.ac.ui.cs.advprog.authenticationandadministration.models.User;
 
 import java.util.Map;
 
