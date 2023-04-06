@@ -1,13 +1,10 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.exceptions.advice;
 
-import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.UserDoesNotExistException;
-import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.UserIsAdministratorException;
-import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.UsernameAlreadyExistsException;
+import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.ErrorTemplate;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -19,7 +16,7 @@ public class GlobalExceptionHandler {
         ErrorTemplate baseException = new ErrorTemplate(
                 "User with the same email already exist",
                 HttpStatus.BAD_REQUEST,
-                ZonedDateTime.now(ZoneId.of("Z"))
+                ZonedDateTime.now(ZoneId.of("Asia/Jakarta"))
         );
 
         return new ResponseEntity<>(baseException, HttpStatus.BAD_REQUEST);
@@ -30,7 +27,7 @@ public class GlobalExceptionHandler {
         ErrorTemplate baseException = new ErrorTemplate(
                 exception.getMessage(),
                 HttpStatus.NOT_FOUND,
-                ZonedDateTime.now(ZoneId.of("Z"))
+                ZonedDateTime.now(ZoneId.of("Asia/Jakarta"))
         );
 
         return new ResponseEntity<>(baseException, HttpStatus.NOT_FOUND);
@@ -41,7 +38,18 @@ public class GlobalExceptionHandler {
         ErrorTemplate baseException = new ErrorTemplate(
                 exception.getMessage(),
                 HttpStatus.BAD_REQUEST,
-                ZonedDateTime.now(ZoneId.of("Z"))
+                ZonedDateTime.now(ZoneId.of("Asia/Jakarta"))
+        );
+
+        return new ResponseEntity<>(baseException, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = {UserHasBeenBlockedException.class})
+    public ResponseEntity<Object> userHasBeenBlocked(Exception exception){
+        ErrorTemplate baseException = new ErrorTemplate(
+                exception.getMessage(),
+                HttpStatus.BAD_REQUEST,
+                ZonedDateTime.now(ZoneId.of("Asia/Jakarta"))
         );
 
         return new ResponseEntity<>(baseException, HttpStatus.BAD_REQUEST);
