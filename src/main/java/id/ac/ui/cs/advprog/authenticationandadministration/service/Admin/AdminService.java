@@ -5,5 +5,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface AdminService {
-    User findUserByUsername(String username);
+    User getUserByUsername(String username);
 }

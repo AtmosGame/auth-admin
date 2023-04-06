@@ -1,7 +1,7 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.controller;
 
 import id.ac.ui.cs.advprog.authenticationandadministration.models.UserRole;
-import id.ac.ui.cs.advprog.authenticationandadministration.service.AuthService;
+import id.ac.ui.cs.advprog.authenticationandadministration.service.Auth.AuthService;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.User_NonDB;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

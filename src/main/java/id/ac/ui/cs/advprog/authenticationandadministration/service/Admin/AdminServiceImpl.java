@@ -13,7 +13,11 @@ public class AdminServiceImpl implements AdminService {
     private final UserRepository userRepository;
 
     @Override
-    public User findUserByUsername(String username) {
-        return userRepository.findUserByUsername(username);
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username).get();
+    }
+
+    private boolean isUserDoesNotExist(String username){
+        return userRepository.findByUsername(username).isEmpty();
     }
 }

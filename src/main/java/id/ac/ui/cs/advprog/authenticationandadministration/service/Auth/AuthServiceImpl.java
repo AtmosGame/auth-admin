@@ -1,8 +1,9 @@
-package id.ac.ui.cs.advprog.authenticationandadministration.service;
+package id.ac.ui.cs.advprog.authenticationandadministration.service.Auth;
 
 import id.ac.ui.cs.advprog.authenticationandadministration.core.encryptor.Encryptor;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.User_NonDB;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.UserRepositoryNonDB;
+import id.ac.ui.cs.advprog.authenticationandadministration.service.Auth.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
