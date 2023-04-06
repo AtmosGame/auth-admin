@@ -6,6 +6,8 @@ import id.ac.ui.cs.advprog.authenticationandadministration.repository.UserReposi
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 @Service
 public class AuthServiceImpl implements AuthService {
 
@@ -28,5 +30,10 @@ public class AuthServiceImpl implements AuthService {
         Encryptor encryptor = new Encryptor();
         String encryptPassword = encryptor.encrypt(password);
         return encryptPassword;
+    }
+
+    @Override
+    public Map<String, User> getAllUsers() {
+        return userRepository.getAllUsers();
     }
 }

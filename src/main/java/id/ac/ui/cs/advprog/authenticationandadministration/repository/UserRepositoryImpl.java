@@ -24,4 +24,8 @@ public class UserRepositoryImpl implements UserRepository {
         return users.get(username);
     }
 
+    @Override
+    public Map<String, User> getAllUsers() {
+        return users;
+    }
 }

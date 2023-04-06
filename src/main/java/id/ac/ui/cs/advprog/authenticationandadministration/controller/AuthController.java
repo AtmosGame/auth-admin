@@ -1,6 +1,7 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.controller;
 
 import id.ac.ui.cs.advprog.authenticationandadministration.service.AuthService;
+import id.ac.ui.cs.advprog.authenticationandadministration.core.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,10 +54,8 @@ public class AuthController {
     }
 
     @GetMapping("/users")
-    public ResponseEntity<Object> getData() {
-        Map<String, String> data = new HashMap<>();
-        data.put("key1", "value1");
-        data.put("key2", "value2");
-        return new ResponseEntity<>(data, HttpStatus.OK);
+    public ResponseEntity<Object> getAllUsers() {
+        Map<String, User> users = authService.getAllUsers();
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 }
