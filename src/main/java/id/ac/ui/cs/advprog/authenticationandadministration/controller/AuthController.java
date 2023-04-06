@@ -1,8 +1,8 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.controller;
 
-import id.ac.ui.cs.advprog.authenticationandadministration.models.Role;
-import id.ac.ui.cs.advprog.authenticationandadministration.service.AuthService;
-import id.ac.ui.cs.advprog.authenticationandadministration.models.User;
+import id.ac.ui.cs.advprog.authenticationandadministration.models.UserRole;
+import id.ac.ui.cs.advprog.authenticationandadministration.service.Auth.AuthService;
+import id.ac.ui.cs.advprog.authenticationandadministration.models.User_NonDB;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ import java.util.Map;
 @Controller
 @RequestMapping(path = "/v1/auth")
 public class AuthController {
-    List<String> userTypes = Role.getNames();
+    List<String> userTypes = UserRole.getNames();
 
     @Autowired
     private AuthService authService;
@@ -47,7 +47,7 @@ public class AuthController {
             return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
         }
         authService.register(username, password, role);
-        Map<String, User> data = new HashMap<>();
+        Map<String, User_NonDB> data = new HashMap<>();
         data.put("data", authService.getAllUsersUnameKey().get(username));
         return new ResponseEntity<>(data, HttpStatus.OK);
     }

@@ -1,44 +1,41 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.models;
 
-import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.annotation.Nullable;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+
 import java.util.List;
 
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "_user")
 public class User {
-    private static int total = 0;
-    private int id, totalReport = 0;
-    private String username, password, role, photoProfile = "", bio = "";
-    private List<Application> applications = new ArrayList<Application>();
+    @Id
+    @GeneratedValue
+    private Integer id;
 
-    public User(String username, String password, String role) {
-        this.id = generateId();
-        this.username = username;
-        this.password = password;
-        this.role = role;
-    }
+    @Column(unique=true)
+    private String username;
 
-    public int generateId() {
-        return total++;
-    }
+    private String password;
+    private String role;
+    private String profilePicture;
+    private String bio;
 
-    // GETTER
-    public int getId() { return id; }
-    public String getPassword() {
-        return password;
-    }
-    public String getUsername() {
-        return username;
-    }
-    public String getRole() { return role; }
-    public String getPhotoProfile() { return photoProfile; }
-    public String getBio() { return bio; }
-    public int getTotalReport() { return totalReport; }
-    public List<Application> getApplications() { return applications; }
+    @Nullable
+    private String applications;
 
-    // SETTER
-    public void setPhotoProfile(String photoProfile) { this.photoProfile = photoProfile; }
-    void setBio(String bio) { this.bio = bio; }
-    public void setReport(int totalReport) { this.totalReport = totalReport; }
+    private Integer totalReport;
+    private Boolean active;
 
-    // OTHER
-    public void addApplication(Application application) { applications.add(application); }
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user")
+    private List<Report> reportList;
 }
