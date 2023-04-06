@@ -2,7 +2,7 @@ package id.ac.ui.cs.advprog.authenticationandadministration.service;
 
 import id.ac.ui.cs.advprog.authenticationandadministration.core.encryptor.Encryptor;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.User_NonDB;
-import id.ac.ui.cs.advprog.authenticationandadministration.repository.UserRepository;
+import id.ac.ui.cs.advprog.authenticationandadministration.repository.UserRepositoryNonDB;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,18 +13,18 @@ import java.util.Map;
 public class AuthServiceImpl implements AuthService {
 
     @Autowired
-    UserRepository userRepository;
+    UserRepositoryNonDB userRepositoryNonDB;
 
     @Override
     public boolean login(String username, String password) {
-        User_NonDB supposedUser = userRepository.getUser(username);
+        User_NonDB supposedUser = userRepositoryNonDB.getUser(username);
         return supposedUser != null &&
                 toCipher(password).equals(supposedUser.getPassword());
     }
 
     @Override
     public void register(String username, String password, String role) {
-        userRepository.addUser(username, toCipher(password), role);
+        userRepositoryNonDB.addUser(username, toCipher(password), role);
     }
 
     private String toCipher(String password) {
@@ -35,12 +35,12 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public Map<String, User_NonDB> getAllUsersUnameKey() {
-        return userRepository.getAllUsers();
+        return userRepositoryNonDB.getAllUsers();
     }
 
     @Override
     public Map<Integer, User_NonDB> getAllUsersUidKey() {
-        Map<String, User_NonDB> users = userRepository.getAllUsers();
+        Map<String, User_NonDB> users = userRepositoryNonDB.getAllUsers();
         Map<Integer, User_NonDB> usersUidKey = new HashMap<>();
         for (Map.Entry<String, User_NonDB> entry : users.entrySet()) {
             usersUidKey.put(entry.getValue().getId(), entry.getValue());

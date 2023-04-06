@@ -1,6 +1,6 @@
 package id.ac.ui.cs.advprog.authenticationandadministration;
 
-import id.ac.ui.cs.advprog.authenticationandadministration.repository.UserRepository;
+import id.ac.ui.cs.advprog.authenticationandadministration.repository.UserRepositoryNonDB;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class UserInitializer {
 
     @Autowired
-    UserRepository userRepository;
+    UserRepositoryNonDB userRepositoryNonDB;
 
     @PostConstruct
     public void init() {
@@ -20,7 +20,7 @@ public class UserInitializer {
         // mario      | Bakung2021 | User
 
         // initialize users
-        userRepository.addUser("eugenius", "AJCCCJgCzArCAAAAtJJAA", "developer");
-        userRepository.addUser("mario", "JJCACBAALAxJCCrAEJASAA", "user");
+        userRepositoryNonDB.addUser("eugenius", "AJCCCJgCzArCAAAAtJJAA", "developer");
+        userRepositoryNonDB.addUser("mario", "JJCACBAALAxJCCrAEJASAA", "user");
     }
 }

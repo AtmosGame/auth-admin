@@ -1,5 +1,7 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.controller;
 
+import id.ac.ui.cs.advprog.authenticationandadministration.models.User;
+import id.ac.ui.cs.advprog.authenticationandadministration.service.Admin.AdminService;
 import id.ac.ui.cs.advprog.authenticationandadministration.service.AuthService;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.User_NonDB;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Map;
@@ -16,6 +19,7 @@ import java.util.Map;
 public class AdminController {
     @Autowired
     private AuthService authService;
+    private AdminService adminService;
 
     @GetMapping("/users-uname-key")
     public ResponseEntity<Object> getAllUsers() {
@@ -27,5 +31,11 @@ public class AdminController {
     public ResponseEntity<Object> getAllUsersUidKey() {
         Map<Integer, User_NonDB> users = authService.getAllUsersUidKey();
         return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
+    @GetMapping("/view-profile/{username}")
+    public ResponseEntity<User> getUserByUsername(@PathVariable String username){
+        User user = adminService.findUserByUsername(username);
+        return ResponseEntity.ok(user);
     }
 }

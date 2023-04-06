@@ -1,11 +1,14 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.repository;
 
-import id.ac.ui.cs.advprog.authenticationandadministration.models.User_NonDB;
+import id.ac.ui.cs.advprog.authenticationandadministration.models.User;
+import lombok.NonNull;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.Map;
+import java.util.Optional;
 
-public interface UserRepository {
-    void addUser(String username, String password, String role);
-    User_NonDB getUser(String username);
-    Map<String, User_NonDB> getAllUsers();
+@Repository
+public interface UserRepository extends JpaRepository<User, Integer> {
+    @NonNull
+    User findUserByUsername(@NonNull String username);
 }

@@ -7,7 +7,7 @@ public class User_NonDB {
     private static int total = 0;
     private int id, totalReport = 0;
     private String username, password, role, photoProfile = "", bio = "";
-    private List<Application> applications = new ArrayList<Application>();
+    private List<String > applications = new ArrayList<String>();
 
     public User_NonDB(String username, String password, String role) {
         this.id = generateId();
@@ -32,7 +32,7 @@ public class User_NonDB {
     public String getPhotoProfile() { return photoProfile; }
     public String getBio() { return bio; }
     public int getTotalReport() { return totalReport; }
-    public List<Application> getApplications() { return applications; }
+    public List<String> getApplications() { return applications; }
 
     // SETTER
     public void setPhotoProfile(String photoProfile) { this.photoProfile = photoProfile; }
@@ -40,5 +40,5 @@ public class User_NonDB {
     public void setReport(int totalReport) { this.totalReport = totalReport; }
 
     // OTHER
-    public void addApplication(Application application) { applications.add(application); }
+    public void addApplication(String application) { applications.add(application); }
 }

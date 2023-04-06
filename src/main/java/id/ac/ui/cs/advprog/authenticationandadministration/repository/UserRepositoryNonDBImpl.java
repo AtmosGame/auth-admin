@@ -8,7 +8,7 @@ import java.util.Map;
 
 
 @Repository
-public class UserRepositoryImpl implements UserRepository {
+public class UserRepositoryNonDBImpl implements UserRepositoryNonDB {
 
     private final Map<String, User_NonDB> users = new HashMap<>();
 

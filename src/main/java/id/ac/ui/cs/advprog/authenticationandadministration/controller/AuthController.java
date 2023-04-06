@@ -1,6 +1,6 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.controller;
 
-import id.ac.ui.cs.advprog.authenticationandadministration.models.Role;
+import id.ac.ui.cs.advprog.authenticationandadministration.models.UserRole;
 import id.ac.ui.cs.advprog.authenticationandadministration.service.AuthService;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.User_NonDB;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ import java.util.Map;
 @Controller
 @RequestMapping(path = "/v1/auth")
 public class AuthController {
-    List<String> userTypes = Role.getNames();
+    List<String> userTypes = UserRole.getNames();
 
     @Autowired
     private AuthService authService;
