@@ -6,6 +6,7 @@ import id.ac.ui.cs.advprog.authenticationandadministration.repository.UserReposi
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -33,7 +34,17 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public Map<String, User> getAllUsers() {
+    public Map<String, User> getAllUsersUnameKey() {
         return userRepository.getAllUsers();
+    }
+
+    @Override
+    public Map<Integer, User> getAllUsersUidKey() {
+        Map<String, User> users = userRepository.getAllUsers();
+        Map<Integer, User> usersUidKey = new HashMap<>();
+        for (Map.Entry<String, User> entry : users.entrySet()) {
+            usersUidKey.put(entry.getValue().getId(), entry.getValue());
+        }
+        return usersUidKey;
     }
 }

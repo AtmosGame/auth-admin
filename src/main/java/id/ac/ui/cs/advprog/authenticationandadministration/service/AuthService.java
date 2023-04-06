@@ -7,7 +7,8 @@ import java.util.Map;
 public interface AuthService {
     boolean login(String username, String password);
     void register(String username, String password, String role);
-    Map<String, User> getAllUsers();
+    Map<String, User> getAllUsersUnameKey();
+    Map<Integer, User> getAllUsersUidKey();
 }
 
 

@@ -32,6 +32,18 @@ public class AuthController {
         return "auth/login";
     }
 
+    @GetMapping("/users-uname-key")
+    public ResponseEntity<Object> getAllUsers() {
+        Map<String, User> users = authService.getAllUsersUnameKey();
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
+    @GetMapping("/users-uid-key")
+    public ResponseEntity<Object> getAllUsersUidKey() {
+        Map<Integer, User> users = authService.getAllUsersUidKey();
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
     @PostMapping(path = "/register")
     public String register(Model model,
                            @RequestParam(value = "username") String username,
@@ -51,11 +63,5 @@ public class AuthController {
         }
         model.addAttribute("successful", false);
         return "auth/login";
-    }
-
-    @GetMapping("/users")
-    public ResponseEntity<Object> getAllUsers() {
-        Map<String, User> users = authService.getAllUsers();
-        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 }

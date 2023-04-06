@@ -20,7 +20,7 @@ public class UserInitializer {
         // mario      | Bakung2021 | User
 
         // initialize users
-        userRepository.addUser("eugenius", "AJCCCJgCzArCAAAAtJJAA", "Developer");
-        userRepository.addUser("mario", "JJCACBAALAxJCCrAEJASAA", "User");
+        userRepository.addUser("eugenius", "AJCCCJgCzArCAAAAtJJAA", "developer");
+        userRepository.addUser("mario", "JJCACBAALAxJCCrAEJASAA", "user");
     }
 }
