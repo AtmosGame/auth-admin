@@ -4,24 +4,19 @@ import id.ac.ui.cs.advprog.authenticationandadministration.dto.ViewProfileRespon
 import id.ac.ui.cs.advprog.authenticationandadministration.service.Admin.AdminService;
 import id.ac.ui.cs.advprog.authenticationandadministration.service.Auth.AuthService;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.User_NonDB;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-@Controller
+@RestController
 @RequestMapping(path = "/v1/admin")
+@RequiredArgsConstructor
 public class AdminController {
-    @Autowired
-    private AuthService authService;
-
-    @Autowired
-    private AdminService adminService;
+    private final AuthService authService;
+    private final AdminService adminService;
 
     @GetMapping("/users-uname-key")
     public ResponseEntity<Object> getAllUsers() {

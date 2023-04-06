@@ -33,6 +33,7 @@ public class User {
     private String applications;
 
     private Integer totalReport;
+
     private Boolean active;
 
     @JsonManagedReference
