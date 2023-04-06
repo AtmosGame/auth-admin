@@ -1,5 +1,6 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.controller;
 
+import id.ac.ui.cs.advprog.authenticationandadministration.models.Role;
 import id.ac.ui.cs.advprog.authenticationandadministration.service.AuthService;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
 
 @Controller
 @RequestMapping(path = "/v1/auth")
 public class AuthController {
+    List<String> userTypes = Role.getNames();
 
     @Autowired
     private AuthService authService;
