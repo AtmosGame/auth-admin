@@ -13,9 +13,10 @@ public class UserRepositoryImpl implements UserRepository {
     private final Map<String, User> users = new HashMap<>();
 
     @Override
-    public void addUser(String username, String password) {
+    public void addUser(String username, String password, String role) {
         if (users.get(username) != null) return;
-        users.put(username, new User(username, password));
+        users.put(username, new User(username, password, role));
+        System.out.println("Registering " + username + " with role " + role + " and password " + password);
     }
 
     @Override

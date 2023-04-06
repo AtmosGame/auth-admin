@@ -20,8 +20,8 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public void register(String username, String password) {
-        userRepository.addUser(username, toCipher(password));
+    public void register(String username, String password, String role) {
+        userRepository.addUser(username, toCipher(password), role);
     }
 
     private String toCipher(String password) {

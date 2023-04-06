@@ -41,9 +41,9 @@ public class AuthController {
     @PostMapping(path = "/register")
     public String register(Model model,
                            @RequestParam(value = "username") String username,
-                           @RequestParam(value = "password") String password) {
-        authService.register(username, password);
-
+                           @RequestParam(value = "password") String password,
+                           @RequestParam(value = "role") String role) {
+        authService.register(username, password, role);
         return "redirect:/auth/login";
     }
 

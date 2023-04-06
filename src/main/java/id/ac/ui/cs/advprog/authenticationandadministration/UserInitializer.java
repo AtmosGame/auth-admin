@@ -14,15 +14,13 @@ public class UserInitializer {
 
     @PostConstruct
     public void init() {
-        // Username | Password
+        // Username | Password | Role
         // ---------------------------------------
-        // Alicia   | UlangTahunSayaAdalahHariIni
-        // Bob      | BOBisAPalindrome
-        // Charlie  | CHARLIEcharlie
+        // eugenius   | Pacil2021  | Developer
+        // mario      | Bakung2021 | User
 
         // initialize users
-        userRepository.addUser("Alicia", "jrLzrEPyYRlkyrCurECErrrIZxz");
-        userRepository.addUser("Bob", "IFuSJRfCEzzrSDgv");
-        userRepository.addUser("Charlie", "CRrIvYziZVtyTc");
+        userRepository.addUser("eugenius", "AJCCCJgCzArCAAAAtJJAA", "Developer");
+        userRepository.addUser("mario", "JJCACBAALAxJCCrAEJASAA", "User");
     }
 }
