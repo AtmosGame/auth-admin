@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-@RequestMapping(path = "/auth")
+@RequestMapping(path = "/v1/auth")
 public class AuthController {
 
     @Autowired
@@ -31,18 +31,6 @@ public class AuthController {
     @GetMapping(path = "/login")
     public String loginPage(Model model) {
         return "auth/login";
-    }
-
-    @GetMapping("/users-uname-key")
-    public ResponseEntity<Object> getAllUsers() {
-        Map<String, User> users = authService.getAllUsersUnameKey();
-        return new ResponseEntity<>(users, HttpStatus.OK);
-    }
-
-    @GetMapping("/users-uid-key")
-    public ResponseEntity<Object> getAllUsersUidKey() {
-        Map<Integer, User> users = authService.getAllUsersUidKey();
-        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @PostMapping(path = "/register")
