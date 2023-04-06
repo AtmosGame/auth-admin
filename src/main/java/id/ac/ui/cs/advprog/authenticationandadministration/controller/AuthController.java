@@ -45,12 +45,14 @@ public class AuthController {
     }
 
     @PostMapping(path = "/register")
-    public String register(Model model,
+    public ResponseEntity<Object> register(Model model,
                            @RequestParam(value = "username") String username,
                            @RequestParam(value = "password") String password,
                            @RequestParam(value = "role") String role) {
         authService.register(username, password, role);
-        return "redirect:/auth/login";
+        Map<String, User> data = new HashMap<>();
+        data.put("data", authService.getAllUsersUnameKey().get(username));
+        return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
     @PostMapping(path = "/login")
