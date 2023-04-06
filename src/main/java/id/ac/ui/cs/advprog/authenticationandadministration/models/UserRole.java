@@ -3,13 +3,13 @@ package id.ac.ui.cs.advprog.authenticationandadministration.models;
 import java.util.ArrayList;
 import java.util.List;
 
-public enum Role {
+public enum UserRole {
     admin, developer, user;
 
     public static List<String> getNames(){
         var ret = new ArrayList<String>();
-        for (Role role: Role.values()) {
-            ret.add(role.name());
+        for (UserRole userRole : UserRole.values()) {
+            ret.add(userRole.name());
         }
         return ret;
     }
