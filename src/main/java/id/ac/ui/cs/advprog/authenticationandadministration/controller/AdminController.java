@@ -1,6 +1,6 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.controller;
 
-import id.ac.ui.cs.advprog.authenticationandadministration.models.User;
+import id.ac.ui.cs.advprog.authenticationandadministration.dto.ViewProfileResponse;
 import id.ac.ui.cs.advprog.authenticationandadministration.service.Admin.AdminService;
 import id.ac.ui.cs.advprog.authenticationandadministration.service.Auth.AuthService;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.User_NonDB;
@@ -19,6 +19,8 @@ import java.util.Map;
 public class AdminController {
     @Autowired
     private AuthService authService;
+
+    @Autowired
     private AdminService adminService;
 
     @GetMapping("/users-uname-key")
@@ -34,8 +36,8 @@ public class AdminController {
     }
 
     @GetMapping("/view-profile/{username}")
-    public ResponseEntity<User> getUserByUsername(@PathVariable String username){
-        User user = adminService.findUserByUsername(username);
-        return ResponseEntity.ok(user);
+    public ResponseEntity<ViewProfileResponse> getUserByUsername(@PathVariable String username){
+        ViewProfileResponse user = adminService.getUserByUsername(username);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 }

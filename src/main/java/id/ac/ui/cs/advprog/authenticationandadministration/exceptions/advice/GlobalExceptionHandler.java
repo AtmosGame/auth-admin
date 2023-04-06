@@ -1,6 +1,7 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.exceptions.advice;
 
 import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.UserDoesNotExistException;
+import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.UserIsAdministratorException;
 import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.UsernameAlreadyExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,5 +34,16 @@ public class GlobalExceptionHandler {
         );
 
         return new ResponseEntity<>(baseException, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(value = {UserIsAdministratorException.class})
+    public ResponseEntity<Object> userIsAdministrator(Exception exception){
+        ErrorTemplate baseException = new ErrorTemplate(
+                exception.getMessage(),
+                HttpStatus.BAD_REQUEST,
+                ZonedDateTime.now(ZoneId.of("Z"))
+        );
+
+        return new ResponseEntity<>(baseException, HttpStatus.BAD_REQUEST);
     }
 }

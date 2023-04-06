@@ -1,6 +1,7 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.models;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.annotation.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,7 +28,10 @@ public class User {
     private String role;
     private String profilePicture;
     private String bio;
+
+    @Nullable
     private String applications;
+
     private Integer totalReport;
     private Boolean active;
 
