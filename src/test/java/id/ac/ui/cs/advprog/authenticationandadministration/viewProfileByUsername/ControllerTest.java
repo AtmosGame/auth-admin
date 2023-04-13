@@ -44,18 +44,18 @@ public class ControllerTest {
 
     @Test
     void testViewProfileByUsername() throws Exception {
-        when(adminService.getUserByUsername(any(String.class))).thenReturn(response);
+        when(adminService.getProfileByUsername(any(String.class))).thenReturn(response);
 
         mvc.perform(get("/v1/admin/view-profile/test")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(handler().methodName("ViewProfileByUsername"))
+                .andExpect(handler().methodName("viewProfileByUsername"))
                 .andExpect(jsonPath("username").value(response.getUsername()))
                 .andExpect(jsonPath("role").value(response.getRole()))
                 .andExpect(jsonPath("profilePicture").value(response.getProfilePicture()))
                 .andExpect(jsonPath("bio").value(response.getBio()))
                 .andExpect(jsonPath("applications").value(response.getApplications()));
 
-        verify(adminService, atLeastOnce()).getUserByUsername(any(String.class));
+        verify(adminService, atLeastOnce()).getProfileByUsername(any(String.class));
     }
 }

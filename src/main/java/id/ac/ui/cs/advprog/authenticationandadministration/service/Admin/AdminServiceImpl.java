@@ -15,25 +15,33 @@ public class AdminServiceImpl implements AdminService {
     private final UserRepository userRepository;
 
     @Override
-    public ViewProfileResponse getUserByUsername(String username) {
-        if (userRepository.findByUsername(username).isEmpty()){
-            throw new UserDoesNotExistException(username);
-        }
+    public ViewProfileResponse getProfileByUsername(String username) {
+        User user = getUserByUsername(username);
+        userValidationNonAdmin(user);
 
-        User user = userRepository.findByUsername(username).get();
-        userValidation(user);
-        return ViewProfileResponse.builder().username(user.getUsername())
-                .role(user.getRole()).profilePicture(user.getProfilePicture())
-                .bio(user.getBio()).applications(user.getApplications()).build();
+        return ViewProfileResponse.builder()
+                .username(user.getUsername())
+                .role(user.getRole())
+                .profilePicture(user.getProfilePicture())
+                .bio(user.getBio())
+                .applications(user.getApplications())
+                .build();
     }
 
-    private void userValidation(User user){
-        if (user.getRole().equals("administrator")){
+    @Override
+    public void userValidationNonAdmin(User user){
+        if (user.getRole().equals("administrator"))
             throw new UserIsAdministratorException(user.getUsername());
-        }
 
-        if (!user.getActive()){
+        if (!user.getActive())
             throw new UserHasBeenBlockedException(user.getUsername());
-        }
+    }
+
+    @Override
+    public User getUserByUsername(String username){
+        if (userRepository.findByUsername(username).isEmpty())
+            throw new UserDoesNotExistException(username);
+
+        return userRepository.findByUsername(username).get();
     }
 }
