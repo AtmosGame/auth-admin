@@ -32,6 +32,6 @@ public class AdminController {
 
     @GetMapping("/view-profile/{username}")
     public ResponseEntity<ViewProfileResponse> viewProfileByUsername(@PathVariable String username){
-        return new ResponseEntity<>(adminService.getUserByUsername(username), HttpStatus.OK);
+        return new ResponseEntity<>(adminService.getProfileByUsername(username), HttpStatus.OK);
     }
 }

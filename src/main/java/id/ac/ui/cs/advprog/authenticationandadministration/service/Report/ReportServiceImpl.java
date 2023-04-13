@@ -6,7 +6,6 @@ import id.ac.ui.cs.advprog.authenticationandadministration.dto.report.RejectRepo
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.report.ReportedAccountResponse;
 import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.ReportDoesNotExistException;
 import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.UserAndReportNotMatchedException;
-import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.UserDoesNotExistException;
 import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.UserDoesNotHaveReportException;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.Report;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.User;
@@ -54,6 +53,8 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public String approveReport(String username) {
         User user = getUserReport(username);
+        user.setActive(false);
+        userRepository.save(user);
         reportRepository.deleteAll(user.getReportList());
         getReportManager().approveReport(username);
         return "Blocked User with username " + username;
