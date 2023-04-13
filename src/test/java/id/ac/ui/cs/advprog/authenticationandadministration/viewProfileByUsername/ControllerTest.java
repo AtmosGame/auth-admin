@@ -49,7 +49,7 @@ public class ControllerTest {
         mvc.perform(get("/v1/admin/view-profile/test")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(handler().methodName("ViewProfileByUsername"))
+                .andExpect(handler().methodName("viewProfileByUsername"))
                 .andExpect(jsonPath("username").value(response.getUsername()))
                 .andExpect(jsonPath("role").value(response.getRole()))
                 .andExpect(jsonPath("profilePicture").value(response.getProfilePicture()))
