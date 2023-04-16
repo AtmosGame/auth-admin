@@ -44,4 +44,13 @@ public class AdminServiceImpl implements AdminService {
 
         return userRepository.findByUsername(username).get();
     }
+    @Override
+    public void updateProfile(String username, String bio, String profilePicture){
+        User user = getUserByUsername(username);
+        userValidationNonAdmin(user);
+
+        user.setBio(bio);
+        user.setProfilePicture(profilePicture);
+        userRepository.save(user);
+    }
 }

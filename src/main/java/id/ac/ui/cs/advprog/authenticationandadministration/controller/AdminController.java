@@ -34,4 +34,10 @@ public class AdminController {
     public ResponseEntity<ViewProfileResponse> viewProfileByUsername(@PathVariable String username){
         return new ResponseEntity<>(adminService.getProfileByUsername(username), HttpStatus.OK);
     }
+
+    @PostMapping("/update-profile/{username}")
+    public ResponseEntity<String> updateProfile(@PathVariable String username, @PathVariable String bio, @PathVariable String profilePicture) {
+        adminService.updateProfile(username, bio, profilePicture);
+        return new ResponseEntity<>("Profile updated", HttpStatus.OK);
+    }
 }
