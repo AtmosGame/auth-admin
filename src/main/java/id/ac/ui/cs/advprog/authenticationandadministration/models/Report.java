@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.ZonedDateTime;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -17,6 +19,9 @@ public class Report {
     @Id
     @GeneratedValue
     private Integer id;
+
+    private String information;
+    private ZonedDateTime dateReport;
 
     @JsonBackReference
     @ManyToOne

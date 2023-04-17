@@ -7,10 +7,8 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor
-public class ViewProfileResponse {
+public class EditProfileResponse {
     private String username;
-    private String role;
     private String profilePicture;
     private String bio;
-    private String applications;
 }
