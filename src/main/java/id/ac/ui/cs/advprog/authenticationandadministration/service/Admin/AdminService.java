@@ -9,5 +9,5 @@ public interface AdminService {
     ViewProfileResponse getProfileByUsername(String username);
     void userValidationNonAdmin(User user);
     User getUserByUsername(String username);
-    void updateProfile(String username, String bio, String profilePicture);
+    User updateProfile(String username, String bio, String profilePicture);
 }
