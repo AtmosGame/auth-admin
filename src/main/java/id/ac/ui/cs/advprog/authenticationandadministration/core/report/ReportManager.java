@@ -2,7 +2,6 @@ package id.ac.ui.cs.advprog.authenticationandadministration.core.report;
 
 import id.ac.ui.cs.advprog.authenticationandadministration.models.User;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;

@@ -1,18 +1,14 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.controller;
 
-import id.ac.ui.cs.advprog.authenticationandadministration.models.UserRole;
-import id.ac.ui.cs.advprog.authenticationandadministration.service.Auth.AuthService;
+import id.ac.ui.cs.advprog.authenticationandadministration.service.auth.AuthService;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.User_NonDB;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -20,7 +16,6 @@ import java.util.Map;
 @RequestMapping(path = "/v1/auth")
 @RequiredArgsConstructor
 public class AuthController {
-    List<String> userTypes = UserRole.getNames();
     private final AuthService authService;
 
     @GetMapping(path = "/register")
