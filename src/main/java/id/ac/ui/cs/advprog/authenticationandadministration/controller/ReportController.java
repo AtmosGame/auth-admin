@@ -3,7 +3,7 @@ package id.ac.ui.cs.advprog.authenticationandadministration.controller;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.report.DetailReportedResponse;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.report.RejectReportResponse;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.report.ReportedAccountResponse;
-import id.ac.ui.cs.advprog.authenticationandadministration.service.Report.ReportService;
+import id.ac.ui.cs.advprog.authenticationandadministration.service.report.ReportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

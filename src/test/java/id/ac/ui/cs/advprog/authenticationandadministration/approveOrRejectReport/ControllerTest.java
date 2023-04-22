@@ -5,7 +5,7 @@ import id.ac.ui.cs.advprog.authenticationandadministration.dto.report.DetailRepo
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.report.RejectReportResponse;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.report.ReportedAccountResponse;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.Report;
-import id.ac.ui.cs.advprog.authenticationandadministration.service.Report.ReportServiceImpl;
+import id.ac.ui.cs.advprog.authenticationandadministration.service.report.ReportServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

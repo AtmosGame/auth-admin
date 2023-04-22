@@ -1,9 +1,9 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.editProfile;
 
-import id.ac.ui.cs.advprog.authenticationandadministration.dto.EditProfileResponse;
+import id.ac.ui.cs.advprog.authenticationandadministration.dto.profile.EditProfileResponse;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.User;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.UserRepository;
-import id.ac.ui.cs.advprog.authenticationandadministration.service.Admin.AdminServiceImpl;
+import id.ac.ui.cs.advprog.authenticationandadministration.service.profile.ProfileServiceImpl;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,8 +13,6 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Optional;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -22,7 +20,7 @@ import static org.mockito.Mockito.*;
 public class ServiceImplTest {
     @Spy
     @InjectMocks
-    private AdminServiceImpl service;
+    private ProfileServiceImpl service;
 
     @Mock
     private UserRepository repository;

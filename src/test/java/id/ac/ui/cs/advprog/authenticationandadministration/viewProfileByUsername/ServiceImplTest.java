@@ -1,12 +1,12 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.viewProfileByUsername;
 
-import id.ac.ui.cs.advprog.authenticationandadministration.dto.ViewProfileResponse;
-import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.UserDoesNotExistException;
-import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.UserHasBeenBlockedException;
-import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.UserIsAdministratorException;
+import id.ac.ui.cs.advprog.authenticationandadministration.dto.profile.ViewProfileResponse;
+import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserDoesNotExistException;
+import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserHasBeenBlockedException;
+import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserIsAdministratorException;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.User;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.UserRepository;
-import id.ac.ui.cs.advprog.authenticationandadministration.service.Admin.AdminServiceImpl;
+import id.ac.ui.cs.advprog.authenticationandadministration.service.profile.ProfileServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,7 +24,7 @@ import static org.mockito.Mockito.*;
 public class ServiceImplTest {
 
     @InjectMocks
-    private AdminServiceImpl service;
+    private ProfileServiceImpl service;
 
     @Mock
     private UserRepository repository;
