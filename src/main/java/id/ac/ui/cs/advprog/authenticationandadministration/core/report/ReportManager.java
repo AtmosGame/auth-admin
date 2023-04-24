@@ -18,7 +18,7 @@ public class ReportManager {
         }
     }
 
-    public static ReportManager getInstance(List<User> listUser){
+    public static synchronized ReportManager getInstance(List<User> listUser){
         if (uniqueReportManager == null){
             uniqueReportManager = new ReportManager(listUser);
         }
