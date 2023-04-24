@@ -4,9 +4,8 @@ import id.ac.ui.cs.advprog.authenticationandadministration.core.report.ReportMan
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.report.DetailReportedResponse;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.report.RejectReportResponse;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.report.ReportedAccountResponse;
-import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.report.ReportDoesNotExistException;
-import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.report.UserAndReportNotMatchedException;
-import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.report.UserDoesNotHaveReportException;
+import id.ac.ui.cs.advprog.authenticationandadministration.dto.report.UserReportRequest;
+import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.report.*;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.Report;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.User;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.ReportRepository;
@@ -14,6 +13,8 @@ import id.ac.ui.cs.advprog.authenticationandadministration.repository.UserReposi
 import id.ac.ui.cs.advprog.authenticationandadministration.service.profile.ProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -79,5 +80,34 @@ public class ReportServiceImpl implements ReportService {
             throw new ReportDoesNotExistException(report_id);
 
         return reportRepository.findById(report_id).get();
+    }
+
+    @Override
+    public UserReportRequest createReportUser(String username, String usernameReported , String information) {
+
+        if(information == null || information.trim().isEmpty())
+            throw new InformationNullException();
+        User user = profileService.getUserByUsername(usernameReported);
+        profileService.userValidationNonAdmin(user);
+
+        Report report = Report.builder()
+                .information(information)
+                .user(user)
+                .build();
+
+        reportRepository.save(report);
+
+        User userReporting = profileService.getUserByUsername(username);
+        profileService.userValidationNonAdmin(userReporting);
+
+        List<Report> reportedUser = userReporting.getReportList();
+        if(reportedUser.stream().anyMatch(o -> usernameReported.equals(o.getUser().getUsername())))
+            throw new DuplicateReportException();
+
+        userReporting.getReportList().add(report);
+        return UserReportRequest.builder()
+                .username(usernameReported)
+                .information(information)
+                .build();
     }
 }

@@ -15,6 +15,12 @@ import org.springframework.web.bind.annotation.*;
 public class ReportController {
     private final ReportService reportService;
 
+    @PostMapping("/report-user/{username}/{usernameReported}")
+    public ResponseEntity<String> createReportUser(@PathVariable String username, @PathVariable String usernameReported, @RequestBody String information){
+        String response = reportService.createReportUser(username, usernameReported, information).getInformation();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @GetMapping("/reported-account")
     public ResponseEntity<ReportedAccountResponse> getAllReportedAccount(){
         return new ResponseEntity<>(reportService.getAllReportedAccount(), HttpStatus.OK);
