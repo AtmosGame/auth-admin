@@ -16,7 +16,4 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     List<User> findAll();
     @NonNull
     Optional<User> findByUsername(@NonNull String username);
-    @Modifying
-    @Query("update User u set u.active = false where u.username = :username")
-    void updateActiveUserByUsername(@NonNull String username);
 }

@@ -9,6 +9,6 @@ import org.springframework.stereotype.Service;
 public interface ReportService {
     ReportedAccountResponse getAllReportedAccount();
     DetailReportedResponse getReportedAccount(String username);
-    RejectReportResponse rejectResponse(String username, Integer report_id);
     String approveReport(String username);
+    RejectReportResponse rejectResponse(String username, Integer report_id);
 }
