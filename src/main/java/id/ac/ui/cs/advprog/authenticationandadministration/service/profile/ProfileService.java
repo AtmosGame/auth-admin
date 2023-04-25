@@ -7,7 +7,5 @@ import org.springframework.stereotype.Service;
 @Service
 public interface ProfileService {
     ViewProfileResponse getProfileByUsername(String username);
-    void userValidationNonAdmin(User user);
-    User getUserByUsername(String username);
     User updateProfile(String username, String bio, String profilePicture);
 }

@@ -18,7 +18,7 @@ import java.util.List;
 @Table(name = "_user")
 public class User {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(unique=true)

@@ -17,7 +17,7 @@ import java.time.ZonedDateTime;
 @Table(name = "user_report")
 public class Report {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String information;
