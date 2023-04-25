@@ -1,7 +1,6 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.controller;
 
 import id.ac.ui.cs.advprog.authenticationandadministration.service.auth.AuthService;
-import id.ac.ui.cs.advprog.authenticationandadministration.models.User_NonDB;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,15 +32,8 @@ public class AuthController {
                            @RequestParam(value = "username") String username,
                            @RequestParam(value = "password") String password,
                            @RequestParam(value = "role") String role) {
-        if (authService.getAllUsersUnameKey().containsKey(username)) {
-            Map<String, String> message = new HashMap<>();
-            message.put("message", "Username already exists");
-            return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
-        }
-        authService.register(username, password, role);
-        Map<String, User_NonDB> data = new HashMap<>();
-        data.put("data", authService.getAllUsersUnameKey().get(username));
-        return new ResponseEntity<>(data, HttpStatus.OK);
+        String response = authService.register(username, password, role);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping(path = "/login")
