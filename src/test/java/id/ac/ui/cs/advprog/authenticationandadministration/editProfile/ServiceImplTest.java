@@ -2,6 +2,7 @@ package id.ac.ui.cs.advprog.authenticationandadministration.editProfile;
 
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.profile.EditProfileResponse;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.User;
+import id.ac.ui.cs.advprog.authenticationandadministration.models.UserRole;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.UserRepository;
 import id.ac.ui.cs.advprog.authenticationandadministration.service.profile.ProfileServiceImpl;
 import org.assertj.core.api.Assertions;
@@ -13,7 +14,6 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -35,7 +35,7 @@ public class ServiceImplTest {
                 .id(1)
                 .username("test1")
                 .password("passwordTestUser1")
-                .role("user")
+                .role(UserRole.USER)
                 .profilePicture("link to profile picture")
                 .bio("user test1")
                 .applications(null)
@@ -46,7 +46,7 @@ public class ServiceImplTest {
                 .id(2)
                 .username("test1")
                 .password("passwordTestUser1")
-                .role("user")
+                .role(UserRole.USER)
                 .profilePicture("link to ahli gembos")
                 .bio("gembos gembos")
                 .applications(null)
