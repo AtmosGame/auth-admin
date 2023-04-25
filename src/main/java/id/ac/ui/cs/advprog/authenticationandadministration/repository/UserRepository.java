@@ -16,11 +16,11 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Integer> {
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO User (username, password, role) VALUES (:username, :password, :role)", nativeQuery = true)
+    @Query(value = "INSERT INTO _user (username, password, role) VALUES (:username, :password, :role)", nativeQuery = true)
     void addUser(@NonNull String username, @NonNull String password, @NonNull String role);
-    @Query(value = "SELECT * FROM User WHERE username = :username", nativeQuery = true)
+    @Query(value = "SELECT * FROM _user WHERE username = :username", nativeQuery = true)
     User getUser(@NonNull String username);
-    @Query(value = "SELECT * FROM User", nativeQuery = true)
+    @Query(value = "SELECT * FROM _user", nativeQuery = true)
     List<User> getAllUsers();
     @NonNull
     List<User> findAll();
