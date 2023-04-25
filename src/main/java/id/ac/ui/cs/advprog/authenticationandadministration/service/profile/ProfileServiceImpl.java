@@ -21,7 +21,7 @@ public class ProfileServiceImpl implements ProfileService {
 
         return ViewProfileResponse.builder()
                 .username(user.getUsername())
-                .role(user.getRole())
+                .role(user.getRole().name())
                 .profilePicture(user.getProfilePicture())
                 .bio(user.getBio())
                 .applications(user.getApplications())
@@ -30,7 +30,7 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public void userValidationNonAdmin(User user){
-        if (user.getRole().equals("administrator"))
+        if (user.getRole().name().equals("ADMIN"))
             throw new UserIsAdministratorException(user.getUsername());
 
         if (!user.getActive())

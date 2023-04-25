@@ -5,6 +5,7 @@ import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserD
 import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserHasBeenBlockedException;
 import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserIsAdministratorException;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.User;
+import id.ac.ui.cs.advprog.authenticationandadministration.models.UserRole;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.UserRepository;
 import id.ac.ui.cs.advprog.authenticationandadministration.service.profile.ProfileServiceImpl;
 import org.junit.jupiter.api.Assertions;
@@ -40,7 +41,7 @@ public class ServiceImplTest {
                 .id(1)
                 .username("test1")
                 .password("passwordTestUser1")
-                .role("user")
+                .role(UserRole.USER)
                 .profilePicture("link to profile picture")
                 .bio("user test1")
                 .applications(null)
@@ -49,7 +50,7 @@ public class ServiceImplTest {
 
         response = ViewProfileResponse.builder()
                 .username(userValid.getUsername())
-                .role(userValid.getRole())
+                .role(userValid.getRole().name())
                 .profilePicture(userValid.getProfilePicture())
                 .bio(userValid.getBio())
                 .applications(userValid.getApplications())
@@ -59,7 +60,7 @@ public class ServiceImplTest {
                             .id(2)
                             .username("test2")
                             .password("passwordTestUser2")
-                            .role("administrator")
+                            .role(UserRole.ADMIN)
                             .profilePicture("link to profile picture")
                             .bio("user is administrator")
                             .applications(null)
@@ -70,7 +71,7 @@ public class ServiceImplTest {
                     .id(3)
                     .username("test3")
                     .password("passwordTestUser3")
-                    .role("developer")
+                    .role(UserRole.DEVELOPER)
                     .profilePicture("link to profile picture")
                     .bio("user test3")
                     .applications("aplication 1, aplication 2, aplication 3")
