@@ -22,6 +22,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     User getUser(@NonNull String username);
     @Query(value = "SELECT * FROM _user", nativeQuery = true)
     List<User> getAllUsers();
+
     @NonNull
     List<User> findAll();
     @NonNull
