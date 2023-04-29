@@ -31,5 +31,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("update User u set u.active = false where u.username = :username")
     void updateActiveUserByUsername(@NonNull String username);
 
-    List<User> findByUsernameContaining(String username);
+    List<User> findByUsernameContainingIgnoreCase(String username);
 }
