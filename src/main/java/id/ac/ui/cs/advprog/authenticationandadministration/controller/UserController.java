@@ -36,13 +36,9 @@ public class UserController {
     @GetMapping("/current")
     @PreAuthorize("hasAuthority('user:read')")
     public ResponseEntity<CurrentUserResponse> getCurrentUserProfile() {
-        return ResponseEntity.ok(CurrentUserResponse.builder()
-                .id(getCurrentUser().getId())
-                .username(getCurrentUser().getUsername())
-                .role(getCurrentUser().getRole())
-                .profilePicture(getCurrentUser().getProfilePicture())
-                .active(getCurrentUser().getActive())
-                .build());
+        CurrentUserResponse response = null;
+        response = userService.getCurrentUser(getCurrentUser().getUsername());
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/users")

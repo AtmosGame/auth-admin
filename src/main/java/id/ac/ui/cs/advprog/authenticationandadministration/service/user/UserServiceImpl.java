@@ -1,6 +1,5 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.service.user;
 
-import id.ac.ui.cs.advprog.authenticationandadministration.dto.user.CurrentUserRequest;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.user.CurrentUserResponse;
 import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserDoesNotExistException;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.User;
@@ -12,14 +11,13 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
-    private AuthService authService;
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
     @Override
-    public CurrentUserResponse getCurrentUser(CurrentUserRequest request) {
-        if (userRepository.findByUsername(request.getUsername()).isEmpty())
-            throw new UserDoesNotExistException(request.getUsername());
+    public CurrentUserResponse getCurrentUser(String username) {
+//        if (!userRepository.getUser(username))
+//            throw new UserDoesNotExistException(username);
 
-        User user = authService.getUserByUsername(request.getUsername());
+        User user = userRepository.getUser(username);
         return CurrentUserResponse.builder()
                 .id(user.getId())
                 .username(user.getUsername())
