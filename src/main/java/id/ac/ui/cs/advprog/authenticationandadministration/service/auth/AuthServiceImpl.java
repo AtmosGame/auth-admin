@@ -1,6 +1,5 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.service.auth;
 
-import id.ac.ui.cs.advprog.authenticationandadministration.core.auth.encryptor.Encryptor;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.auth.AuthenticationRequest;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.auth.AuthenticationResponse;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.auth.RegisterRequest;
@@ -57,12 +56,6 @@ public class AuthServiceImpl implements AuthService {
         var user = userRepository.findByUsername(request.getUsername()).orElseThrow();
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder().token(jwtToken).build();
-    }
-
-    private String toCipher(String password) {
-        Encryptor encryptor = new Encryptor();
-        String encryptPassword = encryptor.encrypt(password);
-        return encryptPassword;
     }
 
     @Override
