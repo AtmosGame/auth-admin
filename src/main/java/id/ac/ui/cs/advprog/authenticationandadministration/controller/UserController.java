@@ -1,6 +1,5 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.controller;
 
-import id.ac.ui.cs.advprog.authenticationandadministration.dto.user.CurrentUserRequest;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.user.CurrentUserResponse;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.User;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.UserRepository;
@@ -10,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.access.prepost.PreAuthorize;
 
@@ -38,13 +36,13 @@ public class UserController {
     @GetMapping("/current")
     @PreAuthorize("hasAuthority('user:read')")
     public ResponseEntity<CurrentUserResponse> getCurrentUserProfile() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String token = authentication.getCredentials().toString();
-        String username = jwtService.extractUsername(token);
-        CurrentUserRequest request = CurrentUserRequest.builder()
-                .username(username)
-                .build();
-        return ResponseEntity.ok(userService.getCurrentUser(request));
+        return ResponseEntity.ok(CurrentUserResponse.builder()
+                .id(getCurrentUser().getId())
+                .username(getCurrentUser().getUsername())
+                .role(getCurrentUser().getRole())
+                .profilePicture(getCurrentUser().getProfilePicture())
+                .active(getCurrentUser().getActive())
+                .build());
     }
 
     @GetMapping("/users")
