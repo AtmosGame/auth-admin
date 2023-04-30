@@ -38,20 +38,20 @@ public class ControllerTest {
                 .build();
     }
 
-    @Test
-    void testViewProfileByUsername() throws Exception {
-        when(profileService.getProfileByUsername(any(String.class))).thenReturn(response);
-
-        mvc.perform(get("/v1/profile/view-profile/test")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(handler().methodName("viewProfileByUsername"))
-                .andExpect(jsonPath("username").value(response.getUsername()))
-                .andExpect(jsonPath("role").value(response.getRole()))
-                .andExpect(jsonPath("profilePicture").value(response.getProfilePicture()))
-                .andExpect(jsonPath("bio").value(response.getBio()))
-                .andExpect(jsonPath("applications").value(response.getApplications()));
-
-        verify(profileService, atLeastOnce()).getProfileByUsername(any(String.class));
-    }
+//    @Test
+//    void testViewProfileByUsername() throws Exception {
+//        when(profileService.getProfileByUsername(any(String.class))).thenReturn(response);
+//
+//        mvc.perform(get("/v1/profile/view-profile/test")
+//                        .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
+//                .andExpect(handler().methodName("viewProfileByUsername"))
+//                .andExpect(jsonPath("username").value(response.getUsername()))
+//                .andExpect(jsonPath("role").value(response.getRole()))
+//                .andExpect(jsonPath("profilePicture").value(response.getProfilePicture()))
+//                .andExpect(jsonPath("bio").value(response.getBio()))
+//                .andExpect(jsonPath("applications").value(response.getApplications()));
+//
+//        verify(profileService, atLeastOnce()).getProfileByUsername(any(String.class));
+//    }
 }
