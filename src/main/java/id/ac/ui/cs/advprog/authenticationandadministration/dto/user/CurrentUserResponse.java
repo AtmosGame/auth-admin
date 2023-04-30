@@ -13,5 +13,8 @@ public class CurrentUserResponse {
     private String username;
     private UserRole role;
     private String profilePicture;
+    private String bio;
+    private String applications;
     private Boolean active;
+    private Object reportList;
 }
