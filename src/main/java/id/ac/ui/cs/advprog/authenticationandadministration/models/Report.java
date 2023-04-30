@@ -7,7 +7,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Date;
 
 @Data
 @Builder
@@ -17,11 +20,11 @@ import java.time.ZonedDateTime;
 @Table(name = "user_report")
 public class Report {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String information;
-    private ZonedDateTime dateReport;
+    private LocalDateTime dateReport = LocalDateTime.now();
 
     @JsonBackReference
     @ManyToOne

@@ -1,21 +1,20 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.service.auth;
 
-import id.ac.ui.cs.advprog.authenticationandadministration.core.auth.Util;
 import id.ac.ui.cs.advprog.authenticationandadministration.core.auth.encryptor.Encryptor;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.auth.AuthenticationRequest;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.auth.AuthenticationResponse;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.auth.RegisterRequest;
-import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.InvalidPasswordException;
 import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserDoesNotExistException;
 import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserHasBeenBlockedException;
+import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserIsAdministratorException;
 import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UsernameAlreadyExistsException;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.User;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.stereotype.Service;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
@@ -69,5 +68,22 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public List<User> getAllUsers() {
         return userRepository.getAllUsers();
+    }
+
+    @Override
+    public void userValidationNonAdmin(User user){
+        if (user.getRole().name().equals("ADMIN"))
+            throw new UserIsAdministratorException(user.getUsername());
+
+        if (!user.getActive())
+            throw new UserHasBeenBlockedException(user.getUsername());
+    }
+
+    @Override
+    public User getUserByUsername(String username){
+        if (userRepository.findByUsername(username).isEmpty())
+            throw new UserDoesNotExistException(username);
+
+        return userRepository.findByUsername(username).get();
     }
 }

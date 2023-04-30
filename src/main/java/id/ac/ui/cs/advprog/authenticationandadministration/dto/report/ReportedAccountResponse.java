@@ -4,11 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.Collection;
 import java.util.Set;
 
 @Data
 @Builder
 @AllArgsConstructor
 public class ReportedAccountResponse {
-    private Set<String> listUser;
+    private Collection<String> listUser;
 }

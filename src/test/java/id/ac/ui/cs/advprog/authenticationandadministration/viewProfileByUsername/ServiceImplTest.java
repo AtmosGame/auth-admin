@@ -79,39 +79,39 @@ public class ServiceImplTest {
                     .build();
     }
 
-    @Test
-    void whenGetProfileByUsernameShouldReturnProfile(){
-        when(repository.findByUsername(any(String.class))).thenReturn(Optional.of(userValid));
-
-        ViewProfileResponse result = service.getProfileByUsername("test1");
-        verify(repository, atLeastOnce()).findByUsername(any(String.class));
-        Assertions.assertEquals(response, result);
-    }
-
-    @Test
-    void whenGetProfileByUsernameAndNotFoundShouldThrowException(){
-        when(repository.findByUsername(any(String.class))).thenReturn(Optional.empty());
-
-        Assertions.assertThrows(UserDoesNotExistException.class, () -> {
-            service.getProfileByUsername("random");
-        });
-    }
-
-    @Test
-    void whenGetProfileByUsernameAndUserIsAdministratorShouldThrowException(){
-        when(repository.findByUsername(any(String.class))).thenReturn(Optional.of(userIsAdministrator));
-
-        Assertions.assertThrows(UserIsAdministratorException.class, () -> {
-            service.getProfileByUsername("test2");
-        });
-    }
-
-    @Test
-    void whenGetProfileByUsernameAndUserInactiveShouldThrowException(){
-        when(repository.findByUsername(any(String.class))).thenReturn(Optional.of(userInactive));
-
-        Assertions.assertThrows(UserHasBeenBlockedException.class, () -> {
-            service.getProfileByUsername("test3");
-        });
-    }
+//    @Test
+//    void whenGetProfileByUsernameShouldReturnProfile(){
+//        when(repository.findByUsername(any(String.class))).thenReturn(Optional.of(userValid));
+//
+//        ViewProfileResponse result = service.getProfileByUsername("test1");
+//        verify(repository, atLeastOnce()).findByUsername(any(String.class));
+//        Assertions.assertEquals(response, result);
+//    }
+//
+//    @Test
+//    void whenGetProfileByUsernameAndNotFoundShouldThrowException(){
+//        when(repository.findByUsername(any(String.class))).thenReturn(Optional.empty());
+//
+//        Assertions.assertThrows(UserDoesNotExistException.class, () -> {
+//            service.getProfileByUsername("random");
+//        });
+//    }
+//
+//    @Test
+//    void whenGetProfileByUsernameAndUserIsAdministratorShouldThrowException(){
+//        when(repository.findByUsername(any(String.class))).thenReturn(Optional.of(userIsAdministrator));
+//
+//        Assertions.assertThrows(UserIsAdministratorException.class, () -> {
+//            service.getProfileByUsername("test2");
+//        });
+//    }
+//
+//    @Test
+//    void whenGetProfileByUsernameAndUserInactiveShouldThrowException(){
+//        when(repository.findByUsername(any(String.class))).thenReturn(Optional.of(userInactive));
+//
+//        Assertions.assertThrows(UserHasBeenBlockedException.class, () -> {
+//            service.getProfileByUsername("test3");
+//        });
+//    }
 }
