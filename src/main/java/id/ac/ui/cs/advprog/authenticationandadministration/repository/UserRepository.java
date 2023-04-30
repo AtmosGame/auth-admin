@@ -16,12 +16,13 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Integer> {
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO _user (username, password, role) VALUES (:username, :password, :role)", nativeQuery = true)
-    void addUser(@NonNull String username, @NonNull String password, @NonNull String role);
+    @Query(value = "INSERT INTO _user (username, password, role, active) VALUES (:username, :password, :role, :active)", nativeQuery = true)
+    void addUser(@NonNull String username, @NonNull String password, @NonNull String role, @NonNull Boolean active);
     @Query(value = "SELECT * FROM _user WHERE username = :username", nativeQuery = true)
     User getUser(@NonNull String username);
     @Query(value = "SELECT * FROM _user", nativeQuery = true)
     List<User> getAllUsers();
+
     @NonNull
     List<User> findAll();
     @NonNull
@@ -29,4 +30,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Modifying
     @Query("update User u set u.active = false where u.username = :username")
     void updateActiveUserByUsername(@NonNull String username);
+
+    List<User> findByUsernameContainingIgnoreCase(String username);
 }

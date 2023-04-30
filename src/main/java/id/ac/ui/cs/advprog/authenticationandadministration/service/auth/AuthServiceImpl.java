@@ -1,32 +1,63 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.service.auth;
 
+import id.ac.ui.cs.advprog.authenticationandadministration.core.auth.Util;
 import id.ac.ui.cs.advprog.authenticationandadministration.core.auth.encryptor.Encryptor;
+import id.ac.ui.cs.advprog.authenticationandadministration.dto.auth.AuthenticationRequest;
+import id.ac.ui.cs.advprog.authenticationandadministration.dto.auth.AuthenticationResponse;
+import id.ac.ui.cs.advprog.authenticationandadministration.dto.auth.RegisterRequest;
+import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.InvalidPasswordException;
+import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserDoesNotExistException;
+import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserHasBeenBlockedException;
+import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UsernameAlreadyExistsException;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.User;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    @Override
-    public boolean login(String username, String password) {
-        User supposedUser = userRepository.getUser(username);
-        return supposedUser != null &&
-                toCipher(password).equals(supposedUser.getPassword());
+    private final JwtService jwtService;
+
+    private final AuthenticationManager authenticationManager;
+
+    public AuthenticationResponse register(RegisterRequest request) {
+        var checkUser = userRepository.findByUsername(request.getUsername()).orElse(null);
+
+        if(checkUser != null) {
+            throw new UsernameAlreadyExistsException();
+        }
+
+        var user = User.builder()
+                .active(true)
+                .username(request.getUsername())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .role(request.getRole())
+                .build();
+
+        userRepository.save(user);
+        var jwtToken = jwtService.generateToken(user);
+        return AuthenticationResponse.builder().token(jwtToken).build();
     }
 
-    @Override
-    public String register(String username, String password, String role) {
-        userRepository.addUser(username, toCipher(password), role);
-        return "Register Success";
+    public AuthenticationResponse authenticate(AuthenticationRequest request) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getUsername(),
+                        request.getPassword()
+                )
+        );
+        var user = userRepository.findByUsername(request.getUsername()).orElseThrow();
+        var jwtToken = jwtService.generateToken(user);
+        return AuthenticationResponse.builder().token(jwtToken).build();
     }
 
     private String toCipher(String password) {

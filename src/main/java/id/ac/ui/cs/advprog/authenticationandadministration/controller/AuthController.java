@@ -1,5 +1,8 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.controller;
 
+import id.ac.ui.cs.advprog.authenticationandadministration.dto.auth.AuthenticationRequest;
+import id.ac.ui.cs.advprog.authenticationandadministration.dto.auth.AuthenticationResponse;
+import id.ac.ui.cs.advprog.authenticationandadministration.dto.auth.RegisterRequest;
 import id.ac.ui.cs.advprog.authenticationandadministration.service.auth.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,24 +30,17 @@ public class AuthController {
         return "auth/login";
     }
 
-    @PostMapping(path = "/register")
-    public ResponseEntity<Object> register(Model model,
-                           @RequestParam(value = "username") String username,
-                           @RequestParam(value = "password") String password,
-                           @RequestParam(value = "role") String role) {
-        String response = authService.register(username, password, role);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    @PostMapping("/register")
+    public ResponseEntity<AuthenticationResponse> register (
+            @RequestBody RegisterRequest request
+    ) {
+        return ResponseEntity.ok(authService.register(request));
     }
 
-    @PostMapping(path = "/login")
-    public String login(Model model,
-                        @RequestParam(value = "username") String username,
-                        @RequestParam(value = "password") String password) {
-        if (authService.login(username, password)) {
-            model.addAttribute("successful", true);
-            return "auth/login";
-        }
-        model.addAttribute("successful", false);
-        return "auth/login";
+    @PostMapping("/login")
+    public ResponseEntity<AuthenticationResponse> login (
+            @RequestBody AuthenticationRequest request
+    ) {
+        return ResponseEntity.ok(authService.authenticate(request));
     }
 }
