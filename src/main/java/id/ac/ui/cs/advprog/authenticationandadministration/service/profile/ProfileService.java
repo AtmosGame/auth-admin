@@ -1,7 +1,7 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.service.profile;
 
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.profile.ViewProfileResponse;
-import id.ac.ui.cs.advprog.authenticationandadministration.models.User;
+import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.User;
 import org.springframework.stereotype.Service;
 
 @Service

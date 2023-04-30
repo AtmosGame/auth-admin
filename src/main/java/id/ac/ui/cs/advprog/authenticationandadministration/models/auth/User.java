@@ -1,6 +1,7 @@
-package id.ac.ui.cs.advprog.authenticationandadministration.models;
+package id.ac.ui.cs.advprog.authenticationandadministration.models.auth;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import id.ac.ui.cs.advprog.authenticationandadministration.models.Report;
 import jakarta.annotation.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
