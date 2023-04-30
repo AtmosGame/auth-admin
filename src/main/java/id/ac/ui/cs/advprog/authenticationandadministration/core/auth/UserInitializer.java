@@ -1,26 +1,23 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.core.auth;
 
-import id.ac.ui.cs.advprog.authenticationandadministration.repository.UserRepositoryNonDB;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
+import id.ac.ui.cs.advprog.authenticationandadministration.repository.UserRepository;
 
 @Component
 public class UserInitializer {
 
     @Autowired
-    UserRepositoryNonDB userRepositoryNonDB;
+    UserRepository userRepository;
 
     @PostConstruct
     public void init() {
         // Username | Password | Role
         // ---------------------------------------
-        // eugenius   | Pacil2021  | Developer
-        // mario      | Bakung2021 | User
+        // eugeniusms   | adadeh13 | ADMIN
 
         // initialize users
-        userRepositoryNonDB.addUser("eugenius", "AJCCCJgCzArCAAAAtJJAA", "developer");
-        userRepositoryNonDB.addUser("mario", "JJCACBAALAxJCCrAEJASAA", "user");
+        userRepository.addUser("eugeniusms", "$2a$10$IoLq5nh3EsDI1.E9WJqWC.NydY7F6g6drXrHGHHcfahveHd86WHhS", "ADMIN", true);
     }
 }
