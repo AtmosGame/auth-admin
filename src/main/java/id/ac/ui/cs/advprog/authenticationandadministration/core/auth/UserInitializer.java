@@ -15,11 +15,9 @@ public class UserInitializer {
     public void init() {
         // Username | Password | Role
         // ---------------------------------------
-        // eugenius   | Pacil2021  | Developer
-        // mario      | Bakung2021 | User
+        // eugeniusms   | adadeh13 | ADMIN
 
         // initialize users
-        userRepository.addUser("eugenius", "Pacil2021", "ADMIN");
-        userRepository.addUser("mario", "Bakung2021", "USER");
+        userRepository.addUser("eugeniusms", "$2a$10$IoLq5nh3EsDI1.E9WJqWC.NydY7F6g6drXrHGHHcfahveHd86WHhS", "ADMIN", true);
     }
 }
