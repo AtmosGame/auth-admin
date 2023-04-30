@@ -13,11 +13,18 @@ public class UserInitializer {
 
     @PostConstruct
     public void init() {
-        // Username | Password | Role
-        // ---------------------------------------
-        // eugeniusms   | adadeh13 | ADMIN
+        // Username     | Password | Role       | Status
+        // ---------------------------------------------
+        // atmos        | pass1234 | ADMIN      | Active
+        // moontod      | tencent0 | DEVELOPER  | Active
+        // eugeniusms   | adadeh13 | USER       | Active
+        // mario        | tidurges | USER       | Inactive
+
 
         // initialize users
-        userRepository.addUser("eugeniusms", "$2a$10$IoLq5nh3EsDI1.E9WJqWC.NydY7F6g6drXrHGHHcfahveHd86WHhS", "ADMIN", true);
+        userRepository.addUser("atmos", "$2a$10$qlqaBQHs1Si7s3NJpMwTxu9p0mnBuCRbX/3rZh3f4FQfrRYs4Yi5e", "ADMIN", true);
+        userRepository.addUser("moontod", "$2a$10$vna.ETappaBal/Ibk7u2I.Ixqx8oF2qquUVOZJ8AcRWxxTIoadKVW", "DEVELOPER", true);
+        userRepository.addUser("eugeniusms", "$2a$10$OlSFCGx/hRb9LNAfPQuCsu/yq7n8bbEsusXk01vpZKWEZifSsKKie", "USER", true);
+        userRepository.addUser("mario", "$2a$10$clLk5YJ28ROYVtNpXWdUW.5.gfp7s4OtDGOg8rYx89OkawiFxl7xq", "USER", false);
     }
 }
