@@ -1,25 +1,17 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.viewProfileByUsername;
 
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.profile.ViewProfileResponse;
-import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserDoesNotExistException;
-import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserHasBeenBlockedException;
-import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserIsAdministratorException;
-import id.ac.ui.cs.advprog.authenticationandadministration.models.User;
-import id.ac.ui.cs.advprog.authenticationandadministration.models.UserRole;
+import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.User;
+import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.UserRole;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.UserRepository;
 import id.ac.ui.cs.advprog.authenticationandadministration.service.profile.ProfileServiceImpl;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Optional;
-
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class ServiceImplTest {

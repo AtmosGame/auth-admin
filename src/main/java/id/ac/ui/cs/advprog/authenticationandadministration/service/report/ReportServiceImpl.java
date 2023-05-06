@@ -1,7 +1,6 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.service.report;
 
 import id.ac.ui.cs.advprog.authenticationandadministration.core.report.ReportComparator;
-import id.ac.ui.cs.advprog.authenticationandadministration.core.report.ReportManager;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.report.DetailReportedResponse;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.report.RejectReportResponse;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.report.ReportedAccountResponse;
@@ -9,15 +8,13 @@ import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.report.Rep
 import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.report.UserAndReportNotMatchedException;
 import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.report.UserDoesNotHaveReportException;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.Report;
-import id.ac.ui.cs.advprog.authenticationandadministration.models.User;
+import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.User;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.ReportRepository;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.UserRepository;
 import id.ac.ui.cs.advprog.authenticationandadministration.service.auth.AuthService;
-import id.ac.ui.cs.advprog.authenticationandadministration.service.profile.ProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 

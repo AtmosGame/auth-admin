@@ -1,6 +1,6 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.dto.auth;
 
-import id.ac.ui.cs.advprog.authenticationandadministration.models.UserRole;
+import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

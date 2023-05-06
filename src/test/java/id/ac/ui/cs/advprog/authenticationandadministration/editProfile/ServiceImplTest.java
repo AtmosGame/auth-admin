@@ -1,11 +1,10 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.editProfile;
 
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.profile.EditProfileResponse;
-import id.ac.ui.cs.advprog.authenticationandadministration.models.User;
-import id.ac.ui.cs.advprog.authenticationandadministration.models.UserRole;
+import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.User;
+import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.UserRole;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.UserRepository;
 import id.ac.ui.cs.advprog.authenticationandadministration.service.profile.ProfileServiceImpl;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,8 +12,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class ServiceImplTest {

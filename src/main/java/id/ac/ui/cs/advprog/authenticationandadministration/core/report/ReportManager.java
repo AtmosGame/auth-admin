@@ -1,6 +1,6 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.core.report;
 
-import id.ac.ui.cs.advprog.authenticationandadministration.models.User;
+import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.User;
 
 import java.util.*;
 

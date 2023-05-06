@@ -20,16 +20,6 @@ import java.util.Map;
 public class AuthController {
     private final AuthService authService;
 
-    @GetMapping(path = "/register")
-    public String registerPage(Model model) {
-        return "auth/register";
-    }
-
-    @GetMapping(path = "/login")
-    public String loginPage(Model model) {
-        return "auth/login";
-    }
-
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register (
             @RequestBody RegisterRequest request
