@@ -4,25 +4,38 @@ import id.ac.ui.cs.advprog.authenticationandadministration.dto.profile.ViewProfi
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.User;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.UserRole;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.UserRepository;
+import id.ac.ui.cs.advprog.authenticationandadministration.service.auth.AuthService;
 import id.ac.ui.cs.advprog.authenticationandadministration.service.profile.ProfileServiceImpl;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
-import static org.mockito.ArgumentMatchers.any;
+import java.util.Optional;
+
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
 public class ServiceImplTest {
 
     @InjectMocks
-    private ProfileServiceImpl service;
+    private ProfileServiceImpl profileService;
 
     @Mock
     private UserRepository repository;
 
+    @Mock
+    private AuthService authService;
+
+    @Mock
     User userValid;
+
     User userIsAdministrator;
     User userInactive;
     ViewProfileResponse response;
@@ -31,55 +44,56 @@ public class ServiceImplTest {
     void setUp(){
         userValid = User.builder()
                 .id(1)
-                .username("test1")
-                .password("passwordTestUser1")
+                .username("userValid")
+                .password("passwordTestUserValid")
                 .role(UserRole.USER)
                 .profilePicture("link to profile picture")
-                .bio("user test1")
+                .bio("Bio test user valid")
                 .applications(null)
                 .active(true)
                 .build();
 
-        response = ViewProfileResponse.builder()
-                .username(userValid.getUsername())
-                .role(userValid.getRole().name())
-                .profilePicture(userValid.getProfilePicture())
-                .bio(userValid.getBio())
-                .applications(userValid.getApplications())
-                .build();
-
-        userIsAdministrator = User.builder()
-                            .id(2)
-                            .username("test2")
-                            .password("passwordTestUser2")
-                            .role(UserRole.ADMIN)
-                            .profilePicture("link to profile picture")
-                            .bio("user is administrator")
-                            .applications(null)
-                            .active(true)
-                            .build();
-
-        userInactive = User.builder()
-                    .id(3)
-                    .username("test3")
-                    .password("passwordTestUser3")
-                    .role(UserRole.DEVELOPER)
-                    .profilePicture("link to profile picture")
-                    .bio("user test3")
-                    .applications("aplication 1, aplication 2, aplication 3")
-                    .active(false)
-                    .build();
+//        userIsAdministrator = User.builder()
+//                            .id(2)
+//                            .username("test2")
+//                            .password("passwordTestUser2")
+//                            .role(UserRole.ADMIN)
+//                            .profilePicture("link to profile picture")
+//                            .bio("user is administrator")
+//                            .applications(null)
+//                            .active(true)
+//                            .build();
+//
+//        userInactive = User.builder()
+//                    .id(3)
+//                    .username("test3")
+//                    .password("passwordTestUser3")
+//                    .role(UserRole.DEVELOPER)
+//                    .profilePicture("link to profile picture")
+//                    .bio("user test3")
+//                    .applications("aplication 1, aplication 2, aplication 3")
+//                    .active(false)
+//                    .build();
     }
 
-//    @Test
-//    void whenGetProfileByUsernameShouldReturnProfile(){
-//        when(repository.findByUsername(any(String.class))).thenReturn(Optional.of(userValid));
-//
-//        ViewProfileResponse result = service.getProfileByUsername("test1");
-//        verify(repository, atLeastOnce()).findByUsername(any(String.class));
-//        Assertions.assertEquals(response, result);
-//    }
-//
+    @Test
+    void whenGetProfileByUsernameShouldReturnProfile(){
+        ViewProfileResponse viewProfileResponse = ViewProfileResponse.builder()
+                                                .username("test")
+                                                .role(UserRole.USER.name())
+                                                .profilePicture("link")
+                                                .bio("user test")
+                                                .applications(null)
+                                                .build();
+
+        when(repository.findByUsername(userValid.getUsername())).thenReturn(Optional.of(userValid));
+        when(profileService.getProfileByUsername(userValid.getUsername())).thenReturn(viewProfileResponse);
+
+        ViewProfileResponse result = profileService.getProfileByUsername("test1");
+        verify(repository, atLeastOnce()).findByUsername(userValid.getUsername());
+        Assertions.assertEquals(response, result);
+    }
+
 //    @Test
 //    void whenGetProfileByUsernameAndNotFoundShouldThrowException(){
 //        when(repository.findByUsername(any(String.class))).thenReturn(Optional.empty());

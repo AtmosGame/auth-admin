@@ -1,6 +1,5 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.service.report;
 
-import id.ac.ui.cs.advprog.authenticationandadministration.core.report.ReportComparator;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.report.DetailReportedResponse;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.report.RejectReportResponse;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.report.ReportedAccountResponse;
@@ -15,9 +14,6 @@ import id.ac.ui.cs.advprog.authenticationandadministration.service.auth.AuthServ
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
-import java.util.TreeMap;
-
 @Service
 @RequiredArgsConstructor
 public class ReportServiceImpl implements ReportService {
@@ -27,20 +23,9 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public ReportedAccountResponse getAllReportedAccount() {
-        Map<User, String> listReportedAccount = new TreeMap<User, String>(new ReportComparator());
-        for (User user: userRepository.findAll()){
-            if (!user.getRole().name().equals("ADMIN") && user.getActive() && user.getReportList().size() > 0){
-                listReportedAccount.put(user, user.getUsername());
-            }
-        }
-
         return ReportedAccountResponse.builder()
-                .listUser(listReportedAccount.values())
+                .listUser(userRepository.findAllHaveReportedUser())
                 .build();
-
-//        return ReportedAccountResponse.builder()
-//                .listUser(getReportManager().getListReportedAccount())
-//                .build();
     }
 
     @Override
@@ -56,10 +41,8 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public String approveReport(String username) {
         User user = getUserReport(username);
-        user.setActive(false);
-        userRepository.save(user);
+        userRepository.blockedUserByUsername(username);
         reportRepository.deleteAll(user.getReportList());
-//        getReportManager().approveReport(user);
         return "Blocked User with username " + username;
     }
 
@@ -71,21 +54,16 @@ public class ReportServiceImpl implements ReportService {
             throw new UserAndReportNotMatchedException(username, report_id);
 
         reportRepository.deleteById(report_id);
-//        getReportManager().rejectReport(user, getUserReport(username));
         return RejectReportResponse.builder()
-                .haveReport((user.getReportList().size() - 1) > 0 ? true:false)
+                .haveReport((user.getReportList().size() - 1) > 0)
                 .build();
     }
-
-//    private ReportManager getReportManager(){
-//        return ReportManager.getInstance(userRepository.findAll());
-//    }
 
     private User getUserReport(String username){
         User user = authService.getUserByUsername(username);
         authService.userValidationNonAdmin(user);
 
-        if (!(user.getReportList().size() > 0))
+        if (user.getReportList().isEmpty())
             throw new UserDoesNotHaveReportException(username);
 
         return user;
