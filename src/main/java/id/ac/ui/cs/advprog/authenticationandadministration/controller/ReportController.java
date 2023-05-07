@@ -16,7 +16,7 @@ public class ReportController {
     private final ReportService reportService;
 
     // By @Eugenius Mario
-    // Note: @Rifqi Farel ini masih ada test case yang fail,
+    // Note: @Rafinal ini masih ada test case yang fail,
     // tolong diperbaiki bagian createReportUser kan di fix/approve-reject-report
     // lu ilangin jadi testnya gagal
 //    @PostMapping("/report-user/{username}/{usernameReported}")

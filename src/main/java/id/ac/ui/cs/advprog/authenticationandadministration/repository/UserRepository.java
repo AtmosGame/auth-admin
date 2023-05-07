@@ -24,11 +24,19 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @NonNull
     List<User> findAll();
+
     @NonNull
     Optional<User> findByUsername(@NonNull String username);
+
+    @Transactional
     @Modifying
-    @Query("update User u set u.active = false where u.username = :username")
-    void updateActiveUserByUsername(@NonNull String username);
+    @Query(value = "update _user set active = false where username =  ?1", nativeQuery = true)
+    void blockedUserByUsername(@NonNull String username);
 
     List<User> findByUsernameContainingIgnoreCase(String username);
+
+    @Transactional
+    @Modifying
+    @Query(value = "SELECT username FROM _user, user_report WHERE _user.id = user_report._user_id GROUP BY _user_id, username ORDER BY count(*) DESC;", nativeQuery = true)
+    List<String> findAllHaveReportedUser();
 }
