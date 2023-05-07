@@ -8,7 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 @Data
 @Builder
@@ -22,7 +22,9 @@ public class Report {
     private Integer id;
 
     private String information;
-    private LocalDateTime dateReport = LocalDateTime.now();
+
+    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP")
+    private Timestamp dateReport;
 
     @JsonBackReference
     @ManyToOne
