@@ -1,6 +1,8 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.controller;
 
+import id.ac.ui.cs.advprog.authenticationandadministration.dto.auth.AuthenticationRequest;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.user.CurrentUserResponse;
+import id.ac.ui.cs.advprog.authenticationandadministration.dto.user.SearchUserRequest;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.User;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.UserRepository;
 import id.ac.ui.cs.advprog.authenticationandadministration.service.auth.JwtService;
@@ -41,19 +43,9 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/users")
-    public CompletableFuture<ResponseEntity<List<User>>> searchUsers(@RequestParam(name = "name", required = false) String username) {
-        return CompletableFuture.supplyAsync(() -> {
-            List<User> users;
-            if (username == null || username.trim().isEmpty()) {
-                users = userRepository.findAll();
-            } else {
-                users = userRepository.findByUsernameContainingIgnoreCase(username);
-            }
-            if (users.isEmpty()) {
-                return ResponseEntity.notFound().build();
-            }
-            return ResponseEntity.ok(users);
-        });
+    @GetMapping("/all")
+    @PreAuthorize("hasAuthority('user:read')")
+    public ResponseEntity<List<User>> searchUsers(@RequestBody SearchUserRequest request) {
+        return ResponseEntity.ok(userService.searchUsers(request));
     }
 }
