@@ -11,13 +11,13 @@ variables:
   CONTAINER_NAME: $CONTAINER_NAME
   GCP_USERNAME: $GCP_USERNAME
   GCP_STATIC_IP: $GCP_STATIC_IP
-  SONAR_LOGIN: 89dfb5d6e6ee5753fa2d73ca1c3b41364dd1e53f
-  SONAR_PROJECT_KEY: AdvProg_reguler-2023_mahasiswa_kelas-a_2106653602-Eduardus-Tjitrahardja-_atmos_auth-admin_AYdBw_X39YbzwjBXjLYh
+  SONAR_TOKEN: $SONAR_TOKEN
 
 
 stages:
   - build
   - test
+  - sonarcloud-check
   - publish
   - deploy
 
@@ -65,7 +65,17 @@ Test:
       junit: build/test-results/test/**/TEST-*.xml
   coverage: '/Total.*?([0-9]{1,3})%/'
 
-
+sonarcloud-check:
+  stage: sonarcloud-check
+  image: gradle:alpine
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .sonar/cache
+  script: gradle sonar
+  rules:
+    - if: $CI_COMMIT_REF_NAME == 'main' || $CI_PIPELINE_SOURCE == 'merge_request_event'
+  allow_failure: true
 
 
 Publish:
@@ -102,3 +112,4 @@ Deploy:
       docker run --name $CONTAINER_NAME -d -p 80:8080 $REGISTRY_USER/$IMAGE_NAME:$IMAGE_TAG"
   only:
     - main
+

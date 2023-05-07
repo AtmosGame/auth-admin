@@ -2,7 +2,7 @@ plugins {
     java
     id("org.springframework.boot") version "3.0.5"
     id("io.spring.dependency-management") version "1.1.0"
-    id("org.sonarqube") version "3.0"
+    id ("org.sonarqube") version "3.5.0.2730"
     jacoco
 }
 
@@ -36,6 +36,14 @@ dependencies {
     testImplementation("org.springframework.security:spring-security-test")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("com.google.guava:guava:31.1-jre")
+}
+
+sonarqube {
+    properties {
+        property("sonar.projectKey", "atmos-auth-and-admin")
+        property("sonar.organization", "atmos-auth-and-admin")
+        property("sonar.host.url", "https://sonarcloud.io")
+    }
 }
 
 tasks.test {
