@@ -12,9 +12,6 @@ import java.util.List;
 public interface AuthService {
     AuthenticationResponse authenticate(AuthenticationRequest request);
     AuthenticationResponse register(RegisterRequest request);
-    List<User> getAllUsers();
-    void userValidationNonAdmin(User user);
-    User getUserByUsername(String username);
 }
 
 

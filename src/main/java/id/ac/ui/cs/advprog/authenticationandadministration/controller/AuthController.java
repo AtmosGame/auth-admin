@@ -5,14 +5,8 @@ import id.ac.ui.cs.advprog.authenticationandadministration.dto.auth.Authenticati
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.auth.RegisterRequest;
 import id.ac.ui.cs.advprog.authenticationandadministration.service.auth.AuthService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.Map;
-
 
 @RestController
 @RequestMapping(path = "/v1/auth")

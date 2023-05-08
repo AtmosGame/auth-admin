@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.user.CurrentUserResponse;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.user.SearchUserRequest;
 import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserDoesNotExistException;
+import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserHasBeenBlockedException;
+import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserIsAdministratorException;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.Report;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.User;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.UserRole;
@@ -22,11 +24,9 @@ import java.util.concurrent.CompletableFuture;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
+
     @Override
     public CurrentUserResponse getCurrentUser(String username) {
-//        if (!userRepository.getUser(username))
-//            throw new UserDoesNotExistException(username);
-
         User user = userRepository.getUser(username);
         return CurrentUserResponse.builder()
                 .id(user.getId())
@@ -50,5 +50,26 @@ public class UserServiceImpl implements UserService{
             return userRepository.findByUsernameContainingIgnoreCase(request.getUsername());
         }
     };
+
+    @Override
+    public User getUserNonAdminByUsername(String username){
+        User user = getUserByUsername(username);
+
+        if (user.getRole().name().equals("ADMIN"))
+            throw new UserIsAdministratorException(user.getUsername());
+
+        if (!user.getActive())
+            throw new UserHasBeenBlockedException(user.getUsername());
+
+        return user;
+    }
+
+    @Override
+    public User getUserByUsername(String username){
+        if (userRepository.findByUsername(username).isEmpty())
+            throw new UserDoesNotExistException(username);
+
+        return userRepository.findByUsername(username).get();
+    }
 }
 
