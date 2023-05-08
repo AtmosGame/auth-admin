@@ -10,7 +10,7 @@ import id.ac.ui.cs.advprog.authenticationandadministration.models.Report;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.User;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.ReportRepository;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.UserRepository;
-import id.ac.ui.cs.advprog.authenticationandadministration.service.auth.AuthService;
+import id.ac.ui.cs.advprog.authenticationandadministration.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 public class ReportServiceImpl implements ReportService {
     private final UserRepository userRepository;
     private final ReportRepository reportRepository;
-    private final AuthService authService;
+    private final UserService userService;
 
     @Override
     public ReportedAccountResponse getAllReportedAccount() {
@@ -60,8 +60,7 @@ public class ReportServiceImpl implements ReportService {
     }
 
     private User getUserReport(String username){
-        User user = authService.getUserByUsername(username);
-        authService.userValidationNonAdmin(user);
+        User user = userService.getUserNonAdminByUsername(username);
 
         if (user.getReportList().isEmpty())
             throw new UserDoesNotHaveReportException(username);

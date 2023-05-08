@@ -11,6 +11,7 @@ import java.util.concurrent.CompletableFuture;
 @Service
 public interface UserService {
     CurrentUserResponse getCurrentUser(String username);
-
     List<User> searchUsers(SearchUserRequest request);
+    User getUserNonAdminByUsername(String username);
+    User getUserByUsername(String username);
 }

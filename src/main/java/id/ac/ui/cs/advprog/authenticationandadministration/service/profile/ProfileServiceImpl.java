@@ -3,7 +3,7 @@ package id.ac.ui.cs.advprog.authenticationandadministration.service.profile;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.profile.ViewProfileResponse;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.User;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.UserRepository;
-import id.ac.ui.cs.advprog.authenticationandadministration.service.auth.AuthService;
+import id.ac.ui.cs.advprog.authenticationandadministration.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,12 +11,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ProfileServiceImpl implements ProfileService {
     private final UserRepository userRepository;
-    private final AuthService authService;
+    private final UserService userService;
 
     @Override
     public ViewProfileResponse getProfileByUsername(String username) {
-        User user = authService.getUserByUsername(username);
-        authService.userValidationNonAdmin(user);
+        User user = userService.getUserNonAdminByUsername(username);
 
         return ViewProfileResponse.builder()
                 .username(user.getUsername())
@@ -29,8 +28,7 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public User updateProfile(String username, String bio, String profilePicture){
-        User user = authService.getUserByUsername(username);
-        authService.userValidationNonAdmin(user);
+        User user = userService.getUserNonAdminByUsername(username);
 
         user.setBio(bio);
         user.setProfilePicture(profilePicture);
