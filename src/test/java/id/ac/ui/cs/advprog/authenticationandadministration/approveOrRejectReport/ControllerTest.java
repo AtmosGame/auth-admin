@@ -9,8 +9,6 @@ import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.User;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.UserRole;
 import id.ac.ui.cs.advprog.authenticationandadministration.service.auth.JwtService;
 import id.ac.ui.cs.advprog.authenticationandadministration.service.report.ReportServiceImpl;
-import org.hamcrest.Matcher;
-import org.json.JSONArray;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -20,7 +18,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,10 +25,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.lang.reflect.Array;
 import java.sql.Timestamp;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.*;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -44,7 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(controllers = ReportController.class)
 @AutoConfigureMockMvc
-public class ControllerTest {
+class ControllerTest {
     private MockMvc mvc;
 
     @Autowired
@@ -59,7 +53,9 @@ public class ControllerTest {
     @Mock
     User user;
 
-//    RejectReportResponse rejectReportResponse;
+    User test1;
+    Report report1;
+    Report report2;
 
     @BeforeEach
     void setUp(){
@@ -70,16 +66,41 @@ public class ControllerTest {
         SecurityContextHolder.setContext(securityContext);
         this.mvc = MockMvcBuilders.webAppContextSetup(this.context).build();
 
-//        approveReportResponse = "Blocked User with username Test1";
-//
-//        rejectReportResponse = RejectReportResponse.builder()
-//                            .haveReport(true)
-//                            .build();
+        test1 = User.builder()
+                .id(1)
+                .username("test1")
+                .password("passwordTest1")
+                .role(UserRole.USER)
+                .profilePicture("link to profilePicture")
+                .bio("bio profile picture")
+                .applications(null)
+                .active(true)
+                .build();
+
+        report1 = Report.builder()
+                .id(1)
+                .information("report 1 untuk test1")
+                .user(test1)
+                .dateReport(new Timestamp(System.currentTimeMillis()))
+                .build();
+
+        report2 = Report.builder()
+                .id(2)
+                .information("report 2 untuk test1")
+                .user(test1)
+                .dateReport(new Timestamp(System.currentTimeMillis()))
+                .build();
+
+        ArrayList<Report> listReport = new ArrayList<>();
+        listReport.add(report1);
+        listReport.add(report2);
+
+        test1.setReportList(listReport);
     }
 
     @Test
     void testGetAllReportedAccount() throws Exception {
-        ArrayList<String> listUser = new ArrayList<String>();
+        ArrayList<String> listUser = new ArrayList<>();
         listUser.add("test1");
         listUser.add("test2");
         listUser.add("test3");
@@ -101,42 +122,10 @@ public class ControllerTest {
 
     @Test
     void testGetReportedAccount() throws Exception {
-        User test1 = User.builder()
-                .id(1)
-                .username("test1")
-                .password("passwordTest1")
-                .role(UserRole.USER)
-                .profilePicture("link to profilePicture")
-                .bio("bio profile picture")
-                .applications(null)
-                .active(true)
-                .build();
-
-        Report report1 = Report.builder()
-                .id(1)
-                .information("report 1 untuk test1")
-                .user(test1)
-                .dateReport(new Timestamp(System.currentTimeMillis()))
-                .build();
-
-        Report report2 = Report.builder()
-                .id(2)
-                .information("report 2 untuk test1")
-                .user(test1)
-                .dateReport(new Timestamp(System.currentTimeMillis()))
-                .build();
-
-        ArrayList<Report> listReport = new ArrayList<Report>();
-        listReport.add(report1);
-        listReport.add(report2);
-
-        test1.setReportList(listReport);
-
-
         DetailReportedResponse detailReportedResponse = DetailReportedResponse.builder()
                                                         .username(test1.getUsername())
-                                                        .totalReports(listReport.size())
-                                                        .listReports(listReport)
+                                                        .totalReports(test1.getReportList().size())
+                                                        .listReports(test1.getReportList())
                                                         .build();
 
         when(reportService.getReportedAccount(any(String.class))).thenReturn(detailReportedResponse);
@@ -157,37 +146,6 @@ public class ControllerTest {
 
     @Test
     void testApproveReport() throws Exception {
-        User test1 = User.builder()
-                .id(1)
-                .username("test1")
-                .password("passwordTest1")
-                .role(UserRole.USER)
-                .profilePicture("link to profilePicture")
-                .bio("bio profile picture")
-                .applications(null)
-                .active(true)
-                .build();
-
-        Report report1 = Report.builder()
-                .id(1)
-                .information("report 1 untuk test1")
-                .user(test1)
-                .dateReport(new Timestamp(System.currentTimeMillis()))
-                .build();
-
-        Report report2 = Report.builder()
-                .id(2)
-                .information("report 2 untuk test1")
-                .user(test1)
-                .dateReport(new Timestamp(System.currentTimeMillis()))
-                .build();
-
-        ArrayList<Report> listReport = new ArrayList<Report>();
-        listReport.add(report1);
-        listReport.add(report2);
-
-        test1.setReportList(listReport);
-
         String approveReportResponse = "Blocked User with username test1";
 
         when(reportService.approveReport(any(String.class))).thenReturn(approveReportResponse);
@@ -198,6 +156,23 @@ public class ControllerTest {
                 .andExpect(handler().methodName("approveReport"))
                 .andExpect(content().contentType("text/plain;charset=ISO-8859-1"))
                 .andExpect(content().string("Blocked User with username test1"))
+                .andReturn();
+    }
+
+    @Test
+    void testRejectReport() throws Exception {
+        RejectReportResponse rejectReportResponse = RejectReportResponse.builder()
+                                                .haveReport(test1.getReportList().size() - 1 > 0)
+                                                .build();
+
+        when(reportService.rejectReport("test1", 1)).thenReturn(rejectReportResponse);
+
+        mvc.perform(delete("/v1/report/reject/test1/1")
+                    .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(handler().methodName("rejectReport"))
+                .andExpect(jsonPath("haveReport").value(rejectReportResponse.getHaveReport()))
+                .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
                 .andReturn();
     }
 }

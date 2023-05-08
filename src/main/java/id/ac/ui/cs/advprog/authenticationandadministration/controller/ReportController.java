@@ -44,6 +44,6 @@ public class ReportController {
 
     @DeleteMapping("/reject/{username}/{report_id}")
     public ResponseEntity<RejectReportResponse> rejectReport(@PathVariable String username, @PathVariable Integer report_id){
-        return new ResponseEntity<>(reportService.rejectResponse(username, report_id), HttpStatus.OK);
+        return new ResponseEntity<>(reportService.rejectReport(username, report_id), HttpStatus.OK);
     }
 }
