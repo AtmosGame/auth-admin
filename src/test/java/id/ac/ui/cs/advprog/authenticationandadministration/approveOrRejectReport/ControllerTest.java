@@ -79,14 +79,14 @@ class ControllerTest {
 
         report1 = Report.builder()
                 .id(1)
-                .information("report 1 untuk test1")
+                .information("report 1 for test1")
                 .user(test1)
                 .dateReport(new Timestamp(System.currentTimeMillis()))
                 .build();
 
         report2 = Report.builder()
                 .id(2)
-                .information("report 2 untuk test1")
+                .information("report 2 for test1")
                 .user(test1)
                 .dateReport(new Timestamp(System.currentTimeMillis()))
                 .build();
