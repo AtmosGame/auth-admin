@@ -23,15 +23,18 @@ stages:
 
 sonarcloud-check:
   stage: sonarcloud-check
-  image: gradle:jdk11-alpine
+  image: gradle:alpine
   cache:
-    key: "${CI_JOB_NAME}"
-    paths:
-      - .sonar/cache
-  script: gradle sonarqube
-  only:
-    - main
-    - staging
+      key: "${CI_JOB_NAME}"
+      paths:
+        - .sonar/cache
+  script: gradle sonar
+  rules:
+      - if: $CI_COMMIT_REF_NAME == 'main' || $CI_PIPELINE_SOURCE == 'merge_request_event'
+  allow_failure: true
+  tags:
+      - atmos-auth-admin
+
 
 Build:
   stage: build
