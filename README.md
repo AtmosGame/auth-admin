@@ -7,7 +7,7 @@ Repository for implement backend "Authentication And Administration" Atmos
 - Web Backend: http://35.240.241.173/ (Example valid endpoint: http://35.240.241.173/v1/dummy/hello-world)
 - Web Frontend: https://atmos1.vercel.app/
 - Tech docs: https://drive.google.com/drive/folders/1eiHmSXY3J9mQ6oQsvSCjNQ9KAYrsmdT7?usp=sharing
-- Sonarqube: [ on progress ... ]
+- Sonarqube: https://sonarcloud.io/summary/new_code?id=sonarclour-adpro_atmos-auth-admin&branch=staging
 
 ## Authors and acknowledgment
 - Eugenius Mario Situmorang - 2106750484
