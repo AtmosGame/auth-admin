@@ -47,7 +47,7 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public RejectReportResponse rejectResponse(String username, Integer report_id) {
+    public RejectReportResponse rejectReport(String username, Integer report_id) {
         User user = getUserReport(username);
 
         if (getReportById(report_id).getUser() != user)

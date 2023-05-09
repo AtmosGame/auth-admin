@@ -10,5 +10,5 @@ public interface ReportService {
     ReportedAccountResponse getAllReportedAccount();
     DetailReportedResponse getReportedAccount(String username);
     String approveReport(String username);
-    RejectReportResponse rejectResponse(String username, Integer report_id);
+    RejectReportResponse rejectReport(String username, Integer report_id);
 }
