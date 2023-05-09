@@ -32,8 +32,6 @@ sonarcloud-check:
   rules:
       - if: $CI_COMMIT_REF_NAME == 'main' || $CI_PIPELINE_SOURCE == 'merge_request_event'
   allow_failure: true
-  tags:
-      - atmos-auth-admin
 
 
 Build:
@@ -51,8 +49,6 @@ Build:
     paths:
       - build/libs/*.jar
     expire_in: 1 week
-    tags:
-      - atmos-auth-admin
 
 Test:
   stage: test
@@ -75,8 +71,6 @@ Test:
     reports:
       junit: build/test-results/test/**/TEST-*.xml
   coverage: '/Total.*?([0-9]{1,3})%/'
-  tags:
-    - atmos-auth-admin
 
 Publish:
   stage: publish
@@ -107,8 +101,6 @@ Deploy:
       docker container rm -f $CONTAINER_NAME || true &&
       docker image rm -f $REGISTRY_USER/$IMAGE_NAME:$IMAGE_TAG || true &&
       docker run --name $CONTAINER_NAME -d -p 80:8080 $REGISTRY_USER/$IMAGE_NAME:$IMAGE_TAG"
-  tags:
-    - atmos-auth-admin
   only:
     - main
 
