@@ -40,9 +40,8 @@ dependencies {
 
 sonarqube {
     properties {
-        property("sonar.projectKey", "atmos-auth-and-admin")
-        property("sonar.organization", "atmos-auth-and-admin")
-        property("sonar.host.url", "https://sonarcloud.io")
+        property("sonar.projectKey", "sonarclour-adpro_atmos-auth-admin")
+        property("sonar.organization", "sonarclour-adpro")
     }
 }
 
