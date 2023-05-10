@@ -70,17 +70,49 @@ public class RegisterControllerTest {
 
     @Test
     @WithMockUser(roles = "ADMIN")
+    void postRegisterDeveloper() throws Exception {
+        // Prepare mock user data
+        RegisterRequest request = RegisterRequest.builder()
+                .username("test_developer")
+                .password("password")
+                .role(UserRole.DEVELOPER)
+                .build();
+
+        RegisterResponse response = RegisterResponse.builder()
+                .token("jwt-token")
+                .username("test_developer")
+                .role("DEVELOPER")
+                .build();
+
+        // Mock the service method
+        when(service.register(any(RegisterRequest.class))).thenReturn(response);
+
+        // Convert request object to JSON
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestJson = objectMapper.writeValueAsString(request);
+
+        // Perform the POST request
+        mvc.perform(MockMvcRequestBuilders.post("/v1/auth/register")
+                        .content(requestJson)
+                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.username").value("test_developer"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.role").value("DEVELOPER"));
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
     void postRegisterUser() throws Exception {
         // Prepare mock user data
         RegisterRequest request = RegisterRequest.builder()
-                .username("test")
+                .username("test_user")
                 .password("password")
                 .role(UserRole.USER)
                 .build();
 
         RegisterResponse response = RegisterResponse.builder()
                 .token("jwt-token")
-                .username("test")
+                .username("test_user")
                 .role("USER")
                 .build();
 
@@ -96,7 +128,7 @@ public class RegisterControllerTest {
                         .content(requestJson)
                         .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.username").value("test"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.username").value("test_user"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.role").value("USER"));
     }
 }
