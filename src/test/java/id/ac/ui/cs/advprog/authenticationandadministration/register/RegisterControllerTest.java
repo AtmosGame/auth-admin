@@ -70,7 +70,7 @@ public class RegisterControllerTest {
 
     @Test
     @WithMockUser(roles = "ADMIN")
-    void postRegisterAdmin() throws Exception {
+    void postRegisterRoleAdmin() throws Exception {
         // Prepare mock user data
         RegisterRequest request = RegisterRequest.builder()
                 .username("test_admin")
@@ -102,7 +102,7 @@ public class RegisterControllerTest {
 
     @Test
     @WithMockUser(roles = "ADMIN")
-    void postRegisterDeveloper() throws Exception {
+    void postRegisterRoleDeveloper() throws Exception {
         // Prepare mock user data
         RegisterRequest request = RegisterRequest.builder()
                 .username("test_developer")
@@ -134,7 +134,7 @@ public class RegisterControllerTest {
 
     @Test
     @WithMockUser(roles = "ADMIN")
-    void postRegisterUser() throws Exception {
+    void postRegisterRoleUser() throws Exception {
         // Prepare mock user data
         RegisterRequest request = RegisterRequest.builder()
                 .username("test_user")
