@@ -163,4 +163,43 @@ public class RegisterControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.username").value("test_user"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.role").value("USER"));
     }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    void postRegisterUserAlreadyExists() throws Exception {
+        // Prepare mock user data
+        RegisterRequest request = RegisterRequest.builder()
+                .username("atmos")
+                .password("password")
+                .role(UserRole.ADMIN)
+                .build();
+
+        RegisterResponse response = RegisterResponse.builder()
+                .token("jwt-token")
+                .username("atmos")
+                .role("ADMIN")
+                .build();
+
+        // Mock the service method
+        when(service.register(any(RegisterRequest.class))).thenReturn(response);
+
+        // Convert request object to JSON
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestJson = objectMapper.writeValueAsString(request);
+
+        // Perform the POST request
+        mvc.perform(MockMvcRequestBuilders.post("/v1/auth/register")
+                        .content(requestJson)
+                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.username").value("atmos"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.role").value("ADMIN"));
+        // Perform the POST request
+        mvc.perform(MockMvcRequestBuilders.post("/v1/auth/register")
+                        .content(requestJson)
+                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.username").value("atmos"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.role").value("ADMIN"));
+    }
 }
