@@ -1,9 +1,6 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.service.auth;
 
-import id.ac.ui.cs.advprog.authenticationandadministration.dto.auth.AuthenticationRequest;
-import id.ac.ui.cs.advprog.authenticationandadministration.dto.auth.AuthenticationResponse;
-import id.ac.ui.cs.advprog.authenticationandadministration.dto.auth.RegisterRequest;
-import id.ac.ui.cs.advprog.authenticationandadministration.dto.auth.RegisterResponse;
+import id.ac.ui.cs.advprog.authenticationandadministration.dto.auth.*;
 import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UsernameAlreadyExistsException;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.User;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.TokenRepository;
@@ -61,5 +58,16 @@ public class AuthServiceImpl implements AuthService {
         tokenRepository.addToken(jwtToken, user.getId());
 
         return AuthenticationResponse.builder().token(jwtToken).build();
+    }
+
+    public LogoutResponse logout(LogoutRequest request) {
+        var user = userRepository.getUser(request.getUsername());
+        revokeAllUserTokens(user);
+
+        return LogoutResponse.builder().message("Logout successful").build();
+    }
+
+    private void revokeAllUserTokens(User user) {
+        tokenRepository.deleteAllByUserId(user.getId());
     }
 }
