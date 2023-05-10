@@ -70,6 +70,38 @@ public class RegisterControllerTest {
 
     @Test
     @WithMockUser(roles = "ADMIN")
+    void postRegisterAdmin() throws Exception {
+        // Prepare mock user data
+        RegisterRequest request = RegisterRequest.builder()
+                .username("test_admin")
+                .password("password")
+                .role(UserRole.ADMIN)
+                .build();
+
+        RegisterResponse response = RegisterResponse.builder()
+                .token("jwt-token")
+                .username("test_admin")
+                .role("ADMIN")
+                .build();
+
+        // Mock the service method
+        when(service.register(any(RegisterRequest.class))).thenReturn(response);
+
+        // Convert request object to JSON
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestJson = objectMapper.writeValueAsString(request);
+
+        // Perform the POST request
+        mvc.perform(MockMvcRequestBuilders.post("/v1/auth/register")
+                        .content(requestJson)
+                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.username").value("test_admin"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.role").value("ADMIN"));
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
     void postRegisterDeveloper() throws Exception {
         // Prepare mock user data
         RegisterRequest request = RegisterRequest.builder()
