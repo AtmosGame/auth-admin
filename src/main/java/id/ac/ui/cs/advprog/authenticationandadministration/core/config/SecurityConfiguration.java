@@ -1,4 +1,4 @@
-package id.ac.ui.cs.advprog.authenticationandadministration.config;
+package id.ac.ui.cs.advprog.authenticationandadministration.core.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

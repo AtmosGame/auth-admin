@@ -1,4 +1,4 @@
-package id.ac.ui.cs.advprog.authenticationandadministration.config;
+package id.ac.ui.cs.advprog.authenticationandadministration.core.config;
 
 import id.ac.ui.cs.advprog.authenticationandadministration.service.auth.JwtService;
 import jakarta.servlet.FilterChain;
