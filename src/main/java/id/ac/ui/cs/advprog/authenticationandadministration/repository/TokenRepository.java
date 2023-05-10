@@ -9,6 +9,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Repository
 public interface TokenRepository extends JpaRepository<Token, Integer> {
     @Transactional
@@ -19,4 +21,6 @@ public interface TokenRepository extends JpaRepository<Token, Integer> {
     @Modifying
     @Query(value = "DELETE FROM _token WHERE user_id = :userId", nativeQuery = true)
     void deleteAllByUserId(@NonNull Integer userId);
+    @Transactional
+    List<Token> getAllByUserId(@NonNull Integer userId);
 }

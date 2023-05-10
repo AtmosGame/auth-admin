@@ -62,8 +62,13 @@ public class AuthServiceImpl implements AuthService {
 
     public LogoutResponse logout(LogoutRequest request) {
         var user = userRepository.getUser(request.getUsername());
-        revokeAllUserTokens(user);
+        var userTokens = tokenRepository.getAllByUserId(user.getId());
 
+        if (userTokens.isEmpty()) {
+            return LogoutResponse.builder().message("This user is not currently logged in").build();
+        }
+
+        revokeAllUserTokens(user);
         return LogoutResponse.builder().message("Logout successful").build();
     }
 
