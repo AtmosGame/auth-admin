@@ -73,4 +73,42 @@ public class LogoutControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(jsonPath("$.message").value("Logout successful"));
     }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    void postLogoutUserIsNotCurrentlyLoggedIn() throws Exception {
+        // Given
+        when(service.logout(any())).thenReturn(new LogoutResponse("This user is not currently logged in"));
+        // Login first
+        mvc.perform(MockMvcRequestBuilders.post("/v1/auth/login")
+                        .content("{\"username\":\"atmos\",\"password\":\"pass1234\"}")
+                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+
+        // When
+        mvc.perform(MockMvcRequestBuilders.post("/v1/auth/logout")
+                        .content("{\"username\":\"eugeniusms\"}")
+                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(jsonPath("$.message").value("This user is not currently logged in"));
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    void postLogoutUserIsNotFound() throws Exception {
+        // Given
+        when(service.logout(any())).thenReturn(new LogoutResponse("This user is not currently logged in"));
+        // Login first
+        mvc.perform(MockMvcRequestBuilders.post("/v1/auth/login")
+                        .content("{\"username\":\"atmos\",\"password\":\"pass1234\"}")
+                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+
+        // When
+        mvc.perform(MockMvcRequestBuilders.post("/v1/auth/logout")
+                        .content("{\"username\":\"qwertyuiop\"}")
+                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(jsonPath("$.message").value("This user is not currently logged in"));
+    }
 }
