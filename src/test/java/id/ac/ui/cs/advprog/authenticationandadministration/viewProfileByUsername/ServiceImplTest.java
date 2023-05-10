@@ -2,95 +2,126 @@ package id.ac.ui.cs.advprog.authenticationandadministration.viewProfileByUsernam
 
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.profile.ViewProfileResponse;
 import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserDoesNotExistException;
+import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserHasBeenBlockedException;
 import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserIsAdministratorException;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.User;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.UserRole;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.UserRepository;
-import id.ac.ui.cs.advprog.authenticationandadministration.service.auth.AuthService;
+import id.ac.ui.cs.advprog.authenticationandadministration.service.profile.ProfileService;
 import id.ac.ui.cs.advprog.authenticationandadministration.service.profile.ProfileServiceImpl;
 import id.ac.ui.cs.advprog.authenticationandadministration.service.user.UserService;
+import id.ac.ui.cs.advprog.authenticationandadministration.service.user.UserServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
 class ServiceImplTest {
-    @Mock
-    private ProfileServiceImpl profileService;
-
-    @Mock
-    private UserRepository repository;
-
-    @Mock
-    private UserService userService;
-
-    User userValid;
-    User userIsAdministrator;
-    User userInactive;
+    private ProfileService profileService;
+    private UserRepository userRepository;
 
     @BeforeEach
     void setUp(){
-        userValid = User.builder()
-                .id(1)
-                .username("userValid")
-                .password("passwordTestUserValid")
-                .role(UserRole.USER)
-                .profilePicture("link to profile picture")
-                .bio("Bio test user valid")
-                .applications(null)
-                .active(true)
-                .build();
-
-        userIsAdministrator = User.builder()
-                            .id(2)
-                            .username("test2")
-                            .password("passwordTestUser2")
-                            .role(UserRole.ADMIN)
-                            .profilePicture("link to profile picture")
-                            .bio("user is administrator")
-                            .applications(null)
-                            .active(true)
-                            .build();
-
-        userInactive = User.builder()
-                    .id(3)
-                    .username("test3")
-                    .password("passwordTestUser3")
-                    .role(UserRole.DEVELOPER)
-                    .profilePicture("link to profile picture")
-                    .bio("user test3")
-                    .applications("aplication 1, aplication 2, aplication 3")
-                    .active(false)
-                    .build();
+        userRepository = mock(UserRepository.class);
+        UserService userService = new UserServiceImpl(userRepository);
+        profileService = new ProfileServiceImpl(userRepository, userService);
     }
 
     @Test
     void whenGetProfileByUsernameShouldReturnProfile(){
-        ViewProfileResponse viewProfileResponse = ViewProfileResponse.builder()
-                                                .username("userValid")
-                                                .role(UserRole.USER.name())
-                                                .profilePicture("link to profile picture")
-                                                .bio("Bio test user valid")
-                                                .applications(null)
-                                                .build();
+        User user = User.builder()
+                    .id(1)
+                    .username("testuser")
+                    .password("passwordTestUser")
+                    .role(UserRole.USER)
+                    .profilePicture("test.jpg")
+                    .bio("test bio")
+                    .applications(null)
+                    .active(true)
+                    .build();
 
-        when(profileService.getProfileByUsername(userValid.getUsername())).thenReturn(viewProfileResponse);
+        when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
 
-        ViewProfileResponse response = profileService.getProfileByUsername(userValid.getUsername());
+        ViewProfileResponse responseUser = profileService.getProfileByUsername(user.getUsername());
 
-        Assertions.assertEquals(viewProfileResponse, response);
+        Assertions.assertEquals(user.getUsername(), responseUser.getUsername());
+        Assertions.assertEquals(user.getRole().name(), responseUser.getRole());
+        Assertions.assertEquals(user.getProfilePicture(), responseUser.getProfilePicture());
+        Assertions.assertEquals(user.getBio(), responseUser.getBio());
+        Assertions.assertEquals(user.getApplications(), responseUser.getApplications());
 
-        verify(profileService, atLeastOnce()).getProfileByUsername(userValid.getUsername());
+        User developer = User.builder()
+                .id(2)
+                .username("testdeveloper")
+                .password("passwordTestDeveloper")
+                .role(UserRole.DEVELOPER)
+                .profilePicture("test.jpg")
+                .bio("test bio")
+                .applications("A, B, C, D")
+                .active(true)
+                .build();
+
+        when(userRepository.findByUsername(developer.getUsername())).thenReturn(Optional.of(developer));
+
+        ViewProfileResponse responseDeveloper = profileService.getProfileByUsername(developer.getUsername());
+
+        Assertions.assertEquals(developer.getUsername(), responseDeveloper.getUsername());
+        Assertions.assertEquals(developer.getRole().name(), responseDeveloper.getRole());
+        Assertions.assertEquals(developer.getProfilePicture(), responseDeveloper.getProfilePicture());
+        Assertions.assertEquals(developer.getBio(), responseDeveloper.getBio());
+        Assertions.assertEquals(developer.getApplications(), responseDeveloper.getApplications());
+    }
+
+    @Test
+    void whenGetProfileByUsernameWithUserIsNotFoundShouldThrowException(){
+        Assertions.assertThrows(UserDoesNotExistException.class, () -> {
+            profileService.getProfileByUsername(any(String.class));
+        });
+    }
+
+    @Test
+    void whenGetProfileByUsernameWithUserIsAdministratorShouldThrowException(){
+        User user = User.builder()
+                    .id(1)
+                    .username("testuser")
+                    .password("passwordTestUser")
+                    .role(UserRole.ADMIN)
+                    .profilePicture("test.jpg")
+                    .bio("test bio")
+                    .applications(null)
+                    .active(true)
+                    .build();
+
+        when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
+
+        Assertions.assertThrows(UserIsAdministratorException.class, () -> {
+            profileService.getProfileByUsername(user.getUsername());
+        });
+    }
+
+    @Test
+    void whenGetProfileByUsernameWithUserHaveBeenBlockedShouldThrowException(){
+        User user = User.builder()
+                    .id(1)
+                    .username("testuser")
+                    .password("passwordTestUser")
+                    .role(UserRole.USER)
+                    .profilePicture("test.jpg")
+                    .bio("test bio")
+                    .applications(null)
+                    .active(false)
+                    .build();
+
+        when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
+
+        Assertions.assertThrows(UserHasBeenBlockedException.class, () -> {
+            profileService.getProfileByUsername(user.getUsername());
+        });
     }
 }
