@@ -1,12 +1,14 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.models.auth;
 
+import jakarta.annotation.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
+import org.hibernate.annotations.DynamicUpdate;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 @Data
 @Builder
@@ -14,23 +16,15 @@ import java.util.Date;
 @AllArgsConstructor
 @Entity
 @Table(name = "_token")
+@DynamicUpdate
 public class Token {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
     private String token;
-
-    private Date expired;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
-
-    @PrePersist
-    private void setExpirationDate() {
-        Date now = new Date();
-        long thirtyMinutesInMillis = 30 * 60 * 1000; // 30 minutes in milliseconds
-        this.expired = new Date(now.getTime() + thirtyMinutesInMillis);
-    }
+    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP")
+    private Timestamp log;
 }
