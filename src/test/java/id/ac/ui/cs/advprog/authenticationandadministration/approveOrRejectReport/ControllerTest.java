@@ -128,34 +128,30 @@ class ControllerTest {
                                                         .listReports(test1.getReportList())
                                                         .build();
 
-        when(reportService.getReportedAccount(any(String.class))).thenReturn(detailReportedResponse);
+        when(reportService.getReportedAccount(detailReportedResponse.getUsername())).thenReturn(detailReportedResponse);
 
-//        System.out.println(new JSONArray(listReport));
-//        System.out.println(listReport);
-
-        mvc.perform(get("/v1/report/detail-account/test1")
+        mvc.perform(get(String.format("/v1/report/detail-account/%s", detailReportedResponse.getUsername()))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(handler().methodName("getReportedAccount"))
                 .andExpect(jsonPath("username").value(detailReportedResponse.getUsername()))
                 .andExpect(jsonPath("totalReports").value(detailReportedResponse.getTotalReports()))
-//                .andExpect(jsonPath("listReports").value(new ArrayList<>()))
                 .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
                 .andReturn();
     }
 
     @Test
     void testApproveReport() throws Exception {
-        String approveReportResponse = "Blocked User with username test1";
+        String approveReportResponse = String.format("Blocked User with username %s", test1.getUsername());
 
         when(reportService.approveReport(any(String.class))).thenReturn(approveReportResponse);
 
-        mvc.perform(delete("/v1/report/approve/test1")
+        mvc.perform(delete(String.format("/v1/report/approve/%s", test1.getUsername()))
                         .contentType(MediaType.TEXT_PLAIN))
                 .andExpect(status().isOk())
                 .andExpect(handler().methodName("approveReport"))
                 .andExpect(content().contentType("text/plain;charset=ISO-8859-1"))
-                .andExpect(content().string("Blocked User with username test1"))
+                .andExpect(content().string(String.format("Blocked User with username %s", test1.getUsername())))
                 .andReturn();
     }
 
@@ -165,9 +161,9 @@ class ControllerTest {
                                                 .haveReport(test1.getReportList().size() - 1 > 0)
                                                 .build();
 
-        when(reportService.rejectReport("test1", 1)).thenReturn(rejectReportResponse);
+        when(reportService.rejectReport(test1.getUsername(), 1)).thenReturn(rejectReportResponse);
 
-        mvc.perform(delete("/v1/report/reject/test1/1")
+        mvc.perform(delete(String.format("/v1/report/reject/%s/1", test1.getUsername()))
                     .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(handler().methodName("rejectReport"))

@@ -64,9 +64,9 @@ public class ControllerTest {
                                                 .applications(null)
                                                 .build();
 
-        when(profileService.getProfileByUsername(any(String.class))).thenReturn(viewProfileResponse);
+        when(profileService.getProfileByUsername(viewProfileResponse.getUsername())).thenReturn(viewProfileResponse);
 
-        mvc.perform(get("/v1/profile/view-profile/test")
+        mvc.perform(get(String.format("/v1/profile/view-profile/%s", viewProfileResponse.getUsername()))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(handler().methodName("viewProfileByUsername"))
