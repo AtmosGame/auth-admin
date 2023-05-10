@@ -8,6 +8,7 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class RegisterResponse {
+    private String token;
     private String username;
     private String role;
 }

@@ -3,6 +3,7 @@ package id.ac.ui.cs.advprog.authenticationandadministration.service.auth;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.auth.AuthenticationRequest;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.auth.AuthenticationResponse;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.auth.RegisterRequest;
+import id.ac.ui.cs.advprog.authenticationandadministration.dto.auth.RegisterResponse;
 import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UsernameAlreadyExistsException;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.User;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.UserRepository;
@@ -22,7 +23,7 @@ public class AuthServiceImpl implements AuthService {
 
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationResponse register(RegisterRequest request) {
+    public RegisterResponse register(RegisterRequest request) {
         var checkUser = userRepository.findByUsername(request.getUsername()).orElse(null);
 
         if(checkUser != null) {
@@ -38,7 +39,11 @@ public class AuthServiceImpl implements AuthService {
 
         userRepository.save(user);
         var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder().token(jwtToken).build();
+        return RegisterResponse.builder()
+                .token(jwtToken)
+                .username(user.getUsername())
+                .role(user.getRole().toString())
+                .build();
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
