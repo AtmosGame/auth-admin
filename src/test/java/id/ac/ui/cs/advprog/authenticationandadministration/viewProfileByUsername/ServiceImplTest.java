@@ -6,6 +6,7 @@ import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserH
 import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserIsAdministratorException;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.User;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.UserRole;
+import id.ac.ui.cs.advprog.authenticationandadministration.repository.TokenRepository;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.UserRepository;
 import id.ac.ui.cs.advprog.authenticationandadministration.service.profile.ProfileService;
 import id.ac.ui.cs.advprog.authenticationandadministration.service.profile.ProfileServiceImpl;
@@ -25,11 +26,12 @@ import static org.mockito.Mockito.*;
 class ServiceImplTest {
     private ProfileService profileService;
     private UserRepository userRepository;
+    private TokenRepository tokenRepository;
 
     @BeforeEach
     void setUp(){
         userRepository = mock(UserRepository.class);
-        UserService userService = new UserServiceImpl(userRepository);
+        UserService userService = new UserServiceImpl(userRepository, tokenRepository);
         profileService = new ProfileServiceImpl(userRepository, userService);
     }
 

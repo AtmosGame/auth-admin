@@ -7,15 +7,14 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static id.ac.ui.cs.advprog.authenticationandadministration.models.auth.UserPermission.USER_READ;
+import static id.ac.ui.cs.advprog.authenticationandadministration.models.auth.UserPermission.*;
 
 public enum UserRole {
-    ADMIN(Sets.newHashSet(USER_READ)),
-    DEVELOPER(Sets.newHashSet(USER_READ)),
-    USER(Sets.newHashSet(USER_READ));
+    ADMIN(Sets.newHashSet(AUTH,USER_READ)),
+    DEVELOPER(Sets.newHashSet(AUTH,USER_READ)),
+    USER(Sets.newHashSet(AUTH,USER_READ));
 
     private final Set<UserPermission> permissions;
-
 
     UserRole(Set<UserPermission> permissions) {
         this.permissions = permissions;

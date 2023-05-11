@@ -13,6 +13,7 @@ import id.ac.ui.cs.advprog.authenticationandadministration.models.Report;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.User;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.UserRole;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.ReportRepository;
+import id.ac.ui.cs.advprog.authenticationandadministration.repository.TokenRepository;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.UserRepository;
 import id.ac.ui.cs.advprog.authenticationandadministration.service.report.ReportServiceImpl;
 import id.ac.ui.cs.advprog.authenticationandadministration.service.user.UserService;
@@ -34,12 +35,13 @@ class ServiceImplTest {
     private ReportServiceImpl reportService;
     private UserRepository userRepository;
     private ReportRepository reportRepository;
+    private TokenRepository tokenRepository;
 
     @BeforeEach
     void setUp(){
         userRepository = mock(UserRepository.class);
         reportRepository = mock(ReportRepository.class);
-        UserService userService = new UserServiceImpl(userRepository);
+        UserService userService = new UserServiceImpl(userRepository, tokenRepository);
         reportService = new ReportServiceImpl(userRepository, reportRepository, userService);
     }
 

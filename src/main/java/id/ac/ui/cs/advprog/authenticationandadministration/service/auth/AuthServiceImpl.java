@@ -1,10 +1,9 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.service.auth;
 
-import id.ac.ui.cs.advprog.authenticationandadministration.dto.auth.AuthenticationRequest;
-import id.ac.ui.cs.advprog.authenticationandadministration.dto.auth.AuthenticationResponse;
-import id.ac.ui.cs.advprog.authenticationandadministration.dto.auth.RegisterRequest;
+import id.ac.ui.cs.advprog.authenticationandadministration.dto.auth.*;
 import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UsernameAlreadyExistsException;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.User;
+import id.ac.ui.cs.advprog.authenticationandadministration.repository.TokenRepository;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,13 +15,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
+    private final TokenRepository tokenRepository;
     private final PasswordEncoder passwordEncoder;
-
     private final JwtService jwtService;
-
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationResponse register(RegisterRequest request) {
+    public RegisterResponse register(RegisterRequest request) {
         var checkUser = userRepository.findByUsername(request.getUsername()).orElse(null);
 
         if(checkUser != null) {
@@ -38,7 +36,13 @@ public class AuthServiceImpl implements AuthService {
 
         userRepository.save(user);
         var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder().token(jwtToken).build();
+        tokenRepository.addToken(jwtToken, user.getId());
+
+        return RegisterResponse.builder()
+                .token(jwtToken)
+                .username(user.getUsername())
+                .role(user.getRole().toString())
+                .build();
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
@@ -48,8 +52,27 @@ public class AuthServiceImpl implements AuthService {
                         request.getPassword()
                 )
         );
+
         var user = userRepository.findByUsername(request.getUsername()).orElseThrow();
         var jwtToken = jwtService.generateToken(user);
+        tokenRepository.addToken(jwtToken, user.getId());
+
         return AuthenticationResponse.builder().token(jwtToken).build();
+    }
+
+    public LogoutResponse logout(LogoutRequest request) {
+        var user = userRepository.getUser(request.getUsername());
+        var userTokens = tokenRepository.getAllByUserId(user.getId());
+
+        if (userTokens.isEmpty()) {
+            return LogoutResponse.builder().message("This user is not currently logged in").build();
+        }
+
+        revokeAllUserTokens(user);
+        return LogoutResponse.builder().message("Logout successful").build();
+    }
+
+    private void revokeAllUserTokens(User user) {
+        tokenRepository.deleteAllByUserId(user.getId());
     }
 }

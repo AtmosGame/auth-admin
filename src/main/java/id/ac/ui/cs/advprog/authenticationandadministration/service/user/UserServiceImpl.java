@@ -1,14 +1,17 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.service.user;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import id.ac.ui.cs.advprog.authenticationandadministration.dto.auth.LogoutResponse;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.user.CurrentUserResponse;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.user.SearchUserRequest;
+import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.InvalidTokenException;
 import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserDoesNotExistException;
 import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserHasBeenBlockedException;
 import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserIsAdministratorException;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.Report;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.User;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.UserRole;
+import id.ac.ui.cs.advprog.authenticationandadministration.repository.TokenRepository;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.UserRepository;
 import id.ac.ui.cs.advprog.authenticationandadministration.service.auth.AuthService;
 import jakarta.annotation.Nullable;
@@ -24,10 +27,17 @@ import java.util.concurrent.CompletableFuture;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
+    private final TokenRepository tokenRepository;
 
     @Override
     public CurrentUserResponse getCurrentUser(String username) {
         User user = userRepository.getUser(username);
+
+        var userTokens = tokenRepository.getAllByUserId(user.getId());
+        if (userTokens.isEmpty()) {
+            throw new InvalidTokenException();
+        }
+
         return CurrentUserResponse.builder()
                 .id(user.getId())
                 .username(user.getUsername())
@@ -38,7 +48,6 @@ public class UserServiceImpl implements UserService{
                 .active(user.getActive())
                 .reportList(user.getReportList())
                 .build();
-
     }
 
     @Override

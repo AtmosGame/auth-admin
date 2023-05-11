@@ -1,11 +1,10 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.controller;
 
-import id.ac.ui.cs.advprog.authenticationandadministration.dto.auth.AuthenticationRequest;
-import id.ac.ui.cs.advprog.authenticationandadministration.dto.auth.AuthenticationResponse;
-import id.ac.ui.cs.advprog.authenticationandadministration.dto.auth.RegisterRequest;
+import id.ac.ui.cs.advprog.authenticationandadministration.dto.auth.*;
 import id.ac.ui.cs.advprog.authenticationandadministration.service.auth.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,7 +14,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register (
+    public ResponseEntity<RegisterResponse> register (
             @RequestBody RegisterRequest request
     ) {
         return ResponseEntity.ok(authService.register(request));
@@ -26,5 +25,13 @@ public class AuthController {
             @RequestBody AuthenticationRequest request
     ) {
         return ResponseEntity.ok(authService.authenticate(request));
+    }
+
+    @PostMapping("/logout")
+    @PreAuthorize("hasAuthority('auth')")
+    public ResponseEntity<LogoutResponse> logout (
+            @RequestBody LogoutRequest request
+    ) {
+        return ResponseEntity.ok(authService.logout(request));
     }
 }
