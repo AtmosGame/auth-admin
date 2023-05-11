@@ -36,6 +36,7 @@ dependencies {
     testImplementation("org.springframework.security:spring-security-test")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("com.google.guava:guava:31.1-jre")
+    implementation("com.cloudinary:cloudinary-http44:1.5.0")
 }
 
 sonarqube {
