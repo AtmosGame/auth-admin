@@ -1,9 +1,7 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.exceptions;
 
 import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.*;
-import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.report.ReportDoesNotExistException;
-import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.report.UserAndReportNotMatchedException;
-import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.report.UserDoesNotHaveReportException;
+import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.report.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -97,6 +95,28 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Object> invalidToken(Exception exception) {
         ErrorTemplate baseException = new ErrorTemplate(
                 "Invalid token",
+                HttpStatus.BAD_REQUEST,
+                ZonedDateTime.now(ZoneId.of(zoneId))
+        );
+
+        return new ResponseEntity<>(baseException, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = {DuplicateReportException.class})
+    public ResponseEntity<Object> duplicateReport(Exception exception) {
+        ErrorTemplate baseException = new ErrorTemplate(
+                "Cannot report the same user before the admin approves the previous report",
+                HttpStatus.BAD_REQUEST,
+                ZonedDateTime.now(ZoneId.of(zoneId))
+        );
+
+        return new ResponseEntity<>(baseException, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = {InformationNullException.class})
+    public ResponseEntity<Object> informationNull(Exception exception) {
+        ErrorTemplate baseException = new ErrorTemplate(
+                "Information cannot be empty",
                 HttpStatus.BAD_REQUEST,
                 ZonedDateTime.now(ZoneId.of(zoneId))
         );
