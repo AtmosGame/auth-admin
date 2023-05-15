@@ -39,7 +39,7 @@ public class LogoutServiceImplTest {
     }
 
     @Test
-    public void testLogout_UserNotLoggedIn_ReturnsLogoutResponseWithMessage() {
+    public void testLogoutUserNotLoggedIn() {
         // Arrange
         LogoutRequest request = new LogoutRequest("john");
         User user = User.builder().id(1).username("john").build();
@@ -59,7 +59,7 @@ public class LogoutServiceImplTest {
     }
 
     @Test
-    public void testLogout_UserLoggedIn_RevokesAllUserTokens() {
+    public void testLogoutUserLoggedIn() {
         // Arrange
         LogoutRequest request = new LogoutRequest("john");
         User user = User.builder().id(1).username("john").build();
