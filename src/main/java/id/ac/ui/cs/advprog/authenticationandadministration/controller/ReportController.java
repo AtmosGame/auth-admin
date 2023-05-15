@@ -7,6 +7,7 @@ import id.ac.ui.cs.advprog.authenticationandadministration.service.report.Report
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,23 +27,27 @@ public class ReportController {
 //    }
 
     @GetMapping("/reported-account")
+    @PreAuthorize("hasAuthority('report:read')")
     public ResponseEntity<ReportedAccountResponse> getAllReportedAccount(){
         return new ResponseEntity<>(reportService.getAllReportedAccount(), HttpStatus.OK);
     }
 
     @GetMapping("/detail-account/{username}")
+    @PreAuthorize("hasAuthority('report:read')")
     public ResponseEntity<DetailReportedResponse> getReportedAccount(@PathVariable String username){
         DetailReportedResponse detailReported = reportService.getReportedAccount(username);
         return new ResponseEntity<>(detailReported, HttpStatus.OK);
     }
 
     @DeleteMapping("/approve/{username}")
+    @PreAuthorize("hasAuthority('report:delete')")
     public ResponseEntity<String> approveReport(@PathVariable String username){
         String response = reportService.approveReport(username);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @DeleteMapping("/reject/{username}/{report_id}")
+    @PreAuthorize("hasAuthority('report:delete')")
     public ResponseEntity<RejectReportResponse> rejectReport(@PathVariable String username, @PathVariable Integer report_id){
         return new ResponseEntity<>(reportService.rejectReport(username, report_id), HttpStatus.OK);
     }

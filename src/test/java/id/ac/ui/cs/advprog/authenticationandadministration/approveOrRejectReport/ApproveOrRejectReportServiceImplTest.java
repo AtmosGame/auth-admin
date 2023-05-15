@@ -31,7 +31,7 @@ import java.util.Optional;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class ServiceImplTest {
+class ApproveOrRejectReportServiceImplTest {
     private ReportServiceImpl reportService;
     private UserRepository userRepository;
     private ReportRepository reportRepository;
@@ -111,15 +111,15 @@ class ServiceImplTest {
     @Test
     void whenGetReportedAccountWithUserIsAdministratorShouldThrowException(){
         User user = User.builder()
-                    .id(1)
-                    .username("testuser")
-                    .password("passwordTestUser")
-                    .role(UserRole.ADMIN)
-                    .profilePicture("test.jpg")
-                    .bio("test bio")
-                    .applications(null)
-                    .active(true)
-                    .build();
+                .id(1)
+                .username("testuser")
+                .password("passwordTestUser")
+                .role(UserRole.ADMIN)
+                .profilePicture("test.jpg")
+                .bio("test bio")
+                .applications(null)
+                .active(true)
+                .build();
 
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
 
@@ -131,15 +131,15 @@ class ServiceImplTest {
     @Test
     void whenGetReportedAccountWithUserHaveBeenBlockedShouldThrowException(){
         User user = User.builder()
-                    .id(1)
-                    .username("testuser")
-                    .password("passwordTestUser")
-                    .role(UserRole.USER)
-                    .profilePicture("test.jpg")
-                    .bio("test bio")
-                    .applications(null)
-                    .active(false)
-                    .build();
+                .id(1)
+                .username("testuser")
+                .password("passwordTestUser")
+                .role(UserRole.USER)
+                .profilePicture("test.jpg")
+                .bio("test bio")
+                .applications(null)
+                .active(false)
+                .build();
 
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
 
@@ -151,16 +151,16 @@ class ServiceImplTest {
     @Test
     void whenGetReportedAccountWithUserDoesntHaveReportShouldThrowException(){
         User user = User.builder()
-                    .id(1)
-                    .username("testuser")
-                    .password("passwordTestUser")
-                    .role(UserRole.DEVELOPER)
-                    .profilePicture("test.jpg")
-                    .bio("test bio")
-                    .applications("A, B, C, D")
-                    .active(true)
-                    .reportList(new ArrayList<>())
-                    .build();
+                .id(1)
+                .username("testuser")
+                .password("passwordTestUser")
+                .role(UserRole.DEVELOPER)
+                .profilePicture("test.jpg")
+                .bio("test bio")
+                .applications("A, B, C, D")
+                .active(true)
+                .reportList(new ArrayList<>())
+                .build();
 
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
 
@@ -213,15 +213,15 @@ class ServiceImplTest {
     @Test
     void whenApproveReportWithUserIsAdministratorShouldThrowException(){
         User user = User.builder()
-                    .id(1)
-                    .username("testuser")
-                    .password("passwordTestUser")
-                    .role(UserRole.ADMIN)
-                    .profilePicture("test.jpg")
-                    .bio("test bio")
-                    .applications(null)
-                    .active(true)
-                    .build();
+                .id(1)
+                .username("testuser")
+                .password("passwordTestUser")
+                .role(UserRole.ADMIN)
+                .profilePicture("test.jpg")
+                .bio("test bio")
+                .applications(null)
+                .active(true)
+                .build();
 
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
 
@@ -233,15 +233,15 @@ class ServiceImplTest {
     @Test
     void whenApproveReportWithUserHaveBeenBlockedShouldThrowException(){
         User user = User.builder()
-                    .id(1)
-                    .username("testuser")
-                    .password("passwordTestUser")
-                    .role(UserRole.USER)
-                    .profilePicture("test.jpg")
-                    .bio("test bio")
-                    .applications(null)
-                    .active(false)
-                    .build();
+                .id(1)
+                .username("testuser")
+                .password("passwordTestUser")
+                .role(UserRole.USER)
+                .profilePicture("test.jpg")
+                .bio("test bio")
+                .applications(null)
+                .active(false)
+                .build();
 
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
 
@@ -253,16 +253,16 @@ class ServiceImplTest {
     @Test
     void whenApproveReportWithUserDoesntHaveReportShouldThrowException(){
         User user = User.builder()
-                    .id(1)
-                    .username("testuser")
-                    .password("passwordTestUser")
-                    .role(UserRole.DEVELOPER)
-                    .profilePicture("test.jpg")
-                    .bio("test bio")
-                    .applications("A, B, C, D")
-                    .active(true)
-                    .reportList(new ArrayList<>())
-                    .build();
+                .id(1)
+                .username("testuser")
+                .password("passwordTestUser")
+                .role(UserRole.DEVELOPER)
+                .profilePicture("test.jpg")
+                .bio("test bio")
+                .applications("A, B, C, D")
+                .active(true)
+                .reportList(new ArrayList<>())
+                .build();
 
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
 
@@ -314,6 +314,40 @@ class ServiceImplTest {
     }
 
     @Test
+    void whenRejectReportShouldReturnDoesntHaveReport() {
+        User user = User.builder()
+                .id(1)
+                .username("test1")
+                .password("passwordTest1")
+                .role(UserRole.USER)
+                .profilePicture("link to profilePicture")
+                .bio("bio profile picture")
+                .applications(null)
+                .active(true)
+                .build();
+
+        Report report1 = Report.builder()
+                .id(1)
+                .information("report 1 for test1")
+                .user(user)
+                .dateReport(new Timestamp(System.currentTimeMillis()))
+                .build();
+
+        ArrayList<Report> listReport = new ArrayList<>();
+        listReport.add(report1);
+
+        user.setReportList(listReport);
+
+        when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
+        when(reportRepository.findById(report1.getId())).thenReturn(Optional.of(report1));
+
+        RejectReportResponse response = reportService.rejectReport(user.getUsername(), report1.getId());
+
+        Assertions.assertEquals(false, response.getHaveReport());
+        verify(reportRepository, times(1)).deleteById(report1.getId());
+    }
+
+    @Test
     void whenRejectReportWithUserIsNotFoundShouldThrowException(){
         Assertions.assertThrows(UserDoesNotExistException.class, () -> {
             reportService.rejectReport(any(String.class), 1);
@@ -323,15 +357,15 @@ class ServiceImplTest {
     @Test
     void whenRejectReportWithUserIsAdministratorShouldThrowException(){
         User user = User.builder()
-                    .id(1)
-                    .username("testuser")
-                    .password("passwordTestUser")
-                    .role(UserRole.ADMIN)
-                    .profilePicture("test.jpg")
-                    .bio("test bio")
-                    .applications(null)
-                    .active(true)
-                    .build();
+                .id(1)
+                .username("testuser")
+                .password("passwordTestUser")
+                .role(UserRole.ADMIN)
+                .profilePicture("test.jpg")
+                .bio("test bio")
+                .applications(null)
+                .active(true)
+                .build();
 
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
 
@@ -343,15 +377,15 @@ class ServiceImplTest {
     @Test
     void whenRejectReportWithUserHaveBeenBlockedShouldThrowException(){
         User user = User.builder()
-                    .id(1)
-                    .username("testuser")
-                    .password("passwordTestUser")
-                    .role(UserRole.USER)
-                    .profilePicture("test.jpg")
-                    .bio("test bio")
-                    .applications(null)
-                    .active(false)
-                    .build();
+                .id(1)
+                .username("testuser")
+                .password("passwordTestUser")
+                .role(UserRole.USER)
+                .profilePicture("test.jpg")
+                .bio("test bio")
+                .applications(null)
+                .active(false)
+                .build();
 
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
 
@@ -363,16 +397,16 @@ class ServiceImplTest {
     @Test
     void whenRejectReportWithUserDoesntHaveReportShouldThrowException(){
         User user = User.builder()
-                    .id(1)
-                    .username("testuser")
-                    .password("passwordTestUser")
-                    .role(UserRole.DEVELOPER)
-                    .profilePicture("test.jpg")
-                    .bio("test bio")
-                    .applications("A, B, C, D")
-                    .active(true)
-                    .reportList(new ArrayList<>())
-                    .build();
+                .id(1)
+                .username("testuser")
+                .password("passwordTestUser")
+                .role(UserRole.DEVELOPER)
+                .profilePicture("test.jpg")
+                .bio("test bio")
+                .applications("A, B, C, D")
+                .active(true)
+                .reportList(new ArrayList<>())
+                .build();
 
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
 

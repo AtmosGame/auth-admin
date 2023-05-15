@@ -17,12 +17,14 @@ import java.time.ZonedDateTime;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
+    private final String zoneId = "Asia/Jakarta";
+
     @ExceptionHandler(value = {UsernameAlreadyExistsException.class})
     public ResponseEntity<Object> userExist(){
         ErrorTemplate baseException = new ErrorTemplate(
                 "User with the same email already exist",
                 HttpStatus.BAD_REQUEST,
-                ZonedDateTime.now(ZoneId.of("Asia/Jakarta"))
+                ZonedDateTime.now(ZoneId.of(zoneId))
         );
 
         return new ResponseEntity<>(baseException, HttpStatus.BAD_REQUEST);
@@ -33,7 +35,7 @@ public class GlobalExceptionHandler {
         ErrorTemplate baseException = new ErrorTemplate(
                 exception.getMessage(),
                 HttpStatus.NOT_FOUND,
-                ZonedDateTime.now(ZoneId.of("Asia/Jakarta"))
+                ZonedDateTime.now(ZoneId.of(zoneId))
         );
 
         return new ResponseEntity<>(baseException, HttpStatus.NOT_FOUND);
@@ -44,7 +46,7 @@ public class GlobalExceptionHandler {
         ErrorTemplate baseException = new ErrorTemplate(
                 exception.getMessage(),
                 HttpStatus.BAD_REQUEST,
-                ZonedDateTime.now(ZoneId.of("Asia/Jakarta"))
+                ZonedDateTime.now(ZoneId.of(zoneId))
         );
 
         return new ResponseEntity<>(baseException, HttpStatus.BAD_REQUEST);
@@ -55,7 +57,7 @@ public class GlobalExceptionHandler {
         ErrorTemplate baseException = new ErrorTemplate(
                 exception.getMessage(),
                 HttpStatus.BAD_REQUEST,
-                ZonedDateTime.now(ZoneId.of("Asia/Jakarta"))
+                ZonedDateTime.now(ZoneId.of(zoneId))
         );
 
         return new ResponseEntity<>(baseException, HttpStatus.BAD_REQUEST);
@@ -66,7 +68,7 @@ public class GlobalExceptionHandler {
         ErrorTemplate baseException = new ErrorTemplate(
                 exception.getMessage(),
                 HttpStatus.BAD_REQUEST,
-                ZonedDateTime.now(ZoneId.of("Asia/Jakarta"))
+                ZonedDateTime.now(ZoneId.of(zoneId))
         );
 
         return new ResponseEntity<>(baseException, HttpStatus.BAD_REQUEST);
@@ -77,7 +79,7 @@ public class GlobalExceptionHandler {
         ErrorTemplate baseException = new ErrorTemplate(
                 exception.getMessage(),
                 HttpStatus.BAD_REQUEST,
-                ZonedDateTime.now(ZoneId.of("Asia/Jakarta"))
+                ZonedDateTime.now(ZoneId.of(zoneId))
         );
 
         return new ResponseEntity<>(baseException, HttpStatus.BAD_REQUEST);

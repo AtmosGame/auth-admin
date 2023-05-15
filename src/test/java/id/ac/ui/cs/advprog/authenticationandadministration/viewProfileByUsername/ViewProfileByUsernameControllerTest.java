@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(controllers = ProfileController.class)
 @AutoConfigureMockMvc
-public class ControllerTest {
+class ViewProfileByUsernameControllerTest {
     private MockMvc mvc;
 
     @Autowired
@@ -52,7 +52,6 @@ public class ControllerTest {
         SecurityContextHolder.setContext(securityContext);
         this.mvc = MockMvcBuilders.webAppContextSetup(this.context).build();
     }
-
 
     @Test
     void testViewProfileByUsername() throws Exception {

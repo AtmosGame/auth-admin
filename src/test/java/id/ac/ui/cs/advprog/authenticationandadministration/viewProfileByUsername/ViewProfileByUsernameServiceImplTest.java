@@ -23,7 +23,7 @@ import java.util.Optional;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class ServiceImplTest {
+class ViewProfileByUsernameServiceImplTest {
     private ProfileService profileService;
     private UserRepository userRepository;
     private TokenRepository tokenRepository;

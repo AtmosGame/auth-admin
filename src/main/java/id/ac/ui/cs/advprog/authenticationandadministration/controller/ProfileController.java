@@ -21,7 +21,6 @@ public class ProfileController {
     }
 
     @PostMapping("/update-profile/{username}")
-//    @PreAuthorize("hasAuthority('user:read')")
     public ResponseEntity<String> updateProfile(@PathVariable String username, @RequestBody EditProfileRequest request) {
         profileService.updateProfile(username, request);
         return new ResponseEntity<>("Profile updated", HttpStatus.OK);
