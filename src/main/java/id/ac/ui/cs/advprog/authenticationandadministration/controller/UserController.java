@@ -50,13 +50,13 @@ public class UserController {
     }
 
     @GetMapping("/get-user-non-admin/{username}")
-//    @PreAuthorize("hasAuthority('user:read')")
+    @PreAuthorize("hasAuthority('user:read')")
     public ResponseEntity<User> getUserNonAdmin(@PathVariable String username) {
         return ResponseEntity.ok(userService.getUserNonAdminByUsername(username));
     }
 
     @GetMapping("/get-user/{username}")
-//    @PreAuthorize("hasAuthority('user:read')")
+    @PreAuthorize("hasAuthority('user:read')")
     public ResponseEntity<User> getUser(@PathVariable String username) {
         return ResponseEntity.ok(userService.getUserByUsername(username));
     }

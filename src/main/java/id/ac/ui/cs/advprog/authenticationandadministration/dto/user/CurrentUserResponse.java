@@ -4,8 +4,10 @@ import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Generated;
 
 @Data
+@Generated
 @Builder
 @AllArgsConstructor
 public class CurrentUserResponse {
