@@ -1,12 +1,7 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.exceptions;
 
-import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserDoesNotExistException;
-import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserHasBeenBlockedException;
-import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserIsAdministratorException;
-import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UsernameAlreadyExistsException;
-import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.report.ReportDoesNotExistException;
-import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.report.UserAndReportNotMatchedException;
-import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.report.UserDoesNotHaveReportException;
+import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.*;
+import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.report.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -94,6 +89,42 @@ class GlobalExceptionHandlerTest {
         RuntimeException exception = new UserAndReportNotMatchedException(username, reportId);
         ResponseEntity<Object> response = globalExceptionHandler.userAndReportNotMatched(exception);
         String expectedErrorMessage = "Report with id " + reportId + " is invalid for user with username " + username;
+
+        templateTestException(response, expectedErrorMessage, HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    void testInvalidPassword(){
+        RuntimeException exception = new InvalidPasswordException(username);
+        ResponseEntity<Object> response = globalExceptionHandler.invalidPassword(exception);
+        String expectedErrorMessage = "Invalid password";
+
+        templateTestException(response, expectedErrorMessage, HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    void testInvalidToken(){
+        RuntimeException exception = new InvalidTokenException();
+        ResponseEntity<Object> response = globalExceptionHandler.invalidToken(exception);
+        String expectedErrorMessage = "Invalid token";
+
+        templateTestException(response, expectedErrorMessage, HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    void testDuplicateReport(){
+        RuntimeException exception = new DuplicateReportException();
+        ResponseEntity<Object> response = globalExceptionHandler.duplicateReport(exception);
+        String expectedErrorMessage = "Cannot report the same user before the admin approves the previous report";
+
+        templateTestException(response, expectedErrorMessage, HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    void testInformationNull(){
+        RuntimeException exception = new InformationNullException();
+        ResponseEntity<Object> response = globalExceptionHandler.informationNull(exception);
+        String expectedErrorMessage = "Information cannot be empty";
 
         templateTestException(response, expectedErrorMessage, HttpStatus.BAD_REQUEST);
     }

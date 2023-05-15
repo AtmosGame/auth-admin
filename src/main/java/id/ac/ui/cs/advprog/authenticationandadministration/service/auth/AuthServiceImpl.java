@@ -72,7 +72,7 @@ public class AuthServiceImpl implements AuthService {
         return LogoutResponse.builder().message("Logout successful").build();
     }
 
-    private void revokeAllUserTokens(User user) {
+    public void revokeAllUserTokens(User user) {
         tokenRepository.deleteAllByUserId(user.getId());
     }
 }
