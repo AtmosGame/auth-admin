@@ -10,9 +10,9 @@ import java.util.stream.Collectors;
 import static id.ac.ui.cs.advprog.authenticationandadministration.models.auth.UserPermission.*;
 
 public enum UserRole {
-    ADMIN(Sets.newHashSet(AUTH,USER_READ)),
-    DEVELOPER(Sets.newHashSet(AUTH,USER_READ)),
-    USER(Sets.newHashSet(AUTH,USER_READ));
+    ADMIN(Sets.newHashSet(AUTH, USER_READ, REPORT_READ, REPORT_DELETE)),
+    DEVELOPER(Sets.newHashSet(AUTH, USER_READ)),
+    USER(Sets.newHashSet(AUTH, USER_READ));
 
     private final Set<UserPermission> permissions;
 
