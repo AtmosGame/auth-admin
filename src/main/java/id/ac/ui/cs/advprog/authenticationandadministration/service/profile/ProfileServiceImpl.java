@@ -35,11 +35,13 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public User updateProfile(String username, EditProfileRequest request){
         User user = userService.getUserNonAdminByUsername(username);
-        // Check if the profile picture is not empty
         if (!request.getProfilePicture().isEmpty()) {
             try {
                 // Upload the image to Cloudinary and get the public URL
-                Cloudinary cloudinary = new Cloudinary();
+                Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
+                "cloud_name", "dipygqcrv", // insert here you cloud name
+                "api_key", "359898466846676", // insert here your api code
+                "api_secret", "SNw4bm4azWO0gljlvjKQ5S2g5YQ"));
                 Map uploadResult = cloudinary.uploader().upload(request.getProfilePicture(), ObjectUtils.emptyMap());
                 String imageUrl = (String) uploadResult.get("url");
 
@@ -49,6 +51,8 @@ public class ProfileServiceImpl implements ProfileService {
                 e.printStackTrace();
             }
         }
+//        user.setProfilePicture(request.getProfilePicture());
+
         user.setBio(request.getBio());;
         return userRepository.save(user);
     }
