@@ -1,5 +1,6 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.service.profile;
 
+import id.ac.ui.cs.advprog.authenticationandadministration.dto.profile.EditProfileRequest;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.profile.ViewProfileResponse;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.User;
 import org.springframework.stereotype.Service;
@@ -7,5 +8,5 @@ import org.springframework.stereotype.Service;
 @Service
 public interface ProfileService {
     ViewProfileResponse getProfileByUsername(String username);
-    User updateProfile(String username, String bio, String profilePicture);
+    User updateProfile(String username, EditProfileRequest request);
 }

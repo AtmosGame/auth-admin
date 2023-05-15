@@ -1,10 +1,12 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.controller;
 
+import id.ac.ui.cs.advprog.authenticationandadministration.dto.profile.EditProfileRequest;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.profile.ViewProfileResponse;
 import id.ac.ui.cs.advprog.authenticationandadministration.service.profile.ProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,8 +21,9 @@ public class ProfileController {
     }
 
     @PostMapping("/update-profile/{username}")
-    public ResponseEntity<String> updateProfile(@PathVariable String username, @PathVariable String bio, @PathVariable String profilePicture) {
-        profileService.updateProfile(username, bio, profilePicture);
+//    @PreAuthorize("hasAuthority('user:read')")
+    public ResponseEntity<String> updateProfile(@PathVariable String username, @RequestBody EditProfileRequest request) {
+        profileService.updateProfile(username, request);
         return new ResponseEntity<>("Profile updated", HttpStatus.OK);
     }
 }
