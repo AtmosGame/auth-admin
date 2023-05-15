@@ -7,6 +7,7 @@ import id.ac.ui.cs.advprog.authenticationandadministration.service.report.Report
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,6 +27,7 @@ public class ReportController {
 //    }
 
     @GetMapping("/reported-account")
+    @PreAuthorize("hasAuthority('user:read')")
     public ResponseEntity<ReportedAccountResponse> getAllReportedAccount(){
         return new ResponseEntity<>(reportService.getAllReportedAccount(), HttpStatus.OK);
     }
