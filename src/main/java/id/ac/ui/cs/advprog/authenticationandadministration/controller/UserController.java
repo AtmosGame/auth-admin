@@ -43,8 +43,7 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/search-user")
-    @PreAuthorize("hasAuthority('user:read')")
+    @PostMapping("/search-user")
     public ResponseEntity<List<User>> searchUsers(@RequestBody SearchUserRequest request) {
         return ResponseEntity.ok(userService.searchUsers(request));
     }
