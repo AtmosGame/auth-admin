@@ -1,9 +1,6 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.exceptions;
 
-import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserDoesNotExistException;
-import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserHasBeenBlockedException;
-import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserIsAdministratorException;
-import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UsernameAlreadyExistsException;
+import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.*;
 import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.report.ReportDoesNotExistException;
 import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.report.UserAndReportNotMatchedException;
 import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.report.UserDoesNotHaveReportException;
@@ -94,6 +91,24 @@ class GlobalExceptionHandlerTest {
         RuntimeException exception = new UserAndReportNotMatchedException(username, reportId);
         ResponseEntity<Object> response = globalExceptionHandler.userAndReportNotMatched(exception);
         String expectedErrorMessage = "Report with id " + reportId + " is invalid for user with username " + username;
+
+        templateTestException(response, expectedErrorMessage, HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    void testInvalidPassword(){
+        RuntimeException exception = new InvalidPasswordException(username);
+        ResponseEntity<Object> response = globalExceptionHandler.invalidPassword(exception);
+        String expectedErrorMessage = "Invalid password";
+
+        templateTestException(response, expectedErrorMessage, HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    void testInvalidToken(){
+        RuntimeException exception = new InvalidTokenException();
+        ResponseEntity<Object> response = globalExceptionHandler.invalidToken(exception);
+        String expectedErrorMessage = "Invalid token";
 
         templateTestException(response, expectedErrorMessage, HttpStatus.BAD_REQUEST);
     }

@@ -1,9 +1,6 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.exceptions;
 
-import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserDoesNotExistException;
-import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserHasBeenBlockedException;
-import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserIsAdministratorException;
-import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UsernameAlreadyExistsException;
+import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.*;
 import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.report.ReportDoesNotExistException;
 import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.report.UserAndReportNotMatchedException;
 import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.report.UserDoesNotHaveReportException;
@@ -78,6 +75,28 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Object> userAndReportNotMatched(Exception exception){
         ErrorTemplate baseException = new ErrorTemplate(
                 exception.getMessage(),
+                HttpStatus.BAD_REQUEST,
+                ZonedDateTime.now(ZoneId.of(zoneId))
+        );
+
+        return new ResponseEntity<>(baseException, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = {InvalidPasswordException.class})
+    public ResponseEntity<Object> invalidPassword(Exception exception) {
+        ErrorTemplate baseException = new ErrorTemplate(
+                "Invalid password",
+                HttpStatus.BAD_REQUEST,
+                ZonedDateTime.now(ZoneId.of(zoneId))
+        );
+
+        return new ResponseEntity<>(baseException, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = {InvalidTokenException.class})
+    public ResponseEntity<Object> invalidToken(Exception exception) {
+        ErrorTemplate baseException = new ErrorTemplate(
+                "Invalid token",
                 HttpStatus.BAD_REQUEST,
                 ZonedDateTime.now(ZoneId.of(zoneId))
         );
