@@ -2,6 +2,7 @@ package id.ac.ui.cs.advprog.authenticationandadministration.service.profile;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import id.ac.ui.cs.advprog.authenticationandadministration.dto.profile.EditProfileRequest;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.profile.ViewProfileResponse;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.User;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.UserRepository;
@@ -32,14 +33,16 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public User updateProfile(String username, String bio, String profilePicture){
+    public User updateProfile(String username, EditProfileRequest request){
         User user = userService.getUserNonAdminByUsername(username);
-        // Check if the profile picture is not empty
-        if (!profilePicture.isEmpty()) {
+        if (!request.getProfilePicture().isEmpty()) {
             try {
                 // Upload the image to Cloudinary and get the public URL
-                Cloudinary cloudinary = new Cloudinary();
-                Map uploadResult = cloudinary.uploader().upload(profilePicture, ObjectUtils.emptyMap());
+                Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
+                "cloud_name", "dipygqcrv", // insert here you cloud name
+                "api_key", "359898466846676", // insert here your api code
+                "api_secret", "SNw4bm4azWO0gljlvjKQ5S2g5YQ"));
+                Map uploadResult = cloudinary.uploader().upload(request.getProfilePicture(), ObjectUtils.emptyMap());
                 String imageUrl = (String) uploadResult.get("url");
 
                 // Set the profile picture URL in the user object
@@ -48,7 +51,9 @@ public class ProfileServiceImpl implements ProfileService {
                 e.printStackTrace();
             }
         }
-        user.setBio(bio);
+//        user.setProfilePicture(request.getProfilePicture());
+
+        user.setBio(request.getBio());;
         return userRepository.save(user);
     }
 }
