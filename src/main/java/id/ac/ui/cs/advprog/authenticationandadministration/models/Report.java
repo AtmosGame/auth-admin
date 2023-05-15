@@ -30,8 +30,4 @@ public class Report {
     @ManyToOne
     @JoinColumn(name = "_user_id", nullable = false)
     private User user;
-
-//    public String toString(){
-//        return String.format("'id':%d", id);
-//    }
 }
