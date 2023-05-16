@@ -24,8 +24,8 @@ public class ReportController {
 
     @PostMapping("/report-user/{username}/{usernameReported}")
     @PreAuthorize("hasAuthority('user:read')")
-    public ResponseEntity<String> createReportUser(@PathVariable String username, @PathVariable String usernameReported, @RequestBody UserReportRequest information){
-        String response = reportService.createReportUser(username, usernameReported, information).getInformation();
+    public ResponseEntity<String> createReportUser(@PathVariable String username, @PathVariable String usernameReported, @RequestBody UserReportRequest request){
+        String response = reportService.createReportUser(username, usernameReported, request).getInformation();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
