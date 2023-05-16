@@ -3,10 +3,12 @@ package id.ac.ui.cs.advprog.authenticationandadministration.controller;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.report.DetailReportedResponse;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.report.RejectReportResponse;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.report.ReportedAccountResponse;
+import id.ac.ui.cs.advprog.authenticationandadministration.dto.report.UserReportRequest;
 import id.ac.ui.cs.advprog.authenticationandadministration.service.report.ReportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,11 +21,13 @@ public class ReportController {
     // Note: @Rafinal ini masih ada test case yang fail,
     // tolong diperbaiki bagian createReportUser kan di fix/approve-reject-report
     // lu ilangin jadi testnya gagal
-//    @PostMapping("/report-user/{username}/{usernameReported}")
-//    public ResponseEntity<String> createReportUser(@PathVariable String username, @PathVariable String usernameReported, @RequestBody String information){
-//        String response = reportService.createReportUser(username, usernameReported, information).getInformation();
-//        return new ResponseEntity<>(response, HttpStatus.OK);
-//    }
+
+    @PostMapping("/report-user/{username}/{usernameReported}")
+    @PreAuthorize("hasAuthority('user:read')")
+    public ResponseEntity<String> createReportUser(@PathVariable String username, @PathVariable String usernameReported, @RequestBody UserReportRequest information){
+        String response = reportService.createReportUser(username, usernameReported, information).getInformation();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
     @GetMapping("/reported-account")
     public ResponseEntity<ReportedAccountResponse> getAllReportedAccount(){
