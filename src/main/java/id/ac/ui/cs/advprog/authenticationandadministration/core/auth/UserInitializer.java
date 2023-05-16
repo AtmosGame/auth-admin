@@ -9,6 +9,7 @@ import id.ac.ui.cs.advprog.authenticationandadministration.repository.UserReposi
 public class UserInitializer {
 
     @Autowired
+    public
     UserRepository userRepository;
 
     @PostConstruct

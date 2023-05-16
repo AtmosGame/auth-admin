@@ -31,7 +31,7 @@ sonarcloud-check:
   script: gradle sonar
   allow_failure: true
   only:
-    - main
+    - master
     - staging
 
 Build:
@@ -88,7 +88,7 @@ Publish:
   tags:
     - dind
   only:
-    - main
+    - master
 
 Deploy:
   stage: deploy
@@ -102,5 +102,5 @@ Deploy:
       docker image rm -f $REGISTRY_USER/$IMAGE_NAME:$IMAGE_TAG || true &&
       docker run --name $CONTAINER_NAME -d -p 80:8080 $REGISTRY_USER/$IMAGE_NAME:$IMAGE_TAG"
   only:
-    - main
+    - master
 

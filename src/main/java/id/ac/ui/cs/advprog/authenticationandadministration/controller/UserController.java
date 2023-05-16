@@ -43,20 +43,19 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/search-user")
-    @PreAuthorize("hasAuthority('user:read')")
+    @PostMapping("/search-user")
     public ResponseEntity<List<User>> searchUsers(@RequestBody SearchUserRequest request) {
         return ResponseEntity.ok(userService.searchUsers(request));
     }
 
     @GetMapping("/get-user-non-admin/{username}")
-//    @PreAuthorize("hasAuthority('user:read')")
+    @PreAuthorize("hasAuthority('user:read')")
     public ResponseEntity<User> getUserNonAdmin(@PathVariable String username) {
         return ResponseEntity.ok(userService.getUserNonAdminByUsername(username));
     }
 
     @GetMapping("/get-user/{username}")
-//    @PreAuthorize("hasAuthority('user:read')")
+    @PreAuthorize("hasAuthority('user:read')")
     public ResponseEntity<User> getUser(@PathVariable String username) {
         return ResponseEntity.ok(userService.getUserByUsername(username));
     }

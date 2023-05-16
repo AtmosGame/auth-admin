@@ -17,7 +17,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-
 // Do not change this code
 @Component
 @RequiredArgsConstructor
@@ -31,7 +30,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private static final String JWT_TOKEN_PREFIX = "Bearer";
 
     @Override
-    protected void doFilterInternal(
+    public void doFilterInternal(
             @NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain) throws ServletException, IOException {

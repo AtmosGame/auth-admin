@@ -38,7 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(controllers = ReportController.class)
 @AutoConfigureMockMvc
-class ControllerTest {
+class ApproveOrRejectReportControllerTest {
     private MockMvc mvc;
 
     @Autowired
