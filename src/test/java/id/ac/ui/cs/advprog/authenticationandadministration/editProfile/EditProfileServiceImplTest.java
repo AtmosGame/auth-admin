@@ -14,7 +14,7 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class ServiceImplTest {
+public class EditProfileServiceImplTest {
     @Spy
     @InjectMocks
     private ProfileServiceImpl service;

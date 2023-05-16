@@ -1,16 +1,13 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.dto.profile;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Generated;
+import lombok.*;
 
 @Data
 @Generated
 @Builder
 @AllArgsConstructor
-public class EditProfileResponse {
-    private String username;
+@NoArgsConstructor
+public class EditProfileRequest {
     private String profilePicture;
     private String bio;
 }
