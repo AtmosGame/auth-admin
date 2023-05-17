@@ -7,6 +7,7 @@ import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.User;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.UserRole;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.UserRepository;
 import id.ac.ui.cs.advprog.authenticationandadministration.service.auth.JwtService;
+import id.ac.ui.cs.advprog.authenticationandadministration.service.user.UserService;
 import id.ac.ui.cs.advprog.authenticationandadministration.service.user.UserServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,8 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -31,6 +31,7 @@ import java.util.List;
 
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.atLeastOnce;
+import static org.springframework.test.util.AssertionErrors.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -156,6 +157,11 @@ class UserControllerTest {
 
         verify(userService, atLeastOnce()).getUserByUsername(user.getUsername());
     }
+
+
+
+
+
 
 //    @Test
 //    public void testSearchUsers() throws Exception {

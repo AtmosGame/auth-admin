@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 public class UserServiceImplTest {
     @Mock
@@ -68,8 +69,8 @@ public class UserServiceImplTest {
                 .user(user)
                 .build();
 
-        Mockito.when(userRepository.getUser("john")).thenReturn(user);
-        Mockito.when(tokenRepository.getAllByUserId(1)).thenReturn(Collections.singletonList(token));
+        when(userRepository.getUser("john")).thenReturn(user);
+        when(tokenRepository.getAllByUserId(1)).thenReturn(Collections.singletonList(token));
 
         // Act
         CurrentUserResponse response = userService.getCurrentUser(username);
@@ -83,8 +84,8 @@ public class UserServiceImplTest {
         assertTrue(response.getActive());
         assertEquals(Collections.emptyList(), response.getReportList());
 
-        Mockito.verify(userRepository, Mockito.times(1)).getUser("john");
-        Mockito.verify(tokenRepository, Mockito.times(1)).getAllByUserId(1);
+        verify(userRepository, Mockito.times(1)).getUser("john");
+        verify(tokenRepository, Mockito.times(1)).getAllByUserId(1);
     }
 
     @Test
@@ -98,16 +99,16 @@ public class UserServiceImplTest {
                 .role(UserRole.USER)
                 .build();
 
-        Mockito.when(userRepository.getUser("john")).thenReturn(user);
-        Mockito.when(tokenRepository.getAllByUserId(1)).thenReturn(Collections.emptyList());
+        when(userRepository.getUser("john")).thenReturn(user);
+        when(tokenRepository.getAllByUserId(1)).thenReturn(Collections.emptyList());
 
         // Act & Assert
         Assertions.assertThrows(InvalidTokenException.class, () -> {
             userService.getCurrentUser(username);
         });
 
-        Mockito.verify(userRepository, Mockito.times(1)).getUser("john");
-        Mockito.verify(tokenRepository, Mockito.times(1)).getAllByUserId(1);
+        verify(userRepository, Mockito.times(1)).getUser("john");
+        verify(tokenRepository, Mockito.times(1)).getAllByUserId(1);
     }
 
     @Test
@@ -142,7 +143,7 @@ public class UserServiceImplTest {
         expectedUsers.add(user1);
         expectedUsers.add(user2);
 
-        Mockito.when(userRepository.findByUsernameContainingIgnoreCase("john")).thenReturn(expectedUsers);
+        when(userRepository.findByUsernameContainingIgnoreCase("john")).thenReturn(expectedUsers);
 
         // Act
         List<User> users = userService.searchUsers(request);
@@ -159,6 +160,76 @@ public class UserServiceImplTest {
         List<User> result = userService.searchUsers(request);
 
         assertTrue(result.isEmpty());
+    }
+
+    @Test
+    public void testSearchUsers_withNullUsername() {
+
+        SearchUserRequest request = new SearchUserRequest();
+        request.setUsername(null);
+
+
+        List<User> result = userService.searchUsers(request);
+
+
+        verify(userRepository, never()).findByUsernameContainingIgnoreCase(anyString());
+
+
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    public void testSearchUsers_withEmptyUsername() {
+
+        SearchUserRequest request = new SearchUserRequest();
+        request.setUsername("");
+
+
+        List<User> result = userService.searchUsers(request);
+
+
+        verify(userRepository, never()).findByUsernameContainingIgnoreCase(anyString());
+
+
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    public void testSearchUsers_withNonEmptyUsername() {
+
+        SearchUserRequest request = new SearchUserRequest();
+        request.setUsername("john");
+
+
+        List<User> users = new ArrayList<>();
+
+        User user1 = User.builder()
+                .id(2)
+                .username("johanna")
+                .build();
+
+        User user2 = User.builder()
+                .id(2)
+                .username("johanna")
+                .build();
+
+        users.add(user2);
+        users.add(user1);
+
+
+        when(userRepository.findByUsernameContainingIgnoreCase(request.getUsername())).thenReturn(users);
+
+
+        List<User> result = userService.searchUsers(request);
+
+
+        verify(userRepository).findByUsernameContainingIgnoreCase(request.getUsername());
+
+
+        assertNotNull(result);
+        assertEquals(users, result);
     }
 
 }
