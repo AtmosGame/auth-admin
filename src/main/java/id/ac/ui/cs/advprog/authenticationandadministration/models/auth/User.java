@@ -48,8 +48,10 @@ public class User implements UserDetails{
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if(role.equals("ADMIN")) {
+        if(role.equals(UserRole.ADMIN)) {
             return UserRole.ADMIN.getGrantedAuthority();
+        } else if (role.equals(UserRole.DEVELOPER)) {
+            return UserRole.DEVELOPER.getGrantedAuthority();
         } else {
             return UserRole.USER.getGrantedAuthority();
         }
