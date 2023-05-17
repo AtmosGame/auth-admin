@@ -30,7 +30,7 @@ public class ReportController {
     }
 
     @GetMapping("/reported-account")
-    @PreAuthorize("hasAuthority('report:read')")
+    @PreAuthorize("hasAuthority('user:read')")
     public ResponseEntity<ReportedAccountResponse> getAllReportedAccount(){
         return new ResponseEntity<>(reportService.getAllReportedAccount(), HttpStatus.OK);
     }
