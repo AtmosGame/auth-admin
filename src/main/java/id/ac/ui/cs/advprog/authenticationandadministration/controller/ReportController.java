@@ -16,12 +16,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class ReportController {
     private final ReportService reportService;
-
-    // By @Eugenius Mario
-    // Note: @Rafinal ini masih ada test case yang fail,
-    // tolong diperbaiki bagian createReportUser kan di fix/approve-reject-report
-    // lu ilangin jadi testnya gagal
-
     @PostMapping("/report-user/{username}/{usernameReported}")
     @PreAuthorize("hasAuthority('user:read')")
     public ResponseEntity<String> createReportUser(@PathVariable String username, @PathVariable String usernameReported, @RequestBody UserReportRequest request){

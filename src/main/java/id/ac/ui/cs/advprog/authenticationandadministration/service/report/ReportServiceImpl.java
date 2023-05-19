@@ -77,7 +77,7 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public UserReportRequest createReportUser(String username, String usernameReported , UserReportRequest request) {
+    public Report createReportUser(String username, String usernameReported , UserReportRequest request) {
         String information = request.getInformation();
         if(information == null || information.trim().isEmpty())
             throw new InformationNullException();
@@ -99,10 +99,7 @@ public class ReportServiceImpl implements ReportService {
             throw new DuplicateReportException();
 
         userReporting.getReportList().add(report);
-        return UserReportRequest.builder()
-                .username(usernameReported)
-                .information(information)
-                .build();
+        return report;
     }
 
 }
