@@ -1,10 +1,7 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.dto.report;
 
 import id.ac.ui.cs.advprog.authenticationandadministration.models.Report;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Generated;
+import lombok.*;
 
 import java.util.List;
 
@@ -12,6 +9,7 @@ import java.util.List;
 @Generated
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class DetailReportedResponse {
     private String username;
     private Integer totalReports;

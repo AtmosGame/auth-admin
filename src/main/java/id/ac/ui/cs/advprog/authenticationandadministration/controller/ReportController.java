@@ -26,7 +26,9 @@ public class ReportController {
     @GetMapping("/reported-account")
     @PreAuthorize("hasAuthority('report:read')")
     public ResponseEntity<ReportedAccountResponse> getAllReportedAccount(){
-        return new ResponseEntity<>(reportService.getAllReportedAccount(), HttpStatus.OK);
+        ReportedAccountResponse response = null;
+        response = reportService.getAllReportedAccount();
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/detail-account/{username}")
