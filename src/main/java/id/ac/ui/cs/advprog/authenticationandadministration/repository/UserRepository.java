@@ -33,6 +33,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query(value = "update _user set active = false where username =  ?1", nativeQuery = true)
     void blockedUserByUsername(@NonNull String username);
 
+    @Transactional
+    @Modifying
+    @Query(value = "SELECT * FROM _user WHERE (_user.role = 'USER' OR _user.role = 'DEVELOPER') AND username LIKE CONCAT('%', :username, '%') ", nativeQuery = true)
     List<User> findByUsernameContainingIgnoreCase(String username);
 
     @Transactional
