@@ -94,12 +94,11 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public UserReportRequest createReportUser(String username, String usernameReported , UserReportRequest request) {
+    public Report createReportUser(String username, String usernameReported, UserReportRequest request) {
         String information = request.getInformation();
         if (information == null || information.trim().isEmpty())
             throw new InformationNullException();
         User user = userService.getUserNonAdminByUsername(usernameReported);
-
 
         Report report = Report.builder()
                 .information(information)
@@ -110,15 +109,11 @@ public class ReportServiceImpl implements ReportService {
 
         User userReporting = userService.getUserNonAdminByUsername(username);
 
-
         List<Report> reportedUser = userReporting.getReportList();
-        if (reportedUser.stream().anyMatch(o -> usernameReported.equals(o.getUser().getUsername())))
+        if(reportedUser.stream().anyMatch(o -> usernameReported.equals(o.getUser().getUsername())))
             throw new DuplicateReportException();
 
         userReporting.getReportList().add(report);
-        return UserReportRequest.builder()
-                .username(usernameReported)
-                .information(information)
-                .build();
+        return report;
     }
 }
