@@ -6,11 +6,13 @@ import id.ac.ui.cs.advprog.authenticationandadministration.dto.report.ReportedAc
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.report.UserReportRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.CompletableFuture;
+
 @Service
 public interface ReportService {
     ReportedAccountResponse getAllReportedAccount();
     DetailReportedResponse getReportedAccount(String username);
-    String approveReport(String username);
-    RejectReportResponse rejectReport(String username, Integer report_id);
+    CompletableFuture<Void> approveReport(String username);
+    RejectReportResponse rejectReport(String username, Integer reportId);
     UserReportRequest createReportUser(String username, String usernameReported, UserReportRequest information);
 }

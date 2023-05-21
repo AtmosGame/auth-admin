@@ -31,7 +31,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Transactional
     @Modifying
     @Query(value = "update _user set active = false where username =  ?1", nativeQuery = true)
-    void blockedUserByUsername(@NonNull String username);
+    void blockUserByUsername(@NonNull String username);
 
     @Transactional
     @Modifying
@@ -40,6 +40,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Transactional
     @Modifying
-    @Query(value = "SELECT username FROM _user, user_report WHERE _user.id = user_report._user_id GROUP BY _user_id, username ORDER BY count(*) DESC;", nativeQuery = true)
+    @Query(value = "SELECT username FROM _user, user_report WHERE _user.id = user_report._user_id AND _user.active GROUP BY _user_id, username ORDER BY count(*) DESC;", nativeQuery = true)
     List<String> findAllHaveReportedUser();
 }

@@ -33,8 +33,9 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public User updateProfile(String username, EditProfileRequest request){
+    public void updateProfile(String username, EditProfileRequest request) {
         User user = userService.getUserNonAdminByUsername(username);
+
         if (!request.getProfilePicture().isEmpty()) {
             try {
                 // Upload the image to Cloudinary and get the public URL
@@ -51,9 +52,8 @@ public class ProfileServiceImpl implements ProfileService {
                 e.printStackTrace();
             }
         }
-//        user.setProfilePicture(request.getProfilePicture());
 
-        user.setBio(request.getBio());;
-        return userRepository.save(user);
+        user.setBio(request.getBio());
+        userRepository.save(user);
     }
 }
