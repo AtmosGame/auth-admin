@@ -37,7 +37,7 @@ class GlobalExceptionHandlerTest {
     void testUserExist(){
         RuntimeException exception = new UsernameAlreadyExistsException();
         ResponseEntity<Object> response = globalExceptionHandler.userExist();
-        String expectedErrorMessage = "User with the same email already exist";
+        String expectedErrorMessage = "User with the same username already exist";
 
         templateTestException(response, expectedErrorMessage, HttpStatus.BAD_REQUEST);
     }

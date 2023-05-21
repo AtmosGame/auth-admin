@@ -17,7 +17,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = {UsernameAlreadyExistsException.class})
     public ResponseEntity<Object> userExist(){
         ErrorTemplate baseException = new ErrorTemplate(
-                "User with the same email already exist",
+                "User with the same username already exist",
                 HttpStatus.BAD_REQUEST,
                 ZonedDateTime.now(ZoneId.of(zoneId))
         );
