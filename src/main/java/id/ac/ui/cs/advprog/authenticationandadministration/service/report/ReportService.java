@@ -4,6 +4,7 @@ import id.ac.ui.cs.advprog.authenticationandadministration.dto.report.DetailRepo
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.report.RejectReportResponse;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.report.ReportedAccountResponse;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.report.UserReportRequest;
+import id.ac.ui.cs.advprog.authenticationandadministration.models.Report;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,5 +13,5 @@ public interface ReportService {
     DetailReportedResponse getReportedAccount(String username);
     String approveReport(String username);
     RejectReportResponse rejectReport(String username, Integer report_id);
-    UserReportRequest createReportUser(String username, String usernameReported, UserReportRequest information);
+    Report createReportUser(String username, String usernameReported, UserReportRequest information);
 }

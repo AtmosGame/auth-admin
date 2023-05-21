@@ -9,6 +9,5 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserReportRequest {
-private String username;
 private String information;
 }
