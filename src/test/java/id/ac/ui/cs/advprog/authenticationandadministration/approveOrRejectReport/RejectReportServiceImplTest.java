@@ -34,6 +34,8 @@ class RejectReportServiceImplTest {
     private UserRepository userRepository;
     private ReportRepository reportRepository;
 
+    private final String username = "testUser";
+
     @BeforeEach
     void setUp(){
         userRepository = mock(UserRepository.class);
@@ -47,7 +49,7 @@ class RejectReportServiceImplTest {
     void whenRejectReportShouldReturnHaveReport() {
         User user = User.builder()
                 .id(1)
-                .username("test1")
+                .username(username)
                 .password("passwordTest1")
                 .role(UserRole.USER)
                 .profilePicture("link to profilePicture")
@@ -89,7 +91,7 @@ class RejectReportServiceImplTest {
     void whenRejectReportShouldReturnDoesntHaveReport() {
         User user = User.builder()
                 .id(1)
-                .username("test1")
+                .username(username)
                 .password("passwordTest1")
                 .role(UserRole.USER)
                 .profilePicture("link to profilePicture")
@@ -122,7 +124,7 @@ class RejectReportServiceImplTest {
     @Test
     void whenRejectReportWithUserIsNotFoundShouldThrowException(){
         Assertions.assertThrows(UserDoesNotExistException.class, () -> {
-            reportService.rejectReport(any(String.class), 1);
+            reportService.rejectReport(username, 1);
         });
     }
 
@@ -130,7 +132,7 @@ class RejectReportServiceImplTest {
     void whenRejectReportWithUserIsAdministratorShouldThrowException(){
         User user = User.builder()
                 .id(1)
-                .username("testuser")
+                .username(username)
                 .password("passwordTestUser")
                 .role(UserRole.ADMIN)
                 .profilePicture("test.jpg")
@@ -142,7 +144,7 @@ class RejectReportServiceImplTest {
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
 
         Assertions.assertThrows(UserIsAdministratorException.class, () -> {
-            reportService.rejectReport(user.getUsername(), any(Integer.class));
+            reportService.rejectReport(username, 1);
         });
     }
 
@@ -150,7 +152,7 @@ class RejectReportServiceImplTest {
     void whenRejectReportWithUserHaveBeenBlockedShouldThrowException(){
         User user = User.builder()
                 .id(1)
-                .username("testuser")
+                .username(username)
                 .password("passwordTestUser")
                 .role(UserRole.USER)
                 .profilePicture("test.jpg")
@@ -162,7 +164,7 @@ class RejectReportServiceImplTest {
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
 
         Assertions.assertThrows(UserHasBeenBlockedException.class, () -> {
-            reportService.rejectReport(user.getUsername(), any(Integer.class));
+            reportService.rejectReport(username, 1);
         });
     }
 
@@ -170,7 +172,7 @@ class RejectReportServiceImplTest {
     void whenRejectReportWithUserDoesntHaveReportShouldThrowException(){
         User user = User.builder()
                 .id(1)
-                .username("testuser")
+                .username(username)
                 .password("passwordTestUser")
                 .role(UserRole.DEVELOPER)
                 .profilePicture("test.jpg")
@@ -183,7 +185,7 @@ class RejectReportServiceImplTest {
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
 
         Assertions.assertThrows(UserDoesNotHaveReportException.class, () -> {
-            reportService.rejectReport(user.getUsername(), any(Integer.class));
+            reportService.rejectReport(username, 1);
         });
     }
 
@@ -191,7 +193,7 @@ class RejectReportServiceImplTest {
     void whenRejectReportWithReportDoesntMatchWithUserShouldThrowException(){
         User user1 = User.builder()
                 .id(1)
-                .username("test1")
+                .username(username)
                 .password("passwordTest1")
                 .role(UserRole.USER)
                 .profilePicture("link to profilePicture")
@@ -239,7 +241,7 @@ class RejectReportServiceImplTest {
         when(reportRepository.findById(report2.getId())).thenReturn(Optional.of(report2));
 
         Assertions.assertThrows(UserAndReportNotMatchedException.class, () -> {
-            reportService.rejectReport(user1.getUsername(), report2.getId());
+            reportService.rejectReport(username, 2);
         });
     }
 
@@ -247,7 +249,7 @@ class RejectReportServiceImplTest {
     void whenRejectReportWithReportIsNotFoundShouldThrowException(){
         User user = User.builder()
                 .id(1)
-                .username("test1")
+                .username(username)
                 .password("passwordTest1")
                 .role(UserRole.USER)
                 .profilePicture("link to profilePicture")
@@ -271,7 +273,7 @@ class RejectReportServiceImplTest {
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
 
         Assertions.assertThrows(ReportDoesNotExistException.class, () -> {
-            reportService.rejectReport(user.getUsername(), 2);
+            reportService.rejectReport(username, 2);
         });
     }
 }

@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class UserModelTest {
 
     @Test
-    public void testGetAdminAuthorities() {
+    void testGetAdminAuthorities() {
         User user = User.builder()
                 .role(UserRole.ADMIN)
                 .build();
@@ -23,7 +23,7 @@ class UserModelTest {
     }
 
     @Test
-    public void testGetDeveloperAuthorities() {
+    void testGetDeveloperAuthorities() {
         User user = User.builder()
                 .role(UserRole.DEVELOPER)
                 .build();
@@ -34,7 +34,7 @@ class UserModelTest {
     }
 
     @Test
-    public void testGetUserAuthorities() {
+    void testGetUserAuthorities() {
         User user = User.builder()
                 .role(UserRole.USER)
                 .build();

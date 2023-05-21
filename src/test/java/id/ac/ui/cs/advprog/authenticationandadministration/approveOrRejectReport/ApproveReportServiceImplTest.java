@@ -23,7 +23,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.when;
 
@@ -32,6 +31,8 @@ class ApproveReportServiceImplTest {
     private ReportServiceImpl reportService;
     private UserRepository userRepository;
     private ReportRepository reportRepository;
+
+    private final String username = "testUser";
 
     @BeforeEach
     void setUp(){
@@ -46,7 +47,7 @@ class ApproveReportServiceImplTest {
     void whenApproveReportShouldBlockUser(){
         User user = User.builder()
                 .id(1)
-                .username("test1")
+                .username(username)
                 .password("passwordTest1")
                 .role(UserRole.USER)
                 .profilePicture("link to profilePicture")
@@ -79,7 +80,7 @@ class ApproveReportServiceImplTest {
     @Test
     void whenApproveReportWithUserIsNotFoundShouldThrowException(){
         Assertions.assertThrows(UserDoesNotExistException.class, () -> {
-            reportService.approveReport(any(String.class));
+            reportService.approveReport(username);
         });
     }
 
@@ -87,7 +88,7 @@ class ApproveReportServiceImplTest {
     void whenApproveReportWithUserIsAdministratorShouldThrowException(){
         User user = User.builder()
                 .id(1)
-                .username("testuser")
+                .username(username)
                 .password("passwordTestUser")
                 .role(UserRole.ADMIN)
                 .profilePicture("test.jpg")
@@ -99,7 +100,7 @@ class ApproveReportServiceImplTest {
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
 
         Assertions.assertThrows(UserIsAdministratorException.class, () -> {
-            reportService.approveReport(user.getUsername());
+            reportService.approveReport(username);
         });
     }
 
@@ -107,7 +108,7 @@ class ApproveReportServiceImplTest {
     void whenApproveReportWithUserHaveBeenBlockedShouldThrowException(){
         User user = User.builder()
                 .id(1)
-                .username("testuser")
+                .username(username)
                 .password("passwordTestUser")
                 .role(UserRole.USER)
                 .profilePicture("test.jpg")
@@ -119,7 +120,7 @@ class ApproveReportServiceImplTest {
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
 
         Assertions.assertThrows(UserHasBeenBlockedException.class, () -> {
-            reportService.approveReport(user.getUsername());
+            reportService.approveReport(username);
         });
     }
 
@@ -127,7 +128,7 @@ class ApproveReportServiceImplTest {
     void whenApproveReportWithUserDoesntHaveReportShouldThrowException(){
         User user = User.builder()
                 .id(1)
-                .username("testuser")
+                .username(username)
                 .password("passwordTestUser")
                 .role(UserRole.DEVELOPER)
                 .profilePicture("test.jpg")
@@ -140,7 +141,7 @@ class ApproveReportServiceImplTest {
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
 
         Assertions.assertThrows(UserDoesNotHaveReportException.class, () -> {
-            reportService.approveReport(user.getUsername());
+            reportService.approveReport(username);
         });
     }
 }

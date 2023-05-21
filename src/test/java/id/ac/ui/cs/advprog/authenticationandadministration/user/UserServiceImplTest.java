@@ -3,13 +3,9 @@ package id.ac.ui.cs.advprog.authenticationandadministration.user;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.user.CurrentUserResponse;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.user.SearchUserRequest;
 import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.InvalidTokenException;
-import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserDoesNotExistException;
-import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserHasBeenBlockedException;
-import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserIsAdministratorException;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.Token;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.UserRole;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.User;
-import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.UserRole;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.TokenRepository;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.UserRepository;
 import id.ac.ui.cs.advprog.authenticationandadministration.service.user.UserServiceImpl;
@@ -20,20 +16,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class UserServiceImplTest {
+class UserServiceImplTest {
     @Mock
     private UserRepository userRepository;
 
@@ -49,7 +40,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void testCurrentUserValidUsername() {
+    void testCurrentUserValidUsername() {
         // Arrange
         String username = "john";
 
@@ -89,7 +80,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void testCurrentUserInvalidToken() {
+    void testCurrentUserInvalidToken() {
         // Arrange
         String username = "john";
 
@@ -112,7 +103,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void testSearchUsersEmptyUsername() {
+    void testSearchUsersEmptyUsername() {
         // Arrange
         SearchUserRequest request = new SearchUserRequest();
 
@@ -124,7 +115,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void testSearchUsersNonEmptyUsername() {
+    void testSearchUsersNonEmptyUsername() {
         // Arrange
         SearchUserRequest request = new SearchUserRequest();
         request.setUsername("john");
@@ -153,7 +144,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void testSearchUsersWithNoResult() {
+    void testSearchUsersWithNoResult() {
         SearchUserRequest request = new SearchUserRequest();
         request.setUsername("nonexistentuser");
 
@@ -163,7 +154,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void testSearchUsers_withNullUsername() {
+    void testSearchUsers_withNullUsername() {
 
         SearchUserRequest request = new SearchUserRequest();
         request.setUsername(null);
@@ -180,7 +171,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void testSearchUsers_withEmptyUsername() {
+    void testSearchUsers_withEmptyUsername() {
 
         SearchUserRequest request = new SearchUserRequest();
         request.setUsername("");
@@ -197,7 +188,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void testSearchUsers_withNonEmptyUsername() {
+    void testSearchUsers_withNonEmptyUsername() {
 
         SearchUserRequest request = new SearchUserRequest();
         request.setUsername("john");
@@ -231,5 +222,4 @@ public class UserServiceImplTest {
         assertNotNull(result);
         assertEquals(users, result);
     }
-
 }

@@ -24,7 +24,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -32,6 +31,8 @@ import static org.mockito.Mockito.when;
 class GetReportedAccountServiceImplTest {
     private ReportServiceImpl reportService;
     private UserRepository userRepository;
+
+    private final String username = "testUser";
 
     @BeforeEach
     void setUp(){
@@ -46,7 +47,7 @@ class GetReportedAccountServiceImplTest {
     void whenGetReportedAccountShouldReturnDetailOfReportedAccount(){
         User user = User.builder()
                 .id(1)
-                .username("test1")
+                .username(username)
                 .password("passwordTest1")
                 .role(UserRole.USER)
                 .profilePicture("link to profilePicture")
@@ -87,7 +88,7 @@ class GetReportedAccountServiceImplTest {
     @Test
     void whenGetReportedAccountWithUserIsNotFoundShouldThrowException(){
         Assertions.assertThrows(UserDoesNotExistException.class, () -> {
-            reportService.getReportedAccount(any(String.class));
+            reportService.getReportedAccount(username);
         });
     }
 
@@ -95,7 +96,7 @@ class GetReportedAccountServiceImplTest {
     void whenGetReportedAccountWithUserIsAdministratorShouldThrowException(){
         User user = User.builder()
                 .id(1)
-                .username("testuser")
+                .username(username)
                 .password("passwordTestUser")
                 .role(UserRole.ADMIN)
                 .profilePicture("test.jpg")
@@ -107,7 +108,7 @@ class GetReportedAccountServiceImplTest {
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
 
         Assertions.assertThrows(UserIsAdministratorException.class, () -> {
-            reportService.getReportedAccount(user.getUsername());
+            reportService.getReportedAccount(username);
         });
     }
 
@@ -115,7 +116,7 @@ class GetReportedAccountServiceImplTest {
     void whenGetReportedAccountWithUserHaveBeenBlockedShouldThrowException(){
         User user = User.builder()
                 .id(1)
-                .username("testuser")
+                .username(username)
                 .password("passwordTestUser")
                 .role(UserRole.USER)
                 .profilePicture("test.jpg")
@@ -127,7 +128,7 @@ class GetReportedAccountServiceImplTest {
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
 
         Assertions.assertThrows(UserHasBeenBlockedException.class, () -> {
-            reportService.getReportedAccount(user.getUsername());
+            reportService.getReportedAccount(username);
         });
     }
 
@@ -135,7 +136,7 @@ class GetReportedAccountServiceImplTest {
     void whenGetReportedAccountWithUserDoesntHaveReportShouldThrowException(){
         User user = User.builder()
                 .id(1)
-                .username("testuser")
+                .username(username)
                 .password("passwordTestUser")
                 .role(UserRole.DEVELOPER)
                 .profilePicture("test.jpg")
@@ -148,7 +149,7 @@ class GetReportedAccountServiceImplTest {
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
 
         Assertions.assertThrows(UserDoesNotHaveReportException.class, () -> {
-            reportService.getReportedAccount(user.getUsername());
+            reportService.getReportedAccount(username);
         });
     }
 }
