@@ -2,14 +2,12 @@ package id.ac.ui.cs.advprog.authenticationandadministration.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import id.ac.ui.cs.advprog.authenticationandadministration.controller.UserController;
-import id.ac.ui.cs.advprog.authenticationandadministration.dto.auth.RegisterRequest;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.user.CurrentUserResponse;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.user.SearchUserRequest;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.User;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.UserRole;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.UserRepository;
 import id.ac.ui.cs.advprog.authenticationandadministration.service.auth.JwtService;
-import id.ac.ui.cs.advprog.authenticationandadministration.service.user.UserService;
 import id.ac.ui.cs.advprog.authenticationandadministration.service.user.UserServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,30 +22,22 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.atLeastOnce;
-import static org.springframework.test.util.AssertionErrors.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 
 @WebMvcTest(controllers = UserController.class)
 @AutoConfigureMockMvc
 class UserControllerTest {
     private MockMvc mvc;
-
-    private ObjectMapper objectMapper;
 
     @Autowired
     private WebApplicationContext context;
@@ -226,47 +216,4 @@ class UserControllerTest {
         // Verify that the userService's searchUsers method was called with the correct request
         verify(userService, times(1)).searchUsers(request);
     }
-
-
-
-
-
-
-//    @Test
-//    public void testSearchUsers() throws Exception {
-//        // Mock request and response
-//        SearchUserRequest request = new SearchUserRequest();
-//        request.setUsername("john");
-//
-//        User user1 = new User();
-//        user1.setId(1);
-//        user1.setUsername("john.doe");
-//        user1.setRole(UserRole.USER);
-//
-//        User user2 = new User();
-//        user2.setId(2);
-//        user2.setUsername("john.smith");
-//        user2.setRole(UserRole.ADMIN);
-//
-//        List<User> users = Arrays.asList(user1, user2);
-//
-//        when(userService.searchUsers(any(SearchUserRequest.class))).thenReturn(users);
-//
-//        // Build the request
-//        MockHttpServletRequestBuilder requestBuilder = post("/v1/user/search-user")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content("{\"username\":\"john\"}");
-//
-//        // Perform the request and assert the response
-//        mvc.perform(requestBuilder)
-//                .andExpect(status().isOk())
-//                .andExpect(handler().methodName("searchUsers"))
-//                .andExpect(jsonPath("$[0].id").value(user1.getId()))
-//                .andExpect(jsonPath("$[0].username").value(user1.getUsername()))
-//                .andExpect(jsonPath("$[0].role").value(user1.getRole().name()))
-//                .andExpect(jsonPath("$[1].id").value(user2.getId()))
-//                .andExpect(jsonPath("$[1].username").value(user2.getUsername()))
-//                .andExpect(jsonPath("$[1].role").value(user2.getRole().name()))
-//                .andReturn();
-//    }
 }

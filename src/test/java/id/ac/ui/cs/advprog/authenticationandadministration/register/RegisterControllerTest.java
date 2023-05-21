@@ -2,15 +2,12 @@ package id.ac.ui.cs.advprog.authenticationandadministration.register;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import id.ac.ui.cs.advprog.authenticationandadministration.controller.AuthController;
-import id.ac.ui.cs.advprog.authenticationandadministration.controller.ProfileController;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.auth.RegisterRequest;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.auth.RegisterResponse;
-import id.ac.ui.cs.advprog.authenticationandadministration.dto.profile.ViewProfileResponse;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.User;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.UserRole;
 import id.ac.ui.cs.advprog.authenticationandadministration.service.auth.AuthServiceImpl;
 import id.ac.ui.cs.advprog.authenticationandadministration.service.auth.JwtService;
-import id.ac.ui.cs.advprog.authenticationandadministration.service.profile.ProfileServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -31,21 +28,24 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(controllers = AuthController.class)
 @AutoConfigureMockMvc
-public class RegisterControllerTest {
+class RegisterControllerTest {
     private MockMvc mvc;
+
     @Autowired
     private WebApplicationContext context;
+
     @MockBean
     private AuthServiceImpl service;
+
     @MockBean
     private JwtService jwtService;
+
     @Mock
     User user;
+
     Object bodyContent;
 
     @BeforeEach

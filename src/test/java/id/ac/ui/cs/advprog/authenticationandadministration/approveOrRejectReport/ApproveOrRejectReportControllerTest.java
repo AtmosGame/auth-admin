@@ -28,7 +28,6 @@ import org.springframework.web.context.WebApplicationContext;
 import java.sql.Timestamp;
 import java.util.*;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -142,16 +141,12 @@ class ApproveOrRejectReportControllerTest {
 
     @Test
     void testApproveReport() throws Exception {
-        String approveReportResponse = String.format("Blocked User with username %s", test1.getUsername());
-
-        when(reportService.approveReport(any(String.class))).thenReturn(approveReportResponse);
-
         mvc.perform(delete(String.format("/v1/report/approve/%s", test1.getUsername()))
                         .contentType(MediaType.TEXT_PLAIN))
                 .andExpect(status().isOk())
                 .andExpect(handler().methodName("approveReport"))
                 .andExpect(content().contentType("text/plain;charset=ISO-8859-1"))
-                .andExpect(content().string(String.format("Blocked User with username %s", test1.getUsername())))
+                .andExpect(content().string(String.format("Block User with username %s", test1.getUsername())))
                 .andReturn();
     }
 

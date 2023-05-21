@@ -9,5 +9,3 @@ public interface AuthService {
     RegisterResponse register(RegisterRequest request);
     LogoutResponse logout(LogoutRequest request);
 }
-
-

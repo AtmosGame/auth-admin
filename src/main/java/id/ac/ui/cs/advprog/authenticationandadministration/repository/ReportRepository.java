@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
 public interface ReportRepository extends JpaRepository<Report, Integer> {
     void deleteById(@NonNull Integer id);
 
-    @Override
-    void deleteAll(Iterable<? extends Report> entities);
+    @Async
+    void deleteAll(@NonNull Iterable<? extends Report> entities);
 }

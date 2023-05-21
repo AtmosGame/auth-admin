@@ -15,7 +15,7 @@ public class GlobalExceptionHandler {
     private static final String ZONE_ID = "Asia/Jakarta";
 
     @ExceptionHandler(value = {UsernameAlreadyExistsException.class})
-    public ResponseEntity<Object> userExist(){
+    public ResponseEntity<Object> userExist() {
         ErrorTemplate baseException = new ErrorTemplate(
                 "User with the same username already exist",
                 HttpStatus.BAD_REQUEST,
@@ -26,7 +26,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = {UserDoesNotExistException.class, ReportDoesNotExistException.class})
-    public ResponseEntity<Object> userOrReportNotExist(Exception exception){
+    public ResponseEntity<Object> userOrReportNotExist(Exception exception) {
         ErrorTemplate baseException = new ErrorTemplate(
                 exception.getMessage(),
                 HttpStatus.NOT_FOUND,
@@ -37,7 +37,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = {UserIsAdministratorException.class})
-    public ResponseEntity<Object> userIsAdministrator(Exception exception){
+    public ResponseEntity<Object> userIsAdministrator(Exception exception) {
         ErrorTemplate baseException = new ErrorTemplate(
                 exception.getMessage(),
                 HttpStatus.BAD_REQUEST,
@@ -48,7 +48,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = {UserHasBeenBlockedException.class})
-    public ResponseEntity<Object> userHasBeenBlocked(Exception exception){
+    public ResponseEntity<Object> userHasBeenBlocked(Exception exception) {
         ErrorTemplate baseException = new ErrorTemplate(
                 exception.getMessage(),
                 HttpStatus.BAD_REQUEST,
@@ -59,7 +59,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = {UserDoesNotHaveReportException.class})
-    public ResponseEntity<Object> userDoesNotHaveReport(Exception exception){
+    public ResponseEntity<Object> userDoesNotHaveReport(Exception exception) {
         ErrorTemplate baseException = new ErrorTemplate(
                 exception.getMessage(),
                 HttpStatus.BAD_REQUEST,
@@ -70,7 +70,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = {UserAndReportNotMatchedException.class})
-    public ResponseEntity<Object> userAndReportNotMatched(Exception exception){
+    public ResponseEntity<Object> userAndReportNotMatched(Exception exception) {
         ErrorTemplate baseException = new ErrorTemplate(
                 exception.getMessage(),
                 HttpStatus.BAD_REQUEST,

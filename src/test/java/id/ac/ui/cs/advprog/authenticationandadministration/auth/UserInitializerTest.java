@@ -1,6 +1,6 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.auth;
 
-import id.ac.ui.cs.advprog.authenticationandadministration.core.auth.UserInitializer;
+import id.ac.ui.cs.advprog.authenticationandadministration.core.seed.UserInitializer;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

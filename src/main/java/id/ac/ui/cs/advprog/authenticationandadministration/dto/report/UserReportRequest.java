@@ -2,7 +2,6 @@ package id.ac.ui.cs.advprog.authenticationandadministration.dto.report;
 
 import lombok.*;
 
-
 @Data
 @Generated
 @Builder

@@ -19,7 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
-public class RegisterServiceImplTest {
+class RegisterServiceImplTest {
     @Mock
     private UserRepository userRepository;
 
@@ -36,12 +36,12 @@ public class RegisterServiceImplTest {
     private AuthServiceImpl authService;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void whenSuccessfulRegistration() {
+    void whenSuccessfulRegistration() {
         // Arrange
         RegisterRequest registerRequest = new RegisterRequest();
         registerRequest.setUsername("john");
@@ -69,7 +69,7 @@ public class RegisterServiceImplTest {
     }
 
     @Test
-    public void whenUsernameAlreadyExists() {
+    void whenUsernameAlreadyExists() {
         // Arrange
         RegisterRequest registerRequest = new RegisterRequest();
         registerRequest.setUsername("john");

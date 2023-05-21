@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Function;
 
 @Service
 @RequiredArgsConstructor
@@ -49,12 +50,13 @@ public class ReportServiceImpl implements ReportService {
     @Async
     @Override
     public CompletableFuture<Void> approveReport(String username) {
-        return CompletableFuture.supplyAsync(() -> getUserReport(username))
-                .thenComposeAsync(user -> {
-                    userRepository.blockUserByUsername(username);
-                    List<Report> reportList = user.getReportList();
-                    return CompletableFuture.runAsync(() -> reportRepository.deleteAll(reportList));
-                });
+        User user = getUserReport(username);
+        userRepository.blockUserByUsername(username);
+
+        return CompletableFuture.runAsync(() -> {
+            List<Report> listReportUser = user.getReportList();
+            reportRepository.deleteAll(listReportUser);
+        });
     }
 
     @Override
@@ -73,7 +75,7 @@ public class ReportServiceImpl implements ReportService {
                 .build();
     }
 
-    private User getUserReport(String username){
+    private User getUserReport(String username) {
         User user = userService.getUserNonAdminByUsername(username);
         List<Report> listReportUser = user.getReportList();
 
@@ -83,7 +85,7 @@ public class ReportServiceImpl implements ReportService {
         return user;
     }
 
-    private Report getReportById(Integer reportId){
+    private Report getReportById(Integer reportId) {
         Optional<Report> report = reportRepository.findById(reportId);
 
         if (report.isPresent())
@@ -120,5 +122,4 @@ public class ReportServiceImpl implements ReportService {
                 .information(information)
                 .build();
     }
-
 }

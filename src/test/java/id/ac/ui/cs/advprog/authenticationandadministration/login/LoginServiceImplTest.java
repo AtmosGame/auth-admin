@@ -16,10 +16,9 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
-public class LoginServiceImplTest {
+class LoginServiceImplTest {
     @Mock
     private UserRepository userRepository;
 
@@ -41,7 +40,7 @@ public class LoginServiceImplTest {
     }
 
     @Test
-    public void testAuthenticateSuccessfulAuthentication() {
+    void testAuthenticateSuccessfulAuthentication() {
         // Arrange
         AuthenticationRequest request = new AuthenticationRequest("john", "password");
         User user = User.builder().id(1).username("john").build();

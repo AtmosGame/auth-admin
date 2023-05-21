@@ -14,11 +14,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-
-
 @Service
 public class JwtService {
-
     private static final String SECRET_KEY = "645367566B59703373367639792F423F4528482B4D6251655468576D5A713474";
 
     public String extractUsername(String token) {
@@ -71,6 +68,4 @@ public class JwtService {
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
     }
-
-
 }

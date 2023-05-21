@@ -17,10 +17,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Transactional
     @Query(value = "INSERT INTO _user (username, password, role, active) VALUES (:username, :password, :role, :active)", nativeQuery = true)
     void addUser(@NonNull String username, @NonNull String password, @NonNull String role, @NonNull Boolean active);
+
     @Query(value = "SELECT * FROM _user WHERE username = :username", nativeQuery = true)
     User getUser(@NonNull String username);
-    @Query(value = "SELECT * FROM _user", nativeQuery = true)
-    List<User> getAllUsers();
 
     @NonNull
     List<User> findAll();

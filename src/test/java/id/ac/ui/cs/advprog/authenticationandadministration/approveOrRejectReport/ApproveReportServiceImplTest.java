@@ -70,10 +70,9 @@ class ApproveReportServiceImplTest {
 
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
 
-        String response = reportService.approveReport(user.getUsername());
+        reportService.approveReport(user.getUsername());
 
-        Assertions.assertEquals(String.format("Blocked User with username %s", user.getUsername()), response);
-        verify(userRepository, times(1)).blockedUserByUsername(user.getUsername());
+        verify(userRepository, times(1)).blockUserByUsername(user.getUsername());
         verify(reportRepository, times(1)).deleteAll(listReport);
     }
 
