@@ -1,6 +1,5 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.controller;
 
-import id.ac.ui.cs.advprog.authenticationandadministration.dto.auth.AuthenticationRequest;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.user.CurrentUserResponse;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.user.SearchUserRequest;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.User;
@@ -15,7 +14,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping(path = "/v1/user")

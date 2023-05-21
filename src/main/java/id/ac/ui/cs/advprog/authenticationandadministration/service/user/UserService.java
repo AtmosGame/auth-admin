@@ -6,7 +6,6 @@ import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 @Service
 public interface UserService {

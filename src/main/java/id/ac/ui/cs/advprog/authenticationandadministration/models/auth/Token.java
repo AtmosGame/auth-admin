@@ -1,6 +1,5 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.models.auth;
 
-import jakarta.annotation.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

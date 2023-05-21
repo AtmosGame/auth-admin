@@ -12,7 +12,7 @@ import java.time.ZonedDateTime;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-    private final String zoneId = "Asia/Jakarta";
+    private static final String zoneId = "Asia/Jakarta";
 
     @ExceptionHandler(value = {UsernameAlreadyExistsException.class})
     public ResponseEntity<Object> userExist(){

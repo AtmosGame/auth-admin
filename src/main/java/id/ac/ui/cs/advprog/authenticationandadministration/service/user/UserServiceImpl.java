@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService{
         } else {
             return userRepository.findByUsernameContainingIgnoreCase(request.getUsername());
         }
-    };
+    }
 
     @Override
     public User getUserNonAdminByUsername(String username){
