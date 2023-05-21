@@ -35,7 +35,7 @@ class UserServiceImplTest {
     private UserServiceImpl userService;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 

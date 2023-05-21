@@ -14,24 +14,18 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<RegisterResponse> register (
-            @RequestBody RegisterRequest request
-    ) {
+    public ResponseEntity<RegisterResponse> register (@RequestBody RegisterRequest request) {
         return ResponseEntity.ok(authService.register(request));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> login (
-            @RequestBody AuthenticationRequest request
-    ) {
+    public ResponseEntity<AuthenticationResponse> login (@RequestBody AuthenticationRequest request) {
         return ResponseEntity.ok(authService.authenticate(request));
     }
 
     @PostMapping("/logout")
     @PreAuthorize("hasAuthority('auth')")
-    public ResponseEntity<LogoutResponse> logout (
-            @RequestBody LogoutRequest request
-    ) {
+    public ResponseEntity<LogoutResponse> logout (@RequestBody LogoutRequest request) {
         return ResponseEntity.ok(authService.logout(request));
     }
 }

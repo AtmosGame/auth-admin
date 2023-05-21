@@ -35,6 +35,7 @@ public class User implements UserDetails{
     private UserRole role;
 
     private String profilePicture;
+
     private String bio;
 
     @Nullable
@@ -57,6 +58,7 @@ public class User implements UserDetails{
         }
     }
 
+    // TODO: @Mario coba pastiin lagi kira-kira ini bisa dihapus ga ya? Karena jadi kurang enak diliatnya (Ini karena lu implements UserDetails)
     @Override
     public String getPassword() {
         return this.password;
@@ -64,7 +66,7 @@ public class User implements UserDetails{
 
     @Override
     public String getUsername() {
-        return username;
+        return this.username;
     }
 
     @Override

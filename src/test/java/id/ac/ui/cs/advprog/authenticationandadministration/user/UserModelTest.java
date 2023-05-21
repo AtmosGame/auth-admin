@@ -10,7 +10,6 @@ import java.util.Collection;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class UserModelTest {
-
     @Test
     void testGetAdminAuthorities() {
         User user = User.builder()

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -53,10 +54,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User getUserNonAdminByUsername(String username){
+    public User getUserNonAdminByUsername(String username) {
         User user = getUserByUsername(username);
+        String userRole = user.getRole().name();
 
-        if (user.getRole().name().equals("ADMIN"))
+        if (userRole.equals("ADMIN"))
             throw new UserIsAdministratorException(user.getUsername());
 
         if (!user.getActive())
@@ -66,11 +68,13 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User getUserByUsername(String username){
-        if (userRepository.findByUsername(username).isEmpty())
-            throw new UserDoesNotExistException(username);
+    public User getUserByUsername(String username) {
+        Optional<User> user = userRepository.findByUsername(username);
 
-        return userRepository.findByUsername(username).get();
+        if (user.isPresent())
+            return user.get();
+        else
+            throw new UserDoesNotExistException(username);
     }
 }
 

@@ -1,13 +1,13 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.controller;
 
-import id.ac.ui.cs.advprog.authenticationandadministration.dto.user.CurrentUserResponse;
-import id.ac.ui.cs.advprog.authenticationandadministration.dto.user.SearchUserRequest;
+import id.ac.ui.cs.advprog.authenticationandadministration.dto.user.*;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.User;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.UserRepository;
 import id.ac.ui.cs.advprog.authenticationandadministration.service.auth.JwtService;
 import id.ac.ui.cs.advprog.authenticationandadministration.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,11 +19,12 @@ import java.util.List;
 @RequestMapping(path = "/v1/user")
 @RequiredArgsConstructor
 public class UserController {
-
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private UserService userService;
+
     @Autowired
     private JwtService jwtService;
 
@@ -36,25 +37,27 @@ public class UserController {
     @GetMapping("/current")
     @PreAuthorize("hasAuthority('user:read')")
     public ResponseEntity<CurrentUserResponse> getCurrentUserProfile() {
-        CurrentUserResponse response = null;
-        response = userService.getCurrentUser(getCurrentUser().getUsername());
-        return ResponseEntity.ok(response);
+        CurrentUserResponse response = userService.getCurrentUser(getCurrentUser().getUsername());
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping("/search-user")
     public ResponseEntity<List<User>> searchUsers(@RequestBody SearchUserRequest request) {
-        return ResponseEntity.ok(userService.searchUsers(request));
+        List<User> listUsers = userService.searchUsers(request);
+        return new ResponseEntity<>(listUsers, HttpStatus.OK);
     }
 
     @GetMapping("/get-user-non-admin/{username}")
     @PreAuthorize("hasAuthority('user:read')")
     public ResponseEntity<User> getUserNonAdmin(@PathVariable String username) {
-        return ResponseEntity.ok(userService.getUserNonAdminByUsername(username));
+        User userNonAdmin = userService.getUserNonAdminByUsername(username);
+        return new ResponseEntity<>(userNonAdmin, HttpStatus.OK);
     }
 
     @GetMapping("/get-user/{username}")
     @PreAuthorize("hasAuthority('user:read')")
     public ResponseEntity<User> getUser(@PathVariable String username) {
-        return ResponseEntity.ok(userService.getUserByUsername(username));
+        User user = userService.getUserByUsername(username);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 }

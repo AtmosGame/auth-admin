@@ -1,7 +1,10 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.dto.user;
 
+import id.ac.ui.cs.advprog.authenticationandadministration.models.Report;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.UserRole;
 import lombok.*;
+
+import java.util.List;
 
 @Data
 @Generated
@@ -16,5 +19,5 @@ public class CurrentUserResponse {
     private String bio;
     private String applications;
     private Boolean active;
-    private Object reportList;
+    private List<Report> reportList;
 }

@@ -26,11 +26,13 @@ import static org.mockito.Mockito.*;
 class ViewProfileByUsernameServiceImplTest {
     private ProfileService profileService;
     private UserRepository userRepository;
-    private TokenRepository tokenRepository;
+
+    private final String username = "testUser";
 
     @BeforeEach
     void setUp(){
         userRepository = mock(UserRepository.class);
+        TokenRepository tokenRepository = mock(TokenRepository.class);
         UserService userService = new UserServiceImpl(userRepository, tokenRepository);
         profileService = new ProfileServiceImpl(userRepository, userService);
     }
@@ -39,7 +41,7 @@ class ViewProfileByUsernameServiceImplTest {
     void whenGetProfileByUsernameShouldReturnProfile(){
         User user = User.builder()
                     .id(1)
-                    .username("testuser")
+                    .username(username)
                     .password("passwordTestUser")
                     .role(UserRole.USER)
                     .profilePicture("test.jpg")
@@ -83,7 +85,7 @@ class ViewProfileByUsernameServiceImplTest {
     @Test
     void whenGetProfileByUsernameWithUserIsNotFoundShouldThrowException(){
         Assertions.assertThrows(UserDoesNotExistException.class, () -> {
-            profileService.getProfileByUsername(any(String.class));
+            profileService.getProfileByUsername(username);
         });
     }
 
@@ -91,7 +93,7 @@ class ViewProfileByUsernameServiceImplTest {
     void whenGetProfileByUsernameWithUserIsAdministratorShouldThrowException(){
         User user = User.builder()
                     .id(1)
-                    .username("testuser")
+                    .username(username)
                     .password("passwordTestUser")
                     .role(UserRole.ADMIN)
                     .profilePicture("test.jpg")
@@ -103,7 +105,7 @@ class ViewProfileByUsernameServiceImplTest {
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
 
         Assertions.assertThrows(UserIsAdministratorException.class, () -> {
-            profileService.getProfileByUsername(user.getUsername());
+            profileService.getProfileByUsername(username);
         });
     }
 
@@ -111,7 +113,7 @@ class ViewProfileByUsernameServiceImplTest {
     void whenGetProfileByUsernameWithUserHaveBeenBlockedShouldThrowException(){
         User user = User.builder()
                     .id(1)
-                    .username("testuser")
+                    .username(username)
                     .password("passwordTestUser")
                     .role(UserRole.USER)
                     .profilePicture("test.jpg")
@@ -123,7 +125,7 @@ class ViewProfileByUsernameServiceImplTest {
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
 
         Assertions.assertThrows(UserHasBeenBlockedException.class, () -> {
-            profileService.getProfileByUsername(user.getUsername());
+            profileService.getProfileByUsername(username);
         });
     }
 }
