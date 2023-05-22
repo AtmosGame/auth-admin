@@ -1,4 +1,4 @@
-package id.ac.ui.cs.advprog.authenticationandadministration.core.auth;
+package id.ac.ui.cs.advprog.authenticationandadministration.core.seed;
 
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,10 +7,8 @@ import id.ac.ui.cs.advprog.authenticationandadministration.repository.UserReposi
 
 @Component
 public class UserInitializer {
-
     @Autowired
-    public
-    UserRepository userRepository;
+    public UserRepository userRepository;
 
     @PostConstruct
     public void init() {

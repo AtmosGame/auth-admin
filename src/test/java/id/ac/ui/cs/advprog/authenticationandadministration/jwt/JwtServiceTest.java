@@ -18,18 +18,18 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class JwtServiceTest {
+class JwtServiceTest {
     private static final String SECRET_KEY = "645367566B59703373367639792F423F4528482B4D6251655468576D5A713474";
 
     private JwtService jwtService;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         jwtService = new JwtService();
     }
 
     @Test
-    public void testExtractUsername() {
+    void testExtractUsername() {
         // Arrange
         String username = "john";
         String token = generateTokenWithUsername(username);
@@ -42,7 +42,7 @@ public class JwtServiceTest {
     }
 
     @Test
-    public void testGenerateTokenWithUserDetails() {
+    void testGenerateTokenWithUserDetails() {
         // Arrange
         UserDetails userDetails = User.builder()
                 .username("john")
@@ -58,7 +58,7 @@ public class JwtServiceTest {
     }
 
     @Test
-    public void testGenerateTokenWithExtraClaimsAndUserDetails() {
+    void testGenerateTokenWithExtraClaimsAndUserDetails() {
         // Arrange
         Map<String, Object> extraClaims = new HashMap<>();
         extraClaims.put("customClaim", "value");
@@ -77,7 +77,7 @@ public class JwtServiceTest {
     }
 
     @Test
-    public void testIsTokenValidValidTokenAndUserDetails() {
+    void testIsTokenValidValidTokenAndUserDetails() {
         // Arrange
         String username = "john";
         String token = generateTokenWithUsername(username);
@@ -96,7 +96,7 @@ public class JwtServiceTest {
     }
 
     @Test
-    public void testExtractClaim() {
+    void testExtractClaim() {
         // Arrange
         String username = "john";
         String token = generateTokenWithUsername(username);
@@ -109,7 +109,7 @@ public class JwtServiceTest {
     }
 
     @Test
-    public void testExtractAllClaims() {
+    void testExtractAllClaims() {
         // Arrange
         String username = "john";
         String token = generateTokenWithUsername(username);
@@ -145,7 +145,7 @@ public class JwtServiceTest {
     }
 
     @Test
-    public void testIsTokenValidDifferentUsername() {
+    void testIsTokenValidDifferentUsername() {
         // Arrange
         String token = generateTokenWithUsername("john");
         UserDetails userDetails = User.builder()
@@ -162,7 +162,7 @@ public class JwtServiceTest {
     }
 
     @Test
-    public void testIsTokenValidTokenExpiredException() {
+    void testIsTokenValidTokenExpiredException() {
         // Arrange
         String token = generateTokenWithUsernameAndExpiration("john", new Date(System.currentTimeMillis() - 1000));
         UserDetails userDetails = User.builder()

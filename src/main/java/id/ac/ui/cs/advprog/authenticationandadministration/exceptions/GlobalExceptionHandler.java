@@ -12,69 +12,69 @@ import java.time.ZonedDateTime;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-    private final String zoneId = "Asia/Jakarta";
+    private static final String ZONE_ID = "Asia/Jakarta";
 
     @ExceptionHandler(value = {UsernameAlreadyExistsException.class})
-    public ResponseEntity<Object> userExist(){
+    public ResponseEntity<Object> userExist() {
         ErrorTemplate baseException = new ErrorTemplate(
-                "User with the same email already exist",
+                "User with the same username already exist",
                 HttpStatus.BAD_REQUEST,
-                ZonedDateTime.now(ZoneId.of(zoneId))
+                ZonedDateTime.now(ZoneId.of(ZONE_ID))
         );
 
         return new ResponseEntity<>(baseException, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(value = {UserDoesNotExistException.class, ReportDoesNotExistException.class})
-    public ResponseEntity<Object> userOrReportNotExist(Exception exception){
+    public ResponseEntity<Object> userOrReportNotExist(Exception exception) {
         ErrorTemplate baseException = new ErrorTemplate(
                 exception.getMessage(),
                 HttpStatus.NOT_FOUND,
-                ZonedDateTime.now(ZoneId.of(zoneId))
+                ZonedDateTime.now(ZoneId.of(ZONE_ID))
         );
 
         return new ResponseEntity<>(baseException, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(value = {UserIsAdministratorException.class})
-    public ResponseEntity<Object> userIsAdministrator(Exception exception){
+    public ResponseEntity<Object> userIsAdministrator(Exception exception) {
         ErrorTemplate baseException = new ErrorTemplate(
                 exception.getMessage(),
                 HttpStatus.BAD_REQUEST,
-                ZonedDateTime.now(ZoneId.of(zoneId))
+                ZonedDateTime.now(ZoneId.of(ZONE_ID))
         );
 
         return new ResponseEntity<>(baseException, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(value = {UserHasBeenBlockedException.class})
-    public ResponseEntity<Object> userHasBeenBlocked(Exception exception){
+    public ResponseEntity<Object> userHasBeenBlocked(Exception exception) {
         ErrorTemplate baseException = new ErrorTemplate(
                 exception.getMessage(),
                 HttpStatus.BAD_REQUEST,
-                ZonedDateTime.now(ZoneId.of(zoneId))
+                ZonedDateTime.now(ZoneId.of(ZONE_ID))
         );
 
         return new ResponseEntity<>(baseException, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(value = {UserDoesNotHaveReportException.class})
-    public ResponseEntity<Object> userDoesNotHaveReport(Exception exception){
+    public ResponseEntity<Object> userDoesNotHaveReport(Exception exception) {
         ErrorTemplate baseException = new ErrorTemplate(
                 exception.getMessage(),
                 HttpStatus.BAD_REQUEST,
-                ZonedDateTime.now(ZoneId.of(zoneId))
+                ZonedDateTime.now(ZoneId.of(ZONE_ID))
         );
 
         return new ResponseEntity<>(baseException, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(value = {UserAndReportNotMatchedException.class})
-    public ResponseEntity<Object> userAndReportNotMatched(Exception exception){
+    public ResponseEntity<Object> userAndReportNotMatched(Exception exception) {
         ErrorTemplate baseException = new ErrorTemplate(
                 exception.getMessage(),
                 HttpStatus.BAD_REQUEST,
-                ZonedDateTime.now(ZoneId.of(zoneId))
+                ZonedDateTime.now(ZoneId.of(ZONE_ID))
         );
 
         return new ResponseEntity<>(baseException, HttpStatus.BAD_REQUEST);
@@ -85,7 +85,7 @@ public class GlobalExceptionHandler {
         ErrorTemplate baseException = new ErrorTemplate(
                 "Invalid password",
                 HttpStatus.BAD_REQUEST,
-                ZonedDateTime.now(ZoneId.of(zoneId))
+                ZonedDateTime.now(ZoneId.of(ZONE_ID))
         );
 
         return new ResponseEntity<>(baseException, HttpStatus.BAD_REQUEST);
@@ -96,7 +96,7 @@ public class GlobalExceptionHandler {
         ErrorTemplate baseException = new ErrorTemplate(
                 "Invalid token",
                 HttpStatus.BAD_REQUEST,
-                ZonedDateTime.now(ZoneId.of(zoneId))
+                ZonedDateTime.now(ZoneId.of(ZONE_ID))
         );
 
         return new ResponseEntity<>(baseException, HttpStatus.BAD_REQUEST);
@@ -107,7 +107,7 @@ public class GlobalExceptionHandler {
         ErrorTemplate baseException = new ErrorTemplate(
                 "Cannot report the same user before the admin approves the previous report",
                 HttpStatus.BAD_REQUEST,
-                ZonedDateTime.now(ZoneId.of(zoneId))
+                ZonedDateTime.now(ZoneId.of(ZONE_ID))
         );
 
         return new ResponseEntity<>(baseException, HttpStatus.BAD_REQUEST);
@@ -118,7 +118,7 @@ public class GlobalExceptionHandler {
         ErrorTemplate baseException = new ErrorTemplate(
                 "Information cannot be empty",
                 HttpStatus.BAD_REQUEST,
-                ZonedDateTime.now(ZoneId.of(zoneId))
+                ZonedDateTime.now(ZoneId.of(ZONE_ID))
         );
 
         return new ResponseEntity<>(baseException, HttpStatus.BAD_REQUEST);

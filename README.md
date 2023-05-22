@@ -4,8 +4,8 @@
 Repository for implement backend "Authentication And Administration" Atmos
 
 ## Important Link
-- Web Backend: http://35.240.241.173/ (Example valid endpoint: http://35.240.241.173/v1/dummy/hello-world)
-- Web Frontend: https://atmos1.vercel.app/
+- API URL: http://35.240.241.173/
+- Frontend URL: https://atmos1.vercel.app/
 - Tech docs: https://drive.google.com/drive/folders/1eiHmSXY3J9mQ6oQsvSCjNQ9KAYrsmdT7?usp=sharing
 - Sonarqube: https://sonarcloud.io/summary/new_code?id=sonarclour-adpro_atmos-auth-admin&branch=staging
 

@@ -5,6 +5,7 @@ public enum UserPermission {
     USER_READ("user:read"),
     REPORT_READ("report:read"),
     REPORT_DELETE("report:delete");
+
     private final String permission;
 
     UserPermission(String permission) {

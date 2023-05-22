@@ -6,7 +6,6 @@ import id.ac.ui.cs.advprog.authenticationandadministration.service.profile.Profi
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,12 +15,16 @@ public class ProfileController {
     private final ProfileService profileService;
 
     @GetMapping("/view-profile/{username}")
-    public ResponseEntity<ViewProfileResponse> viewProfileByUsername(@PathVariable String username){
-        return new ResponseEntity<>(profileService.getProfileByUsername(username), HttpStatus.OK);
+    public ResponseEntity<ViewProfileResponse> viewProfileByUsername(@PathVariable String username) {
+        ViewProfileResponse viewProfileResponse = profileService.getProfileByUsername(username);
+        return new ResponseEntity<>(viewProfileResponse, HttpStatus.OK);
     }
 
     @PostMapping("/update-profile/{username}")
-    public ResponseEntity<String> updateProfile(@PathVariable String username, @RequestBody EditProfileRequest request) {
+    public ResponseEntity<String> updateProfile(
+            @PathVariable String username,
+            @RequestBody EditProfileRequest request
+    ) {
         profileService.updateProfile(username, request);
         return new ResponseEntity<>("Profile updated", HttpStatus.OK);
     }

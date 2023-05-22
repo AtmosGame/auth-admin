@@ -1,5 +1,6 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.user;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import id.ac.ui.cs.advprog.authenticationandadministration.controller.UserController;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.user.CurrentUserResponse;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.user.SearchUserRequest;
@@ -11,28 +12,26 @@ import id.ac.ui.cs.advprog.authenticationandadministration.service.user.UserServ
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(controllers = UserController.class)
@@ -45,6 +44,9 @@ class UserControllerTest {
 
     @MockBean
     private UserServiceImpl userService;
+
+    @Mock
+    private UserController userController;
 
     @MockBean
     private UserRepository userRepository;
@@ -63,6 +65,8 @@ class UserControllerTest {
         when(authentication.getPrincipal()).thenReturn(user);
         SecurityContextHolder.setContext(securityContext);
         this.mvc = MockMvcBuilders.webAppContextSetup(this.context).build();
+        MockitoAnnotations.openMocks(this);
+        userController = new UserController();
     }
 
     @Test
@@ -157,41 +161,59 @@ class UserControllerTest {
         verify(userService, atLeastOnce()).getUserByUsername(user.getUsername());
     }
 
-//    @Test
-//    public void testSearchUsers() throws Exception {
-//        // Mock request and response
-//        SearchUserRequest request = new SearchUserRequest();
-//        request.setUsername("john");
-//
-//        User user1 = new User();
-//        user1.setId(1);
-//        user1.setUsername("john.doe");
-//        user1.setRole(UserRole.USER);
-//
-//        User user2 = new User();
-//        user2.setId(2);
-//        user2.setUsername("john.smith");
-//        user2.setRole(UserRole.ADMIN);
-//
-//        List<User> users = Arrays.asList(user1, user2);
-//
-//        when(userService.searchUsers(any(SearchUserRequest.class))).thenReturn(users);
-//
-//        // Build the request
-//        MockHttpServletRequestBuilder requestBuilder = post("/v1/user/search-user")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content("{\"username\":\"john\"}");
-//
-//        // Perform the request and assert the response
-//        mvc.perform(requestBuilder)
-//                .andExpect(status().isOk())
-//                .andExpect(handler().methodName("searchUsers"))
-//                .andExpect(jsonPath("$[0].id").value(user1.getId()))
-//                .andExpect(jsonPath("$[0].username").value(user1.getUsername()))
-//                .andExpect(jsonPath("$[0].role").value(user1.getRole().name()))
-//                .andExpect(jsonPath("$[1].id").value(user2.getId()))
-//                .andExpect(jsonPath("$[1].username").value(user2.getUsername()))
-//                .andExpect(jsonPath("$[1].role").value(user2.getRole().name()))
-//                .andReturn();
-//    }
+    @Test
+    void testSearchUsers() throws Exception {
+        // Arrange
+
+        List<User> users = new ArrayList<>();
+
+        User user1 = User.builder()
+                .id(1)
+                .username("test1")
+                .password("passwordTest1")
+                .role(UserRole.USER)
+                .profilePicture("link to profil picture test1")
+                .bio("bio test1")
+                .applications(null)
+                .active(true)
+                .reportList(new ArrayList<>())
+                .build();
+
+        User user2 = User.builder()
+                .id(2)
+                .username("test2")
+                .password("passwordTest2")
+                .role(UserRole.USER)
+                .profilePicture("link to profil picture test1")
+                .bio("bio test1")
+                .applications(null)
+                .active(true)
+                .reportList(new ArrayList<>())
+                .build();
+
+        users.add(user1);
+        users.add(user2);
+
+        SearchUserRequest request = new SearchUserRequest();
+
+        request.setUsername("test1");
+
+        when(userService.searchUsers(any(SearchUserRequest.class))).thenReturn(users);
+
+
+        // Assert
+        ObjectMapper objectMapper = new ObjectMapper();
+        String mapper = objectMapper.writeValueAsString(request);
+
+        mvc.perform(MockMvcRequestBuilders.post("/v1/user/search-user")
+                        .content(mapper)
+                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(handler().methodName("searchUsers"))
+                .andReturn();
+
+
+        // Verify that the userService's searchUsers method was called with the correct request
+        verify(userService, times(1)).searchUsers(request);
+    }
 }

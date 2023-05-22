@@ -1,14 +1,12 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.dto.profile;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Generated;
+import lombok.*;
 
 @Data
 @Generated
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class ViewProfileResponse {
     private String username;
     private String role;

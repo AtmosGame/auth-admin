@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebMvc
-public class corsConfig implements WebMvcConfigurer {
+public class CorsConfig implements WebMvcConfigurer {
     @Autowired
     private Environment environment;
 

@@ -1,5 +1,7 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.models.auth;
 
+import lombok.Getter;
+import lombok.Setter;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.Report;
 import jakarta.annotation.Nullable;
@@ -21,6 +23,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 @AllArgsConstructor
 @Entity
 @Table(name = "_user")
+@Setter
+@Getter
 public class User implements UserDetails{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,6 +39,7 @@ public class User implements UserDetails{
     private UserRole role;
 
     private String profilePicture;
+
     private String bio;
 
     @Nullable
@@ -48,21 +53,13 @@ public class User implements UserDetails{
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if(role.equals("ADMIN")) {
+        if(role.equals(UserRole.ADMIN)) {
             return UserRole.ADMIN.getGrantedAuthority();
+        } else if (role.equals(UserRole.DEVELOPER)) {
+            return UserRole.DEVELOPER.getGrantedAuthority();
         } else {
             return UserRole.USER.getGrantedAuthority();
         }
-    }
-
-    @Override
-    public String getPassword() {
-        return this.password;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
     }
 
     @Override

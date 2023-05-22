@@ -3,34 +3,30 @@ package id.ac.ui.cs.advprog.authenticationandadministration.jwt;
 import id.ac.ui.cs.advprog.authenticationandadministration.core.config.ApplicationConfig;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.User;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.UserRepository;
-import id.ac.ui.cs.advprog.authenticationandadministration.service.auth.JwtService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-public class ApplicationConfigTest {
+class ApplicationConfigTest {
 
     @Mock
     private UserRepository userRepository;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void testUserDetailsService() {
+    void testUserDetailsService() {
         User user = User.builder()
                 .username("john")
                 .password("password")
@@ -54,7 +50,7 @@ public class ApplicationConfigTest {
     }
 
     @Test
-    public void testAuthenticationProvider() {
+    void testAuthenticationProvider() {
         // Arrange
         ApplicationConfig applicationConfig = new ApplicationConfig(userRepository);
 
@@ -66,7 +62,7 @@ public class ApplicationConfigTest {
     }
 
     @Test
-    public void testPasswordEncoder() {
+    void testPasswordEncoder() {
         // Arrange
         ApplicationConfig applicationConfig = new ApplicationConfig(userRepository);
 
