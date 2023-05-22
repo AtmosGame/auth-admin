@@ -1,5 +1,7 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.models.auth;
 
+import lombok.Getter;
+import lombok.Setter;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.Report;
 import jakarta.annotation.Nullable;
@@ -21,6 +23,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 @AllArgsConstructor
 @Entity
 @Table(name = "_user")
+@Setter
+@Getter
 public class User implements UserDetails{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,17 +60,6 @@ public class User implements UserDetails{
         } else {
             return UserRole.USER.getGrantedAuthority();
         }
-    }
-
-    // TODO: @Mario coba pastiin lagi kira-kira ini bisa dihapus ga ya? Karena jadi kurang enak diliatnya (Ini karena lu implements UserDetails)
-    @Override
-    public String getPassword() {
-        return this.password;
-    }
-
-    @Override
-    public String getUsername() {
-        return this.username;
     }
 
     @Override
