@@ -36,41 +36,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(baseException, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(value = {UserIsAdministratorException.class})
-    public ResponseEntity<Object> userIsAdministrator(Exception exception) {
-        ErrorTemplate baseException = new ErrorTemplate(
-                exception.getMessage(),
-                HttpStatus.BAD_REQUEST,
-                ZonedDateTime.now(ZoneId.of(ZONE_ID))
-        );
-
-        return new ResponseEntity<>(baseException, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(value = {UserHasBeenBlockedException.class})
-    public ResponseEntity<Object> userHasBeenBlocked(Exception exception) {
-        ErrorTemplate baseException = new ErrorTemplate(
-                exception.getMessage(),
-                HttpStatus.BAD_REQUEST,
-                ZonedDateTime.now(ZoneId.of(ZONE_ID))
-        );
-
-        return new ResponseEntity<>(baseException, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(value = {UserDoesNotHaveReportException.class})
-    public ResponseEntity<Object> userDoesNotHaveReport(Exception exception) {
-        ErrorTemplate baseException = new ErrorTemplate(
-                exception.getMessage(),
-                HttpStatus.BAD_REQUEST,
-                ZonedDateTime.now(ZoneId.of(ZONE_ID))
-        );
-
-        return new ResponseEntity<>(baseException, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(value = {UserAndReportNotMatchedException.class})
-    public ResponseEntity<Object> userAndReportNotMatched(Exception exception) {
+    @ExceptionHandler(value = {
+            UserIsAdministratorException.class,
+            UserHasBeenBlockedException.class,
+            UserDoesNotHaveReportException.class,
+            UserAndReportNotMatchedException.class})
+    public ResponseEntity<Object> userValidation(Exception exception) {
         ErrorTemplate baseException = new ErrorTemplate(
                 exception.getMessage(),
                 HttpStatus.BAD_REQUEST,
@@ -81,7 +52,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = {InvalidPasswordException.class})
-    public ResponseEntity<Object> invalidPassword(Exception exception) {
+    public ResponseEntity<Object> invalidPassword() {
         ErrorTemplate baseException = new ErrorTemplate(
                 "Invalid password",
                 HttpStatus.BAD_REQUEST,
@@ -92,7 +63,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = {InvalidTokenException.class})
-    public ResponseEntity<Object> invalidToken(Exception exception) {
+    public ResponseEntity<Object> invalidToken() {
         ErrorTemplate baseException = new ErrorTemplate(
                 "Invalid token",
                 HttpStatus.BAD_REQUEST,
@@ -103,7 +74,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = {DuplicateReportException.class})
-    public ResponseEntity<Object> duplicateReport(Exception exception) {
+    public ResponseEntity<Object> duplicateReport() {
         ErrorTemplate baseException = new ErrorTemplate(
                 "Cannot report the same user before the admin approves the previous report",
                 HttpStatus.BAD_REQUEST,
@@ -114,7 +85,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = {InformationNullException.class})
-    public ResponseEntity<Object> informationNull(Exception exception) {
+    public ResponseEntity<Object> informationNull() {
         ErrorTemplate baseException = new ErrorTemplate(
                 "Information cannot be empty",
                 HttpStatus.BAD_REQUEST,

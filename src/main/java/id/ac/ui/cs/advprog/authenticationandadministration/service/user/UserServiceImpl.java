@@ -61,7 +61,8 @@ public class UserServiceImpl implements UserService{
         if (userRole.equals("ADMIN"))
             throw new UserIsAdministratorException(user.getUsername());
 
-        if (!user.getActive())
+        boolean userBlocked = !user.getActive();
+        if (userBlocked)
             throw new UserHasBeenBlockedException(user.getUsername());
 
         return user;

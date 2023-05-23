@@ -5,6 +5,7 @@ import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.User;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Data
@@ -14,7 +15,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @Entity
 @Table(name = "user_report")
-public class Report {
+public class Report implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
