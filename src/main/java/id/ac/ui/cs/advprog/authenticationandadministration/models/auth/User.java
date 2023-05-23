@@ -49,6 +49,7 @@ public class User implements UserDetails{
 
     @JsonManagedReference
     @OneToMany(mappedBy = "user")
+    @Transient
     private List<Report> reportList;
 
     @Override

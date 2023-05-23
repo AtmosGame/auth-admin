@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
-public class LogoutServiceImplTest {
+class LogoutServiceImplTest {
     @Mock
     private UserRepository userRepository;
 
@@ -34,12 +34,12 @@ public class LogoutServiceImplTest {
     private AuthServiceImpl authService;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void testLogoutUserNotLoggedIn() {
+    void testLogoutUserNotLoggedIn() {
         // Arrange
         LogoutRequest request = new LogoutRequest("john");
         User user = User.builder().id(1).username("john").build();
@@ -59,7 +59,7 @@ public class LogoutServiceImplTest {
     }
 
     @Test
-    public void testLogoutUserLoggedIn() {
+    void testLogoutUserLoggedIn() {
         // Arrange
         LogoutRequest request = new LogoutRequest("john");
         User user = User.builder().id(1).username("john").build();
@@ -85,7 +85,7 @@ public class LogoutServiceImplTest {
     }
 
     @Test
-    public void testRevokeAllUserTokens() {
+    void testRevokeAllUserTokens() {
         // Arrange
         User user = User.builder().id(1).username("john").build();
 
