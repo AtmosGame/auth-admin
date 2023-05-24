@@ -2,7 +2,7 @@ package id.ac.ui.cs.advprog.authenticationandadministration.dto.report;
 
 import lombok.*;
 
-import java.util.Collection;
+import java.util.List;
 
 @Data
 @Generated
@@ -10,5 +10,5 @@ import java.util.Collection;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReportedAccountResponse {
-    private Collection<String> listUser;
+    private List<String> listUser;
 }
