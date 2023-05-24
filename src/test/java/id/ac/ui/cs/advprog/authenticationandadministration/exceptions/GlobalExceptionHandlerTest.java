@@ -59,7 +59,7 @@ class GlobalExceptionHandlerTest {
     @Test
     void testUserIsAdministrator(){
         RuntimeException exception = new UserIsAdministratorException(username);
-        ResponseEntity<Object> response = globalExceptionHandler.userValidation(exception);
+        ResponseEntity<Object> response = globalExceptionHandler.exceptionBadRequest(exception);
         String expectedErrorMessage = "User with username " + username + " is administrator";
 
         templateTestException(response, expectedErrorMessage, HttpStatus.BAD_REQUEST);
@@ -68,7 +68,7 @@ class GlobalExceptionHandlerTest {
     @Test
     void testUserHasBeenBlocked() {
         RuntimeException exception = new UserHasBeenBlockedException(username);
-        ResponseEntity<Object> response = globalExceptionHandler.userValidation(exception);
+        ResponseEntity<Object> response = globalExceptionHandler.exceptionBadRequest(exception);
         String expectedErrorMessage = "User with username " + username + " has been blocked";
 
         templateTestException(response, expectedErrorMessage, HttpStatus.BAD_REQUEST);
@@ -77,7 +77,7 @@ class GlobalExceptionHandlerTest {
     @Test
     void testUserDoesNotHaveReport() {
         RuntimeException exception = new UserDoesNotHaveReportException(username);
-        ResponseEntity<Object> response = globalExceptionHandler.userValidation(exception);
+        ResponseEntity<Object> response = globalExceptionHandler.exceptionBadRequest(exception);
         String expectedErrorMessage = "User with username " + username + " does not have report";
 
         templateTestException(response, expectedErrorMessage, HttpStatus.BAD_REQUEST);
@@ -86,7 +86,7 @@ class GlobalExceptionHandlerTest {
     @Test
     void testUserAndReportNotMatched() {
         RuntimeException exception = new UserAndReportNotMatchedException(username, reportId);
-        ResponseEntity<Object> response = globalExceptionHandler.userValidation(exception);
+        ResponseEntity<Object> response = globalExceptionHandler.exceptionBadRequest(exception);
         String expectedErrorMessage = "Report with id " + reportId + " is invalid for user with username " + username;
 
         templateTestException(response, expectedErrorMessage, HttpStatus.BAD_REQUEST);
@@ -94,8 +94,9 @@ class GlobalExceptionHandlerTest {
 
     @Test
     void testInvalidPassword(){
-        ResponseEntity<Object> response = globalExceptionHandler.invalidPassword();
-        String expectedErrorMessage = "Invalid password";
+        RuntimeException exception = new InvalidPasswordException(username);
+        ResponseEntity<Object> response = globalExceptionHandler.exceptionBadRequest(exception);
+        String expectedErrorMessage = "Invalid password for user with username " + username;
 
         templateTestException(response, expectedErrorMessage, HttpStatus.BAD_REQUEST);
     }
@@ -110,7 +111,8 @@ class GlobalExceptionHandlerTest {
 
     @Test
     void testDuplicateReport(){
-        ResponseEntity<Object> response = globalExceptionHandler.duplicateReport();
+        RuntimeException exception = new DuplicateReportException();
+        ResponseEntity<Object> response = globalExceptionHandler.exceptionBadRequest(exception);
         String expectedErrorMessage = "Cannot report the same user before the admin approves the previous report";
 
         templateTestException(response, expectedErrorMessage, HttpStatus.BAD_REQUEST);

@@ -1,6 +1,8 @@
-package id.ac.ui.cs.advprog.authenticationandadministration.viewProfileByUsername;
+package id.ac.ui.cs.advprog.authenticationandadministration.profile;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import id.ac.ui.cs.advprog.authenticationandadministration.controller.ProfileController;
+import id.ac.ui.cs.advprog.authenticationandadministration.dto.profile.EditProfileRequest;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.profile.ViewProfileResponse;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.User;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.UserRole;
@@ -24,11 +26,12 @@ import org.springframework.web.context.WebApplicationContext;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(controllers = ProfileController.class)
 @AutoConfigureMockMvc
-class ViewProfileByUsernameControllerTest {
+class ProfileControllerTest {
     private MockMvc mvc;
 
     @Autowired
@@ -78,5 +81,23 @@ class ViewProfileByUsernameControllerTest {
                 .andReturn();
 
         verify(profileService, atLeastOnce()).getProfileByUsername(any(String.class));
+    }
+
+    @Test
+    void testEditProfile() throws Exception {
+        EditProfileRequest editProfileRequest = EditProfileRequest.builder()
+                .profilePicture("new link profile picture")
+                .bio("new bio")
+                .build();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestJson = objectMapper.writeValueAsString(editProfileRequest);
+
+        mvc.perform(post("/v1/profile/update-profile/testUser")
+                        .content(requestJson)
+                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(handler().methodName("updateProfile"))
+                .andReturn();
     }
 }

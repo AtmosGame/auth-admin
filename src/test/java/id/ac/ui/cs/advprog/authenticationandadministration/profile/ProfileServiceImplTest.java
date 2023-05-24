@@ -1,5 +1,6 @@
-package id.ac.ui.cs.advprog.authenticationandadministration.viewProfileByUsername;
+package id.ac.ui.cs.advprog.authenticationandadministration.profile;
 
+import id.ac.ui.cs.advprog.authenticationandadministration.dto.profile.EditProfileRequest;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.profile.ViewProfileResponse;
 import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserDoesNotExistException;
 import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserHasBeenBlockedException;
@@ -23,7 +24,7 @@ import java.util.Optional;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class ViewProfileByUsernameServiceImplTest {
+class ProfileServiceImplTest {
     private ProfileService profileService;
     private UserRepository userRepository;
 
@@ -127,5 +128,54 @@ class ViewProfileByUsernameServiceImplTest {
         Assertions.assertThrows(UserHasBeenBlockedException.class, () -> {
             profileService.getProfileByUsername(username);
         });
+    }
+
+    @Test
+    void testUpdateProfileWithoutProfilePicture(){
+        User user = User.builder()
+                .id(1)
+                .username("testUser")
+                .password("passwordTestUser")
+                .role(UserRole.USER)
+                .profilePicture("test.jpg")
+                .bio("test bio")
+                .applications(null)
+                .active(true)
+                .build();
+
+        when(userRepository.findByUsername(any(String.class))).thenReturn(Optional.of(user));
+
+        EditProfileRequest request = EditProfileRequest.builder()
+                .profilePicture("")
+                .bio("new bio")
+                .build();
+
+        profileService.updateProfile(user.getUsername(), request);
+
+        verify(userRepository).save(user);
+    }
+
+    @Test
+    void testUpdateProfileWithProfilePicture(){
+        User user = User.builder()
+                .id(1)
+                .username("testUser")
+                .password("passwordTestUser")
+                .role(UserRole.USER)
+                .profilePicture("test.jpg")
+                .bio("test bio")
+                .applications(null)
+                .active(true)
+                .build();
+
+        when(userRepository.findByUsername(any(String.class))).thenReturn(Optional.of(user));
+
+        EditProfileRequest request = EditProfileRequest.builder()
+                .profilePicture("link.jpg")
+                .bio("new bio")
+                .build();
+
+        profileService.updateProfile(user.getUsername(), request);
+        verify(userRepository).save(user);
     }
 }

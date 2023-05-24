@@ -61,4 +61,9 @@ class LoginServiceImplTest {
         verify(tokenRepository, times(1)).addToken(jwtToken, 1);
         verifyNoMoreInteractions(authenticationManager, userRepository, jwtService, tokenRepository);
     }
+
+//    @Test
+//    void testLoginWithInvalidPasswordShouldThrowException() {
+//
+//    }
 }

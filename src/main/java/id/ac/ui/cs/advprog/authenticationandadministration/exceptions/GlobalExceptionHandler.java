@@ -40,21 +40,12 @@ public class GlobalExceptionHandler {
             UserIsAdministratorException.class,
             UserHasBeenBlockedException.class,
             UserDoesNotHaveReportException.class,
-            UserAndReportNotMatchedException.class})
-    public ResponseEntity<Object> userValidation(Exception exception) {
+            UserAndReportNotMatchedException.class,
+            InvalidPasswordException.class,
+            DuplicateReportException.class})
+    public ResponseEntity<Object> exceptionBadRequest(Exception exception) {
         ErrorTemplate baseException = new ErrorTemplate(
                 exception.getMessage(),
-                HttpStatus.BAD_REQUEST,
-                ZonedDateTime.now(ZoneId.of(ZONE_ID))
-        );
-
-        return new ResponseEntity<>(baseException, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(value = {InvalidPasswordException.class})
-    public ResponseEntity<Object> invalidPassword() {
-        ErrorTemplate baseException = new ErrorTemplate(
-                "Invalid password",
                 HttpStatus.BAD_REQUEST,
                 ZonedDateTime.now(ZoneId.of(ZONE_ID))
         );
@@ -66,17 +57,6 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Object> invalidToken() {
         ErrorTemplate baseException = new ErrorTemplate(
                 "Invalid token",
-                HttpStatus.BAD_REQUEST,
-                ZonedDateTime.now(ZoneId.of(ZONE_ID))
-        );
-
-        return new ResponseEntity<>(baseException, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(value = {DuplicateReportException.class})
-    public ResponseEntity<Object> duplicateReport() {
-        ErrorTemplate baseException = new ErrorTemplate(
-                "Cannot report the same user before the admin approves the previous report",
                 HttpStatus.BAD_REQUEST,
                 ZonedDateTime.now(ZoneId.of(ZONE_ID))
         );
