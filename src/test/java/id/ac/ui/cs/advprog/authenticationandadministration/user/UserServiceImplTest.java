@@ -3,7 +3,7 @@ package id.ac.ui.cs.advprog.authenticationandadministration.user;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.user.CurrentUserResponse;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.user.SearchUserRequest;
 import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.InvalidTokenException;
-import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.Token;
+import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.JWTToken;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.UserRole;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.User;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.TokenRepository;
@@ -54,7 +54,7 @@ class UserServiceImplTest {
                 .reportList(Collections.emptyList())
                 .build();
 
-        Token token = Token.builder()
+        JWTToken token = JWTToken.builder()
                 .id(1)
                 .token("token")
                 .user(user)

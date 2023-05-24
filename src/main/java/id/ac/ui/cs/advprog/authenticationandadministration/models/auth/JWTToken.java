@@ -16,7 +16,7 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "_token")
 @DynamicUpdate
-public class Token {
+public class JWTToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

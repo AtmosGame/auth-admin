@@ -1,6 +1,6 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.repository;
 
-import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.Token;
+import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.JWTToken;
 import lombok.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Repository
-public interface TokenRepository extends JpaRepository<Token, Integer> {
+public interface TokenRepository extends JpaRepository<JWTToken, Integer> {
     @Transactional
     @Modifying
     @Query(value = "INSERT INTO _token (token, user_id) VALUES (:token, :userId)", nativeQuery = true)
@@ -23,5 +23,5 @@ public interface TokenRepository extends JpaRepository<Token, Integer> {
     void deleteAllByUserId(@NonNull Integer userId);
 
     @Transactional
-    List<Token> getAllByUserId(@NonNull Integer userId);
+    List<JWTToken> getAllByUserId(@NonNull Integer userId);
 }
