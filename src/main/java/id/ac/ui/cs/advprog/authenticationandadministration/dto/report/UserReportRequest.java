@@ -8,5 +8,5 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserReportRequest {
-private String information;
+    private String information;
 }
