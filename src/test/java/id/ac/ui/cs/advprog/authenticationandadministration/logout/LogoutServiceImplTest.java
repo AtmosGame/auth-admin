@@ -2,7 +2,7 @@ package id.ac.ui.cs.advprog.authenticationandadministration.logout;
 
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.auth.LogoutRequest;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.auth.LogoutResponse;
-import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.Token;
+import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.JWTToken;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.User;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.TokenRepository;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.UserRepository;
@@ -63,7 +63,7 @@ class LogoutServiceImplTest {
         // Arrange
         LogoutRequest request = new LogoutRequest("john");
         User user = User.builder().id(1).username("john").build();
-        Token token = Token.builder()
+        JWTToken token = JWTToken.builder()
                 .id(1)
                 .token("token")
                 .user(user)
