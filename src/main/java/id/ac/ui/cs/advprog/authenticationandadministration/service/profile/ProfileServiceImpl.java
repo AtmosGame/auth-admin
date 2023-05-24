@@ -40,10 +40,11 @@ public class ProfileServiceImpl implements ProfileService {
             try {
                 // Upload the image to Cloudinary and get the public URL
                 Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
-                "cloud_name", "dipygqcrv", // insert here you cloud name
-                "api_key", "359898466846676", // insert here your api code
-                "api_secret", "SNw4bm4azWO0gljlvjKQ5S2g5YQ"));
-                Map uploadResult = cloudinary.uploader().upload(request.getProfilePicture(), ObjectUtils.emptyMap());
+                    "cloud_name", "dipygqcrv", // insert here you cloud name
+                    "api_key", "359898466846676", // insert here your api code
+                    "api_secret", "SNw4bm4azWO0gljlvjKQ5S2g5YQ"
+                ));
+                Map<String, Object> uploadResult = cloudinary.uploader().upload(request.getProfilePicture(), ObjectUtils.emptyMap());
                 String imageUrl = (String) uploadResult.get("url");
 
                 // Set the profile picture URL in the user object
