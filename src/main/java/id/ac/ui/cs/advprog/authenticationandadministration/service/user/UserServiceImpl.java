@@ -7,6 +7,7 @@ import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserD
 import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserHasBeenBlockedException;
 import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserIsAdministratorException;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.User;
+import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.UserRole;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.TokenRepository;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -58,7 +59,7 @@ public class UserServiceImpl implements UserService{
         User user = getUserByUsername(username);
         String userRole = user.getRole().name();
 
-        if (userRole.equals("ADMIN"))
+        if (userRole.equals(UserRole.ADMIN.name()))
             throw new UserIsAdministratorException(user.getUsername());
 
         boolean userBlocked = !user.getActive();
