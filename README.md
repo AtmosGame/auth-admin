@@ -7,7 +7,7 @@ Repository for implement backend "Authentication And Administration" Atmos
 - API URL: http://35.240.241.173/
 - Frontend URL: https://atmos1.vercel.app/
 - Tech docs: https://drive.google.com/drive/folders/1eiHmSXY3J9mQ6oQsvSCjNQ9KAYrsmdT7?usp=sharing
-- Sonarqube: https://sonarcloud.io/summary/overall?id=sonarclour-adpro_atmos-auth-admin
+- Sonarqube: https://sonarcloud.io/summary/new_code?id=sonarclour-adpro_atmos-auth-admin&branch=post-sprint-revision
 
 ## Authors and acknowledgment
 - Eugenius Mario Situmorang - 2106750484
