@@ -46,6 +46,7 @@ sonarqube {
     properties {
         property("sonar.projectKey", "sonarclour-adpro_atmos-auth-admin")
         property("sonar.organization", "sonarclour-adpro")
+        property ("sonar.host.url", "https://sonarcloud.io")
     }
 }
 
@@ -53,6 +54,7 @@ tasks.test {
     useJUnitPlatform()
     finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
 }
+
 tasks.jacocoTestReport {
     classDirectories.setFrom(files(classDirectories.files.map {
         fileTree(it) { exclude("**/*Application**", "**/config") }

@@ -25,6 +25,39 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(baseException, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(value = {UsernameIsEmptyException.class})
+    public ResponseEntity<Object> usernameIsEmpty() {
+        ErrorTemplate baseException = new ErrorTemplate(
+                "Input username is empty, please input username",
+                HttpStatus.BAD_REQUEST,
+                ZonedDateTime.now(ZoneId.of(ZONE_ID))
+        );
+
+        return new ResponseEntity<>(baseException, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = {PasswordIsEmptyException.class})
+    public ResponseEntity<Object> passwordIsEmpty() {
+        ErrorTemplate baseException = new ErrorTemplate(
+                "Input password is empty, please input password",
+                HttpStatus.BAD_REQUEST,
+                ZonedDateTime.now(ZoneId.of(ZONE_ID))
+        );
+
+        return new ResponseEntity<>(baseException, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = {PasswordMinimalException.class})
+    public ResponseEntity<Object> passwordMinimal() {
+        ErrorTemplate baseException = new ErrorTemplate(
+                "Password must be at least 8 characters",
+                HttpStatus.BAD_REQUEST,
+                ZonedDateTime.now(ZoneId.of(ZONE_ID))
+        );
+
+        return new ResponseEntity<>(baseException, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(value = {UserDoesNotExistException.class, ReportDoesNotExistException.class})
     public ResponseEntity<Object> userOrReportNotExist(Exception exception) {
         ErrorTemplate baseException = new ErrorTemplate(

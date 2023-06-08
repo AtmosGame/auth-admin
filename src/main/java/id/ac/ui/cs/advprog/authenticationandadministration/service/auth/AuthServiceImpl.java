@@ -1,7 +1,7 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.service.auth;
 
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.auth.*;
-import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UsernameAlreadyExistsException;
+import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.*;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.User;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.TokenRepository;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.UserRepository;
@@ -25,6 +25,15 @@ public class AuthServiceImpl implements AuthService {
 
         if(checkUser != null) {
             throw new UsernameAlreadyExistsException();
+        }
+        if(request.getUsername().equals("")) {
+            throw new UsernameIsEmptyException();
+        }
+        if(request.getPassword().equals("")) {
+            throw new PasswordIsEmptyException();
+        }
+        if(request.getPassword().length() < 8) {
+            throw new PasswordMinimalException();
         }
 
         var user = User.builder()

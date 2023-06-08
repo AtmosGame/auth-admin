@@ -2,10 +2,7 @@ package id.ac.ui.cs.advprog.authenticationandadministration.service.user;
 
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.user.CurrentUserResponse;
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.user.SearchUserRequest;
-import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.InvalidTokenException;
-import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserDoesNotExistException;
-import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserHasBeenBlockedException;
-import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UserIsAdministratorException;
+import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.*;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.User;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.UserRole;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.TokenRepository;
@@ -71,6 +68,10 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User getUserByUsername(String username) {
+        if (username.equals("")) {
+            throw new UsernameIsEmptyException();
+        }
+
         Optional<User> user = userRepository.findByUsername(username);
 
         if (user.isPresent())
