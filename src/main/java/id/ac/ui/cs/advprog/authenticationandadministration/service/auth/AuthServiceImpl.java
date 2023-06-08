@@ -26,10 +26,10 @@ public class AuthServiceImpl implements AuthService {
         if(checkUser != null) {
             throw new UsernameAlreadyExistsException();
         }
-        if(request.getUsername() == "") {
+        if(request.getUsername().equals("")) {
             throw new UsernameIsEmptyException();
         }
-        if(request.getPassword() == "") {
+        if(request.getPassword().equals("")) {
             throw new PasswordIsEmptyException();
         }
         if(request.getPassword().length() < 8) {
