@@ -1,7 +1,10 @@
 package id.ac.ui.cs.advprog.authenticationandadministration.register;
 
 import id.ac.ui.cs.advprog.authenticationandadministration.dto.auth.RegisterRequest;
+import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.PasswordIsEmptyException;
+import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.PasswordMinimalException;
 import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UsernameAlreadyExistsException;
+import id.ac.ui.cs.advprog.authenticationandadministration.exceptions.auth.UsernameIsEmptyException;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.UserRole;
 import id.ac.ui.cs.advprog.authenticationandadministration.models.auth.User;
 import id.ac.ui.cs.advprog.authenticationandadministration.repository.TokenRepository;
@@ -90,5 +93,56 @@ class RegisterServiceImplTest {
 
         Mockito.verify(userRepository, Mockito.never()).save(Mockito.any(User.class));
         Mockito.verify(tokenRepository, Mockito.never()).addToken(Mockito.anyString(), Mockito.anyInt());
+    }
+
+    @Test
+    void whenUsernameIsEmpty() {
+        // Arrange
+        RegisterRequest registerRequest = new RegisterRequest();
+        registerRequest.setUsername("");
+        registerRequest.setPassword("password");
+        registerRequest.setRole(UserRole.USER);
+
+        // Act & Assert
+        Assertions.assertThrows(UsernameIsEmptyException.class, () -> {
+            authService.register(registerRequest);
+        });
+
+        // Verify that userRepository.save() is not called
+        Mockito.verify(userRepository, Mockito.never()).save(Mockito.any(User.class));
+    }
+
+    @Test
+    void whenPasswordIsEmpty() {
+        // Arrange
+        RegisterRequest registerRequest = new RegisterRequest();
+        registerRequest.setUsername("emariosss");
+        registerRequest.setPassword("");
+        registerRequest.setRole(UserRole.USER);
+
+        // Act & Assert
+        Assertions.assertThrows(PasswordIsEmptyException.class, () -> {
+            authService.register(registerRequest);
+        });
+
+        // Verify that userRepository.save() is not called
+        Mockito.verify(userRepository, Mockito.never()).save(Mockito.any(User.class));
+    }
+
+    @Test
+    void whenPasswordBelowEightCharacter() {
+        // Arrange
+        RegisterRequest registerRequest = new RegisterRequest();
+        registerRequest.setUsername("emariossss");
+        registerRequest.setPassword("pass");
+        registerRequest.setRole(UserRole.USER);
+
+        // Act & Assert
+        Assertions.assertThrows(PasswordMinimalException.class, () -> {
+            authService.register(registerRequest);
+        });
+
+        // Verify that userRepository.save() is not called
+        Mockito.verify(userRepository, Mockito.never()).save(Mockito.any(User.class));
     }
 }

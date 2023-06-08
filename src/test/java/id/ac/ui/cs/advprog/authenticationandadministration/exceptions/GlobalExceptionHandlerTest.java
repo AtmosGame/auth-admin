@@ -9,6 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -37,6 +38,30 @@ class GlobalExceptionHandlerTest {
     void testUserExist(){
         ResponseEntity<Object> response = globalExceptionHandler.userExist();
         String expectedErrorMessage = "User with the same username already exist";
+
+        templateTestException(response, expectedErrorMessage, HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    void testUsernameIsEmpty() {
+        ResponseEntity<Object> response = globalExceptionHandler.usernameIsEmpty();
+        String expectedErrorMessage = "Input username is empty, please input username";
+
+        templateTestException(response, expectedErrorMessage, HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    void testPasswordIsEmpty() {
+        ResponseEntity<Object> response = globalExceptionHandler.passwordIsEmpty();
+        String expectedErrorMessage = "Input password is empty, please input password";
+
+        templateTestException(response, expectedErrorMessage, HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    void testPasswordMinimal() {
+        ResponseEntity<Object> response = globalExceptionHandler.passwordMinimal();
+        String expectedErrorMessage = "Password must be at least 8 characters";
 
         templateTestException(response, expectedErrorMessage, HttpStatus.BAD_REQUEST);
     }

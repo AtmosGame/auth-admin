@@ -58,17 +58,6 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(baseException, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(value = {InvalidRoleException.class})
-    public ResponseEntity<Object> invalidRole() {
-        ErrorTemplate baseException = new ErrorTemplate(
-                "Invalid role, role must be either 'USER' or 'DEVELOPER'",
-                HttpStatus.BAD_REQUEST,
-                ZonedDateTime.now(ZoneId.of(ZONE_ID))
-        );
-
-        return new ResponseEntity<>(baseException, HttpStatus.BAD_REQUEST);
-    }
-
     @ExceptionHandler(value = {UserDoesNotExistException.class, ReportDoesNotExistException.class})
     public ResponseEntity<Object> userOrReportNotExist(Exception exception) {
         ErrorTemplate baseException = new ErrorTemplate(
