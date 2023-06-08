@@ -74,6 +74,7 @@ public class GlobalExceptionHandler {
             UserHasBeenBlockedException.class,
             UserDoesNotHaveReportException.class,
             UserAndReportNotMatchedException.class,
+            UsernameIsEmptyException.class,
             InvalidPasswordException.class,
             DuplicateReportException.class})
     public ResponseEntity<Object> exceptionBadRequest(Exception exception) {
